@@ -1,0 +1,4 @@
+BUILD_NUMBER = "dev"
+BUILD_DATE = "DEV"
+VCS_ID = "na"
+VERSION_LINE = "na"
