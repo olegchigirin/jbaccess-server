@@ -1,38 +1,43 @@
-from typing import Optional, List
+from typing import List
 
+from jba_core import exceptions
 from jba_core.models import Controller, Door
 
 
-def get_all() -> Optional[List[Controller]]:
+def get_all() -> List[Controller]:
     try:
         return list(Controller.objects.all())
     except:
-        return None
+        raise exceptions.SomethingWrong
 
 
-def get(id: int) -> Optional[Controller]:
+def get(id: int) -> Controller:
     try:
         return Controller.objects.get(id=id)
+    except Controller.DoesNotExist:
+        raise exceptions.ControllerNotFound
     except:
-        return None
+        raise exceptions.SomethingWrong
 
 
-def get_attached_doors(id: int) -> Optional[List[Door]]:
+def get_attached_doors(id: int) -> List[Door]:
     try:
         controller = Controller.objects.get(id=id)
         return list(controller.doors.all())
+    except Controller.DoesNotExist:
+        raise exceptions.ControllerNotFound
     except:
-        return None
+        raise exceptions.SomethingWrong
 
 
-def create(name: str, controller_id: str) -> Optional[Controller]:
+def create(name: str, controller_id: str) -> Controller:
     try:
         return Controller.objects.create(name=name, controller_id=controller_id)
     except:
-        return None
+        raise exceptions.ControllerManageFailed
 
 
-def update(id: int, name: str = None, controller_id: str = None) -> Optional[Controller]:
+def update(id: int, name: str = None, controller_id: str = None) -> Controller:
     try:
         controller = Controller.objects.get(id=id)
         if name is not None:
@@ -42,37 +47,50 @@ def update(id: int, name: str = None, controller_id: str = None) -> Optional[Con
         if name is not None or controller_id is not None:
             controller.save()
         return controller
+    except Controller.DoesNotExist:
+        raise exceptions.ControllerNotFound
     except:
-        return None
+        raise exceptions.ControllerManageFailed
 
 
-def delete(id: int) -> bool:
+def delete(id: int):
     try:
         Controller.objects.get(id=id).delete()
-        return True
+    except Controller.DoesNotExist:
+        raise exceptions.ControllerNotFound
     except:
-        return False
+        raise exceptions.ControllerManageFailed
 
 
-def attach_door(controller_id: int, door_id: int) -> bool:
+def attach_door(controller_id: int, door_id: int):
     try:
         controller = Controller.objects.get(id=controller_id)
+    except Controller.DoesNotExist:
+        raise exceptions.ControllerNotFound
+    try:
         if controller.doors.filter(id=door_id).count() > 0:
-            return False
+            raise exceptions.DoorNotFound
         door = Door.objects.get(door_id)
+    except Door.DoesNotExist:
+        raise exceptions.DoorNotFound
+    try:
         controller.doors.add(door)
-        return True
     except:
-        return False
+        raise exceptions.ControllerManageFailed
 
 
-def detach_door(controller_id: int, door_id: int) -> bool:
+def detach_door(controller_id: int, door_id: int):
     try:
         controller = Controller.objects.get(id=controller_id)
+    except Controller.DoesNotExist:
+        raise exceptions.ControllerNotFound
+    try:
         if controller.doors.filter(id=door_id) == 0:
-            return False
+            raise exceptions.DoorNotFound
         door = Door.objects.get(id=door_id)
+    except Door.DoesNotExist:
+        raise exceptions.DoorNotFound
+    try:
         controller.doors.remove(door)
-        return True
     except:
-        return False
+        raise exceptions.ControllerManageFailed
