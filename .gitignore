@@ -84,9 +84,9 @@ celerybeat-schedule
 .env
 
 # virtualenv
-.venv
-venv/
-ENV/
+/.venv
+/venv/
+/ENV/
 
 # Spyder project settings
 .spyderproject
@@ -100,3 +100,6 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+# sqlite3 database
+jbaccess/jbaccess.sqlite3

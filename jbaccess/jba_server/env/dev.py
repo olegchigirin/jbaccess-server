@@ -5,6 +5,13 @@ DEBUG = os.environ.get('DEBUG', '0') in ['1', 'true', 'True', 'yes', 'Yes']
 
 DEFAULT_LOG_LEVEL = 'DEBUG'
 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'jbaccess.sqlite3'
+    }
+}
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,

@@ -5,7 +5,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'rest_framework',
     # Own components
-    'jbaccess.jba_api',
+    'jba_core',
+    'jba_api'
 ]
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
