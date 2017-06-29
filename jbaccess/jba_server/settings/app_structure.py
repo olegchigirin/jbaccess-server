@@ -16,7 +16,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
 ]
 REST_FRAMEWORK = {
-    'EXCEPTION_HANDLER': 'api_commons.common.exception_handler',
+    'EXCEPTION_HANDLER': 'jba_api.common.jb_exception_handler',
 }
 ROOT_URLCONF = 'jba_server.urls'
 
