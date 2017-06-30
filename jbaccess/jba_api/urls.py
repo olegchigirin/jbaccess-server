@@ -5,5 +5,6 @@ urlpatterns = [
     url(r'^calc/?', include('jba_api.calculator.urls')),
     url(r'^security/?', include('jba_api.security.urls')),
     url(r'^controllers/?', include('jba_api.controllers.urls')),
-    url(r'^doors/?', include('jba_api.doors.urls'))
+    url(r'^doors/?', include('jba_api.doors.urls')),
+    url(r'^places/?', include('jba_api.places.urls'))
 ]

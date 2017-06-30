@@ -14,6 +14,10 @@ class DoorNotFound(EntityNotFound):
     pass
 
 
+class PlaceNotFound(EntityNotFound):
+    pass
+
+
 class EntityManageFailed(SomethingWrong):
     pass
 
@@ -21,5 +25,10 @@ class EntityManageFailed(SomethingWrong):
 class ControllerManageFailed(EntityManageFailed):
     pass
 
+
 class DoorManageFailed(EntityManageFailed):
+    pass
+
+
+class PlaceManageFailed(EntityManageFailed):
     pass
