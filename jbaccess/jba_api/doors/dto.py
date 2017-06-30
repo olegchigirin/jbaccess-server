@@ -20,3 +20,4 @@ class DoorOutDto(BaseDto):
         dto.id = door.id
         dto.name = door.name
         dto.access_id = door.access_id
+        return dto

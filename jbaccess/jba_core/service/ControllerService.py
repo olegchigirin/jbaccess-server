@@ -2,6 +2,7 @@ from typing import List
 
 from jba_core import exceptions
 from jba_core.models import Controller, Door
+from jba_core.service import DoorService
 
 
 def get_all() -> List[Controller]:
@@ -44,8 +45,7 @@ def update(id: int, name: str = None, controller_id: str = None) -> Controller:
             controller.name = name
         if controller_id is not None:
             controller.controller_id = controller_id
-        if name is not None or controller_id is not None:
-            controller.save()
+        controller.save()
         return controller
     except Controller.DoesNotExist:
         raise exceptions.ControllerNotFound
@@ -67,11 +67,8 @@ def attach_door(controller_id: int, door_id: int):
         controller = Controller.objects.get(id=controller_id)
     except Controller.DoesNotExist:
         raise exceptions.ControllerNotFound
-    try:
-        if controller.doors.filter(id=door_id).count() > 0:
-            raise exceptions.DoorNotFound
-        door = Door.objects.get(id=door_id)
-    except Door.DoesNotExist:
+    door = DoorService.get(door_id)
+    if controller.doors.filter(id=door_id).count() > 0:
         raise exceptions.DoorNotFound
     try:
         controller.doors.add(door)
@@ -84,11 +81,8 @@ def detach_door(controller_id: int, door_id: int):
         controller = Controller.objects.get(id=controller_id)
     except Controller.DoesNotExist:
         raise exceptions.ControllerNotFound
-    try:
-        if controller.doors.filter(id=door_id) == 0:
-            raise exceptions.DoorNotFound
-        door = Door.objects.get(id=door_id)
-    except Door.DoesNotExist:
+    door = DoorService.get(door_id)
+    if controller.doors.filter(id=door_id) == 0:
         raise exceptions.DoorNotFound
     try:
         controller.doors.remove(door)

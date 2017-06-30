@@ -13,7 +13,7 @@ class JbAccessController(BaseController):
     pass
 
 
-def dto_inject(dto_class: Type[BaseDto], dto_object_name: str='dto'):
+def dto_inject(dto_class: Type[BaseDto], dto_object_name: str = 'dto'):
     def dto_decorator(func):
         def wrapped(*args, **kwargs):
             request = args[1]
@@ -33,4 +33,10 @@ def jb_exception_handler(exc, context):
         return ApiResponse.not_found(errors.CONTROLLER_NOT_FOUND)
     if isinstance(exc, exceptions.DoorNotFound):
         return ApiResponse.not_found(errors.DOOR_NOT_FOUND)
+    if isinstance(exc, exceptions.DoorManageFailed):
+        return ApiResponse.bad_request(errors.DOOR_MANAGE_FAILED.dto_or_error_message,
+                                       errors.DOOR_MANAGE_FAILED.error_code)
+    if isinstance(exc, exceptions.ControllerManageFailed):
+        return ApiResponse.bad_request(errors.CONTROLLER_MANAGE_FAILED.dto_or_error_message,
+                                       errors.CONTROLLER_MANAGE_FAILED.error_code)
     return exception_handler(exc, context)
