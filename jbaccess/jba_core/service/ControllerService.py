@@ -70,7 +70,7 @@ def attach_door(controller_id: int, door_id: int):
     try:
         if controller.doors.filter(id=door_id).count() > 0:
             raise exceptions.DoorNotFound
-        door = Door.objects.get(door_id)
+        door = Door.objects.get(id=door_id)
     except Door.DoesNotExist:
         raise exceptions.DoorNotFound
     try:
