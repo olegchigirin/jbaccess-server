@@ -33,10 +33,31 @@ def jb_exception_handler(exc, context):
         return ApiResponse.not_found(errors.CONTROLLER_NOT_FOUND)
     if isinstance(exc, exceptions.DoorNotFound):
         return ApiResponse.not_found(errors.DOOR_NOT_FOUND)
-    if isinstance(exc, exceptions.DoorManageFailed):
-        return ApiResponse.bad_request(errors.DOOR_MANAGE_FAILED.dto_or_error_message,
-                                       errors.DOOR_MANAGE_FAILED.error_code)
+    if isinstance(exc, exceptions.PlaceNotFound):
+        return ApiResponse.not_found(errors.PLACE_NOT_FOUND)
+    if isinstance(exc, exceptions.PersonNotFound):
+        return ApiResponse.not_found(errors.PERSON_NOT_FOUND)
+    if isinstance(exc, exceptions.KeyNotFound):
+        return ApiResponse.not_found(errors.KEY_NOT_FOUND)
+    if isinstance(exc, exceptions.RoleNotFound):
+        return ApiResponse.not_found(errors.ROLE_NOT_FOUND)
+
     if isinstance(exc, exceptions.ControllerManageFailed):
         return ApiResponse.bad_request(errors.CONTROLLER_MANAGE_FAILED.dto_or_error_message,
                                        errors.CONTROLLER_MANAGE_FAILED.error_code)
+    if isinstance(exc, exceptions.DoorManageFailed):
+        return ApiResponse.bad_request(errors.DOOR_MANAGE_FAILED.dto_or_error_message,
+                                       errors.DOOR_MANAGE_FAILED.error_code)
+    if isinstance(exc, exceptions.PlaceManageFailed):
+        return ApiResponse.bad_request(errors.PLACE_MANAGE_FAILED.dto_or_error_message,
+                                       errors.PLACE_MANAGE_FAILED.error_code)
+    if isinstance(exc, exceptions.PersonManageFailed):
+        return ApiResponse.bad_request(errors.PERSON_MANAGE_FAILED.dto_or_error_message,
+                                       errors.PERSON_MANAGE_FAILED.error_code)
+    if isinstance(exc, exceptions.KeyManageFailed):
+        return ApiResponse.bad_request(errors.KEY_MANAGE_FAILED.dto_or_error_message,
+                                       errors.KEY_MANAGE_FAILED.error_code)
+    if isinstance(exc, exceptions.RoleManageFailed):
+        return ApiResponse.bad_request(errors.ROLE_MANAGE_FAILED.dto_or_error_message,
+                                       errors.ROLE_MANAGE_FAILED.error_code)
     return exception_handler(exc, context)
