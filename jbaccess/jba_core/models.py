@@ -51,9 +51,6 @@ class BaseACLEntry(models.Model):
     type = models.IntegerField(null=False)
     place = models.ForeignKey(Place, on_delete=models.CASCADE, null=False)
 
-    class Meta:
-        abstract = True
-
 
 class PersonACLEntry(BaseACLEntry):
     person = models.ForeignKey(Person, on_delete=models.CASCADE, null=False)
@@ -61,3 +58,19 @@ class PersonACLEntry(BaseACLEntry):
 
 class RoleACLEntry(BaseACLEntry):
     role = models.ForeignKey(Role, on_delete=models.CASCADE, null=False)
+
+
+class RecurringPattern(models.Model):
+    id = models.BigAutoField(primary_key=True, null=False)
+    acl = models.ForeignKey(BaseACLEntry, on_delete=models.CASCADE, null=False, default=None)
+
+    class Meta:
+        abstract = True
+
+
+class SimpleRecurringPattern(RecurringPattern):
+    from_time = models.TimeField(null=False)
+    until_time = models.TimeField(null=False)
+    days_of_week = models.CharField(null=False, max_length=255)
+    days_of_month = models.CharField(null=False, max_length=255)
+    months = models.CharField(null=False, max_length=255)
