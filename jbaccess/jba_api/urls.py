@@ -8,5 +8,6 @@ urlpatterns = [
     url(r'^doors/?', include('jba_api.doors.urls')),
     url(r'^places/?', include('jba_api.places.urls')),
     url(r'^person/?', include('jba_api.person.urls')),
-    url(r'^keys/?', include('jba_api.keys.urls'))
+    url(r'^keys/?', include('jba_api.keys.urls')),
+    url(r'^roles/?', include('jba_api.roles.urls'))
 ]
