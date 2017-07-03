@@ -51,3 +51,11 @@ def get_keys(id: int) -> List[Key]:
         return list(person.key_set.all())
     except:
         raise exceptions.SomethingWrong
+
+
+def get_roles(id: int) -> List[Role]:
+    person = get(id)
+    try:
+        return list(person.roles.all())
+    except:
+        raise exceptions.SomethingWrong
