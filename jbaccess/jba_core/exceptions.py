@@ -18,6 +18,22 @@ class PlaceNotFound(EntityNotFound):
     pass
 
 
+class PersonNotFound(EntityNotFound):
+    pass
+
+
+class KeyNotFound(EntityNotFound):
+    pass
+
+
+class RoleNotFound(EntityNotFound):
+    pass
+
+
+class ACLNotFound(EntityNotFound):
+    pass
+
+
 class EntityManageFailed(SomethingWrong):
     pass
 
@@ -31,4 +47,20 @@ class DoorManageFailed(EntityManageFailed):
 
 
 class PlaceManageFailed(EntityManageFailed):
+    pass
+
+
+class PersonManageFailed(EntityManageFailed):
+    pass
+
+
+class KeyManageFailed(EntityManageFailed):
+    pass
+
+
+class RoleManageFailed(EntityManageFailed):
+    pass
+
+
+class ACLManageFailed(EntityManageFailed):
     pass
