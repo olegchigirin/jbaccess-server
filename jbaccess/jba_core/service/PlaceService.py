@@ -29,42 +29,33 @@ def create(name: str) -> Place:
 
 
 def update(id: int, name: str) -> Place:
+    place = get(id)
+    place.name = name
     try:
-        place = Place.objects.get(id=id)
-        place.name = name
         place.save()
         return place
-    except Place.DoesNotExist:
-        raise exceptions.PlaceNotFound
     except:
         raise exceptions.PlaceManageFailed
 
 
 def delete(id: int):
+    place = get(id)
     try:
-        place = Place.objects.get(id=id)
         place.delete()
-    except Place.DoesNotExist:
-        raise exceptions.PlaceNotFound
     except:
         raise exceptions.PlaceManageFailed
 
 
 def get_doors(id: int) -> List[Door]:
+    place = get(id)
     try:
-        place = Place.objects.get(id=id)
         return list(place.doors.all())
-    except Place.DoesNotExist:
-        raise exceptions.PlaceNotFound
     except:
         raise exceptions.SomethingWrong
 
 
 def attach_door(place_id: int, door_id: int):
-    try:
-        place = Place.objects.get(id=place_id)
-    except Place.DoesNotExist:
-        raise exceptions.PlaceNotFound
+    place = get(place_id)
     door = DoorService.get(door_id)
     if place.doors.filter(id=door_id).count() > 0:
         raise exceptions.PlaceManageFailed
@@ -75,10 +66,7 @@ def attach_door(place_id: int, door_id: int):
 
 
 def detach_door(place_id: int, door_id: int):
-    try:
-        place = Place.objects.get(id=place_id)
-    except Place.DoesNotExist:
-        raise exceptions.PlaceNotFound
+    place = get(place_id)
     door = DoorService.get(door_id)
     if place.doors.filter(id=door_id).count() == 0:
         raise exceptions.PlaceManageFailed

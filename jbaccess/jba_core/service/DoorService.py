@@ -28,25 +28,21 @@ def create(name: str, access_id: str) -> Door:
 
 
 def update(id: int, name: str = None, access_id: str = None) -> Door:
+    door = get(id)
+    if name is not None:
+        door.name = name
+    if access_id is not None:
+        door.access_id = access_id
     try:
-        door = Door.objects.get(id=id)
-        if name is not None:
-            door.name = name
-        if access_id is not None:
-            door.access_id = access_id
         door.save()
         return door
-    except Door.DoesNotExist:
-        raise exceptions.DoorNotFound
     except:
         raise exceptions.DoorManageFailed
 
 
 def delete(id: int):
+    door = get(id)
     try:
-        door = Door.objects.get(id=id)
         door.delete()
-    except Door.DoesNotExist:
-        raise exceptions.DoorNotFound
     except:
         raise exceptions.DoorManageFailed

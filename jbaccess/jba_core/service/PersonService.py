@@ -28,22 +28,26 @@ def create(name: str) -> Person:
 
 
 def update(id: int, name: str) -> Person:
+    person = get(id)
+    person.name = name
     try:
-        person = Person.objects.get(id=id)
-        person.name = name
         person.save()
         return person
-    except Person.DoesNotExist:
-        raise exceptions.PersonNotFound
     except:
         raise exceptions.PersonManageFailed
 
 
 def delete(id: int):
+    person = get(id)
     try:
-        person = Person.objects.get(id=id)
         person.delete()
-    except Person.DoesNotExist:
-        raise exceptions.PersonNotFound
     except:
         raise exceptions.PersonManageFailed
+
+
+def get_keys(id: int) -> List[Key]:
+    person = get(id)
+    try:
+        return list(person.key_set.all())
+    except:
+        raise exceptions.SomethingWrong

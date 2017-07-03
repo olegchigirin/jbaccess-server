@@ -22,11 +22,9 @@ def get(id: int) -> Controller:
 
 
 def get_attached_doors(id: int) -> List[Door]:
+    controller = get(id)
     try:
-        controller = Controller.objects.get(id=id)
         return list(controller.doors.all())
-    except Controller.DoesNotExist:
-        raise exceptions.ControllerNotFound
     except:
         raise exceptions.SomethingWrong
 
@@ -39,34 +37,28 @@ def create(name: str, controller_id: str) -> Controller:
 
 
 def update(id: int, name: str = None, controller_id: str = None) -> Controller:
+    controller = get(id)
+    if name is not None:
+        controller.name = name
+    if controller_id is not None:
+        controller.controller_id = controller_id
     try:
-        controller = Controller.objects.get(id=id)
-        if name is not None:
-            controller.name = name
-        if controller_id is not None:
-            controller.controller_id = controller_id
         controller.save()
         return controller
-    except Controller.DoesNotExist:
-        raise exceptions.ControllerNotFound
     except:
         raise exceptions.ControllerManageFailed
 
 
 def delete(id: int):
+    controller = get(id)
     try:
-        Controller.objects.get(id=id).delete()
-    except Controller.DoesNotExist:
-        raise exceptions.ControllerNotFound
+        controller.delete()
     except:
         raise exceptions.ControllerManageFailed
 
 
 def attach_door(controller_id: int, door_id: int):
-    try:
-        controller = Controller.objects.get(id=controller_id)
-    except Controller.DoesNotExist:
-        raise exceptions.ControllerNotFound
+    controller = get(controller_id)
     door = DoorService.get(door_id)
     if controller.doors.filter(id=door_id).count() > 0:
         raise exceptions.DoorNotFound
@@ -77,10 +69,7 @@ def attach_door(controller_id: int, door_id: int):
 
 
 def detach_door(controller_id: int, door_id: int):
-    try:
-        controller = Controller.objects.get(id=controller_id)
-    except Controller.DoesNotExist:
-        raise exceptions.ControllerNotFound
+    controller = get(controller_id)
     door = DoorService.get(door_id)
     if controller.doors.filter(id=door_id) == 0:
         raise exceptions.DoorNotFound
