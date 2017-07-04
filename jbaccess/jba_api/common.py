@@ -1,12 +1,9 @@
 from typing import Type
-
 from api_commons.common import BaseController, ApiResponse
-from api_commons.dto import BaseDto
-
 from api_commons.common import exception_handler
-
-from jba_core import exceptions
+from api_commons.dto import BaseDto
 from jba_api import errors
+from jba_core import exceptions
 
 
 class JbAccessController(BaseController):
@@ -41,6 +38,10 @@ def jb_exception_handler(exc, context):
         return ApiResponse.not_found(errors.KEY_NOT_FOUND)
     if isinstance(exc, exceptions.RoleNotFound):
         return ApiResponse.not_found(errors.ROLE_NOT_FOUND)
+    if isinstance(exc, exceptions.ACLNotFound):
+        return ApiResponse.not_found(errors.ACL_NOT_FOUND)
+    if isinstance(exc, exceptions.PatternNotFound):
+        return ApiResponse.not_found(errors.PATTERN_NOT_FOUND)
 
     if isinstance(exc, exceptions.ControllerManageFailed):
         return ApiResponse.bad_request(errors.CONTROLLER_MANAGE_FAILED.dto_or_error_message,
@@ -60,4 +61,19 @@ def jb_exception_handler(exc, context):
     if isinstance(exc, exceptions.RoleManageFailed):
         return ApiResponse.bad_request(errors.ROLE_MANAGE_FAILED.dto_or_error_message,
                                        errors.ROLE_MANAGE_FAILED.error_code)
+    if isinstance(exc, exceptions.ACLManageFailed):
+        return ApiResponse.bad_request(errors.ACL_MANAGE_FAILED.dto_or_error_message,
+                                       errors.ACL_MANAGE_FAILED.error_code)
+    if isinstance(exc, exceptions.PatternManageFailed):
+        return ApiResponse.bad_request(errors.PATTERN_MANAGE_FAILED.dto_or_error_message,
+                                       errors.PATTERN_MANAGE_FAILED.error_code)
+    if isinstance(exc, exceptions.PatternTimingIncorrect):
+        return ApiResponse.bad_request(errors.PATTERN_TIMINGS_INCORRECT.dto_or_error_message,
+                                       errors.PATTERN_TIMINGS_INCORRECT.error_code)
+    if isinstance(exc, exceptions.PatternDatesIncorrect):
+        return ApiResponse.bad_request(errors.DATE_PATTERNS_INCORRECT.dto_or_error_message,
+                                       errors.DATE_PATTERNS_INCORRECT.error_code)
+    if isinstance(exc, exceptions.AclAlreadyAdded):
+        return ApiResponse.bad_request(errors.ACL_ALREADY_ADDED.dto_or_error_message,
+                                       errors.ACL_ALREADY_ADDED.error_code)
     return exception_handler(exc, context)

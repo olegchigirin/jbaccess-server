@@ -23,18 +23,18 @@ class KeysController(JbAccessController):
 class KeysRUDController(JbAccessController):
     permission_classes = [permissions.JbAccessPermission]
 
-    def get(self, request: HttpRequest, id: int):
+    def get(self, request: HttpRequest, id: str):
         id = self.parse_int_pk(id)
         key = KeyService.get(id)
         return ApiResponse.success(KeyOutDto.from_key(key))
 
     @dto_inject(KeyInDto)
-    def put(self, request: HttpRequest, id: int, dto: KeyInDto):
+    def put(self, request: HttpRequest, id: str, dto: KeyInDto):
         id = self.parse_int_pk(id)
         key = KeyService.update(id, dto.name, dto.access_key, dto.person_id)
         return ApiResponse.success(KeyOutDto.from_key(key))
 
-    def delete(self, request: HttpRequest, id: int):
+    def delete(self, request: HttpRequest, id: str):
         id = self.parse_int_pk(id)
         KeyService.delete(id)
         return ApiResponse.success()

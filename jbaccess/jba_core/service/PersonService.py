@@ -2,6 +2,7 @@ from typing import List
 
 from jba_core.models import Person, Key, Role
 from jba_core import exceptions
+from jba_core.service import RoleService
 
 
 def get_all() -> List[Person]:
@@ -59,3 +60,25 @@ def get_roles(id: int) -> List[Role]:
         return list(person.roles.all())
     except:
         raise exceptions.SomethingWrong
+
+
+def attach_role(person_id: int, role_id: int):
+    person = get(person_id)
+    role = RoleService.get(role_id)
+    if person.roles.filter(id=role_id).count() > 0:
+        raise exceptions.RoleNotFound
+    try:
+        person.roles.add(role)
+    except:
+        raise exceptions.PersonManageFailed
+
+
+def detach_role(person_id: int, role_id: int):
+    person = get(person_id)
+    role = RoleService.get(role_id)
+    if person.roles.filter(id=role_id).count() == 0:
+        raise exceptions.RoleNotFound
+    try:
+        person.roles.remove(role)
+    except:
+        raise exceptions.PersonManageFailed

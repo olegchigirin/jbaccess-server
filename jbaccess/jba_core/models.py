@@ -1,12 +1,14 @@
 from django.db import models
 
-ACL_ALLOW = "allow"
-ACL_DENY = "deny"
 
-ACL_TYPE = {
-    ACL_ALLOW: 1,
-    ACL_DENY: 2
-}
+class AclType:
+    ACL_ALLOW = 1
+    ACL_DENY = 2
+
+    acl_choices = {
+        (ACL_ALLOW, 1),
+        (ACL_DENY, 2)
+    }
 
 
 class Door(models.Model):
@@ -69,8 +71,8 @@ class RecurringPattern(models.Model):
 
 
 class SimpleRecurringPattern(RecurringPattern):
-    from_time = models.TimeField(null=False)
-    until_time = models.TimeField(null=False)
+    from_time = models.DurationField(null=False)
+    until_time = models.DurationField(null=False)
     days_of_week = models.CharField(null=False, max_length=255)
     days_of_month = models.CharField(null=False, max_length=255)
     months = models.CharField(null=False, max_length=255)

@@ -34,6 +34,10 @@ class ACLNotFound(EntityNotFound):
     pass
 
 
+class PatternNotFound(EntityNotFound):
+    pass
+
+
 class EntityManageFailed(SomethingWrong):
     pass
 
@@ -63,4 +67,20 @@ class RoleManageFailed(EntityManageFailed):
 
 
 class ACLManageFailed(EntityManageFailed):
+    pass
+
+
+class PatternManageFailed(EntityManageFailed):
+    pass
+
+
+class PatternTimingIncorrect(EntityManageFailed):
+    pass
+
+
+class PatternDatesIncorrect(EntityManageFailed):
+    pass
+
+
+class AclAlreadyAdded(EntityManageFailed):
     pass
