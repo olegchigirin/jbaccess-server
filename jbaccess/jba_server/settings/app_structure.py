@@ -20,6 +20,8 @@ REST_FRAMEWORK = {
 }
 ROOT_URLCONF = 'jba_server.urls'
 
+WSGI_APPLICATION = 'jba_server.wsgi.application'
+
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
