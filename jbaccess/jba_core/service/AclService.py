@@ -1,10 +1,10 @@
-from typing import List
+from typing import List, Tuple
 
 from jba_core import exceptions
-from jba_core.models import SimpleRecurringPattern, BaseACLEntry, PersonACLEntry, AclType, RoleACLEntry
+from jba_core.models import SimpleRecurringPattern, BaseACLEntry, PersonACLEntry, AclType, RoleACLEntry, Door, Key
 import datetime
 
-from jba_core.service import PersonService, PlaceService, RoleService
+from jba_core.service import PersonService, PlaceService, RoleService, ControllerService
 
 
 def get_acl(id: int) -> BaseACLEntry:
@@ -142,6 +142,29 @@ def get_role_acls(role_id: int) -> List[RoleACLEntry]:
         return list(role.roleaclentry_set.all())
     except:
         raise exceptions.SomethingWrong
+
+
+def resolve_acls_by_controller(controller_id: str) -> List[Tuple[AclType, Key, Door, SimpleRecurringPattern]]:
+    controller = ControllerService.get_by_controller_id(controller_id)
+    role_acls = list(RoleACLEntry.objects.filter(place__doors__controller=controller))
+    person_acls = list(PersonACLEntry.objects.filter(place__doors__controller=controller))
+    result = list()
+    for acl in role_acls:
+        doors = list(acl.place.doors.filter(controller=controller))
+        patterns = list(acl.simplerecurringpattern_set.all())
+        for person in acl.role.person_set.all():
+            for key in person.key_set.all():
+                for door in doors:
+                    for pattern in patterns:
+                        result.append((acl.type, key, door, pattern))
+    for acl in person_acls:
+        doors = list(acl.place.doors.filter(controller=controller))
+        patterns = list(acl.simplerecurringpattern_set.all())
+        for key in acl.person.key_set.all():
+            for door in doors:
+                for pattern in patterns:
+                    result.append((acl.type, key, door, pattern))
+    return result
 
 
 def __validate_pattern_timings_on_create_or_update(pattern: SimpleRecurringPattern = None,

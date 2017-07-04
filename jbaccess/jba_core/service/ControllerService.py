@@ -21,6 +21,15 @@ def get(id: int) -> Controller:
         raise exceptions.SomethingWrong
 
 
+def get_by_controller_id(controller_id: str) -> Controller:
+    try:
+        return Controller.objects.get(controller_id__iexact=controller_id)
+    except Controller.DoesNotExist:
+        raise exceptions.ControllerNotFound
+    except:
+        raise exceptions.SomethingWrong
+
+
 def get_attached_doors(id: int) -> List[Door]:
     controller = get(id)
     try:

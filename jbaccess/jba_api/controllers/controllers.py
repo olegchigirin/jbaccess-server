@@ -3,9 +3,9 @@ from django.http import HttpRequest
 
 from jba_api import permissions
 from jba_api.common import JbAccessController, dto_inject
-from jba_api.controllers.dto import ControllerOutDto, ControllerInDto
+from jba_api.controllers.dto import ControllerOutDto, ControllerInDto, ResolvedAclOutDto
 from jba_api.doors.dto import DoorOutDto
-from jba_core.service import ControllerService
+from jba_core.service import ControllerService, AclService
 
 
 class ControllersController(JbAccessController):
@@ -66,3 +66,13 @@ class ControllerDoorRelationController(JbAccessController):
         door_id = self.parse_int_pk(door_id)
         ControllerService.detach_door(controller_id, door_id)
         return ApiResponse.success()
+
+
+class AclResolvingController(JbAccessController):
+    permission_classes = [permissions.JbAccessPermission]
+
+    def get(self, request: HttpRequest, controller_id: str):
+        controller_id = self.parse_int_pk(controller_id)
+        resolved_acls = AclService.resolve_acls_by_controller(controller_id)
+        acl_dtos = list([ResolvedAclOutDto.from_values(a[0], a[1], a[2], a[3]) for a in resolved_acls])
+        return ApiResponse.success(acl_dtos)
