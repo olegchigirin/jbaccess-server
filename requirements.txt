@@ -1,5 +1,5 @@
 Django==1.11.2
-django-api-commons==1.0.1
+django-api-commons==1.0.2
 djangorestframework==3.5.4
 dj-database-url==0.4.2
 gunicorn==19.7.1
