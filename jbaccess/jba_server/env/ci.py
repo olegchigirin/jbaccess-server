@@ -2,7 +2,7 @@ from jba_server.settings.base import *
 import os
 import dj_database_url
 
-SECRET_KEY = 'sdlfkjelwil3dx,zdlfekd;g4+sdrf+strew24rnewfdksadfl'
+SECRET_KEY = 'skj435h5lrkfsj;r34prosafdlkmc;alskfl905hok6jfIs'
 
 DEBUG = os.environ.get('DEBUG', '0') in ['1', 'true', 'True', 'yes', 'Yes']
 

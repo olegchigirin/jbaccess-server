@@ -25,6 +25,7 @@ ROOT_URLCONF = 'jba_server.urls'
 WSGI_APPLICATION = 'jba_server.wsgi.application'
 
 CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
 
 AUTH_PASSWORD_VALIDATORS = [
     {
