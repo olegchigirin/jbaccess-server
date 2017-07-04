@@ -2,7 +2,6 @@ from api_commons.common import ApiResponse
 from django.contrib import auth
 from django.http import HttpRequest
 
-from jba_api import errors
 from jba_api import permissions
 from jba_api.common import JbAccessController, dto_inject
 from jba_api.security.dto import LoginInDto, UserInfoOutDto
@@ -14,8 +13,6 @@ class LoginController(JbAccessController):
     def post(self, request: HttpRequest, dto: LoginInDto):
         user = UserService.get_user_by_credentials(dto.login, dto.password)
         auth.login(request, user)
-        if user is None:
-            return ApiResponse.not_found(errors.INCORRECT_CREDENTIALS)
         return ApiResponse.success(UserInfoOutDto.from_user(user))
 
 

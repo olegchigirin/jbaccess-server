@@ -1,86 +1,129 @@
-class SomethingWrong(Exception):
+from api_commons.error import ErrorCode
+from jba_core import errors
+
+
+class JbAccessException(Exception):
+    def __init__(self, error_code: ErrorCode):
+        self.error_code = error_code
+
+
+class SomethingWrong(JbAccessException):
+    def __init__(self):
+        super().__init__(errors.SOMETHING_WRONG)
+
+
+class BadDataException(JbAccessException):
     pass
 
 
-class EntityNotFound(SomethingWrong):
+class IncorrectCredentials(BadDataException):
+    def __init__(self):
+        super().__init__(errors.INCORRECT_CREDENTIALS)
+
+
+class EntityNotFound(JbAccessException):
     pass
+
+
+class UserNotFound(EntityNotFound):
+    def __init__(self):
+        super().__init__(errors.USER_NOT_FOUND)
 
 
 class ControllerNotFound(EntityNotFound):
-    pass
+    def __init__(self):
+        super().__init__(errors.CONTROLLER_NOT_FOUND)
 
 
 class DoorNotFound(EntityNotFound):
-    pass
+    def __init__(self):
+        super().__init__(errors.DOOR_NOT_FOUND)
 
 
 class PlaceNotFound(EntityNotFound):
-    pass
+    def __init__(self):
+        super().__init__(errors.PLACE_NOT_FOUND)
 
 
 class PersonNotFound(EntityNotFound):
-    pass
+    def __init__(self):
+        super().__init__(errors.PERSON_NOT_FOUND)
 
 
 class KeyNotFound(EntityNotFound):
-    pass
+    def __init__(self):
+        super().__init__(errors.KEY_NOT_FOUND)
 
 
 class RoleNotFound(EntityNotFound):
-    pass
+    def __init__(self):
+        super().__init__(errors.ROLE_NOT_FOUND)
 
 
 class ACLNotFound(EntityNotFound):
-    pass
+    def __init__(self):
+        super().__init__(errors.ACL_NOT_FOUND)
 
 
 class PatternNotFound(EntityNotFound):
-    pass
+    def __init__(self):
+        super().__init__(errors.PATTERN_NOT_FOUND)
 
 
-class EntityManageFailed(SomethingWrong):
+class EntityManageFailed(BadDataException):
     pass
 
 
 class ControllerManageFailed(EntityManageFailed):
-    pass
+    def __init__(self):
+        super().__init__(errors.CONTROLLER_MANAGE_FAILED)
 
 
 class DoorManageFailed(EntityManageFailed):
-    pass
+    def __init__(self):
+        super().__init__(errors.DOOR_MANAGE_FAILED)
 
 
 class PlaceManageFailed(EntityManageFailed):
-    pass
+    def __init__(self):
+        super().__init__(errors.PLACE_MANAGE_FAILED)
 
 
 class PersonManageFailed(EntityManageFailed):
-    pass
+    def __init__(self):
+        super().__init__(errors.PERSON_MANAGE_FAILED)
 
 
 class KeyManageFailed(EntityManageFailed):
-    pass
+    def __init__(self):
+        super().__init__(errors.KEY_MANAGE_FAILED)
 
 
 class RoleManageFailed(EntityManageFailed):
-    pass
+    def __init__(self):
+        super().__init__(errors.ROLE_MANAGE_FAILED)
 
 
 class ACLManageFailed(EntityManageFailed):
-    pass
+    def __init__(self):
+        super().__init__(errors.ACL_MANAGE_FAILED)
 
 
 class PatternManageFailed(EntityManageFailed):
-    pass
+    def __init__(self):
+        super().__init__(errors.PATTERN_MANAGE_FAILED)
 
 
 class PatternTimingIncorrect(EntityManageFailed):
-    pass
+    def __init__(self):
+        super().__init__(errors.PATTERN_TIMINGS_INCORRECT)
 
 
 class PatternDatesIncorrect(EntityManageFailed):
-    pass
+    def __init__(self):
+        super().__init__(errors.DATE_PATTERNS_INCORRECT)
 
 
 class AclAlreadyAdded(EntityManageFailed):
-    pass
+    def __init__(self):
+        super().__init__(errors.ACL_ALREADY_ADDED)
