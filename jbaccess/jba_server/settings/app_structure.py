@@ -4,11 +4,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'rest_framework',
+    'corsheaders',
     # Own components
     'jba_core',
     'jba_api'
 ]
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -21,6 +23,8 @@ REST_FRAMEWORK = {
 ROOT_URLCONF = 'jba_server.urls'
 
 WSGI_APPLICATION = 'jba_server.wsgi.application'
+
+CORS_ORIGIN_ALLOW_ALL = True
 
 AUTH_PASSWORD_VALIDATORS = [
     {
