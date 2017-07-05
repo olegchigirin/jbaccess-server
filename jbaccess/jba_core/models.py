@@ -1,3 +1,6 @@
+from typing import List
+
+import json
 from django.db import models
 
 
@@ -76,3 +79,21 @@ class SimpleRecurringPattern(RecurringPattern):
     days_of_week = models.CharField(null=False, max_length=255)
     days_of_month = models.CharField(null=False, max_length=255)
     months = models.CharField(null=False, max_length=255)
+
+    def get_days_of_week(self) -> List[int]:
+        return json.loads(self.days_of_week)
+
+    def set_days_of_week(self, dow):
+        self.days_of_week = json.dumps(dow)
+
+    def get_days_of_month(self) -> List[int]:
+        return json.loads(self.days_of_month)
+
+    def set_days_of_month(self, dom):
+        self.days_of_month = json.dumps(dom)
+
+    def get_months(self) -> List[int]:
+        return json.loads(self.months)
+
+    def set_months(self, months):
+        self.months = json.dumps(months)

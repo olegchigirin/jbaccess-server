@@ -38,9 +38,9 @@ class PersonAclOutDto(AclOutDto):
 class SimplePatternInDto(BaseDto):
     from_time = serializers.DurationField(required=True)
     until_time = serializers.DurationField(required=True)
-    days_of_week = serializers.CharField(required=True, max_length=255)
-    days_of_month = serializers.CharField(required=True, max_length=255)
-    months = serializers.CharField(required=True, max_length=255)
+    days_of_week = serializers.ListField(required=True)
+    days_of_month = serializers.ListField(required=True)
+    months = serializers.ListField(required=True)
 
 
 class SimplePatternOutDto(BaseDto):
@@ -48,9 +48,9 @@ class SimplePatternOutDto(BaseDto):
     acl_id = serializers.IntegerField(required=True)
     from_time = serializers.DurationField(required=True)
     until_time = serializers.DurationField(required=True)
-    days_of_week = serializers.CharField(required=True, max_length=255)
-    days_of_month = serializers.CharField(required=True, max_length=255)
-    months = serializers.CharField(required=True, max_length=255)
+    days_of_week = serializers.ListField(required=True)
+    days_of_month = serializers.ListField(required=True)
+    months = serializers.ListField(required=True)
 
     @classmethod
     def from_simple_pattern(cls, pattern: SimpleRecurringPattern):
@@ -59,7 +59,7 @@ class SimplePatternOutDto(BaseDto):
         dto.acl_id = pattern.acl.id
         dto.from_time = pattern.from_time
         dto.until_time = pattern.until_time
-        dto.days_of_week = pattern.days_of_week
-        dto.days_of_month = pattern.days_of_month
-        dto.months = pattern.months
+        dto.days_of_week = pattern.get_days_of_week()
+        dto.days_of_month = pattern.get_days_of_month()
+        dto.months = pattern.get_months()
         return dto
