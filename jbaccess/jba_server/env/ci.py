@@ -1,15 +1,15 @@
 from jba_server.settings.base import *
 import os
+import dj_database_url
+
+SECRET_KEY = 'skj435h5lrkfsj;r34prosafdlkmc;alskfl905hok6jfIs'
 
 DEBUG = os.environ.get('DEBUG', '0') in ['1', 'true', 'True', 'yes', 'Yes']
 
-DEFAULT_LOG_LEVEL = 'DEBUG'
+DEFAULT_LOG_LEVEL = 'INFO'
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'jbaccess.sqlite3'
-    }
+    'default': dj_database_url.config(conn_max_age=500)
 }
 
 LOGGING = {

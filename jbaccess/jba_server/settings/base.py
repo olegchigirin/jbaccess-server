@@ -23,4 +23,4 @@ except:
     HOSTNAME = 'localhost'
 
 from .app_structure import *
-from jbaccess.version_meta import *
+from version_meta import *

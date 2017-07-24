@@ -4,10 +4,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'rest_framework',
+    'corsheaders',
     # Own components
-    'jbaccess.jba_api',
+    'jba_core',
+    'jba_api'
 ]
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -15,9 +18,14 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
 ]
 REST_FRAMEWORK = {
-    'EXCEPTION_HANDLER': 'api_commons.common.exception_handler',
+    'EXCEPTION_HANDLER': 'jba_api.common.jb_exception_handler',
 }
 ROOT_URLCONF = 'jba_server.urls'
+
+WSGI_APPLICATION = 'jba_server.wsgi.application'
+
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
 
 AUTH_PASSWORD_VALIDATORS = [
     {

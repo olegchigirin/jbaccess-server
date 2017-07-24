@@ -1,0 +1,1 @@
+web: cd jbaccess && gunicorn jba_server.wsgi
