@@ -1,1 +1,1 @@
-web: cd jbaccess && manage.py collectstatic && gunicorn jba_server.wsgi
+web: cd jbaccess && gunicorn jba_server.wsgi
