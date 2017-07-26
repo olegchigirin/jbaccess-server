@@ -1,7 +1,7 @@
 from jba_server.settings.base import *
 import os
 
-DEBUG = os.environ.get('DEBUG', '0') in ['1', 'true', 'True', 'yes', 'Yes']
+DEBUG = True
 
 DEFAULT_LOG_LEVEL = 'DEBUG'
 
