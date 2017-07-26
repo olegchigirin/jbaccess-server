@@ -4,7 +4,7 @@ import dj_database_url
 
 SECRET_KEY = 'skj435h5lrkfsj;r34prosafdlkmc;alskfl905hok6jfIs'
 
-DEBUG = os.environ.get('DEBUG', '0') in ['1', 'true', 'True', 'yes', 'Yes']
+DEBUG = False
 
 DEFAULT_LOG_LEVEL = 'INFO'
 
