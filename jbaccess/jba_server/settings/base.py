@@ -17,7 +17,6 @@ SECRET_KEY = 'skj435h5lrkfsj;r34prosafdlkmc;alskfl905hok6jfIs'
 DEBUG = False
 ALLOWED_HOSTS = []
 
-STATIC_ROOT = './staticfiles/'
 STATIC_URL = '/static/'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
