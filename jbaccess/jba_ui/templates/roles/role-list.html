@@ -1,0 +1,11 @@
+{% extends 'basic/templates/base.html' %}
+
+{% block objectList %}
+    {% url 'ui:role list' as listUrl %}
+    {% include 'basic/includes/content-list.html' with listUrl=listUrl %}
+{% endblock %}
+
+{% block buttons %}
+    {% url 'ui:role create' as roleCreate %}
+    {% include 'basic/includes/list-button-block.html' with createUrl=roleCreate buttonName='Create role' %}
+{% endblock %}

@@ -5,7 +5,8 @@
 {% endblock %}
 
 {% block objectList %}
-    {% include 'basic/includes/content-list.html' %}
+    {% url 'ui:person list' as listUrl %}
+    {% include 'basic/includes/content-list.html' with listUrl=listUrl %}
 {% endblock %}
 
 {% block buttons %}

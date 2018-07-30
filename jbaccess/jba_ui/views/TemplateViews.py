@@ -3,6 +3,10 @@ from django.urls import reverse
 from django.views.generic import TemplateView
 
 
+class HomeView(TemplateView):
+    template_name = 'static/home.html'
+
+
 class CustomLoginView(LoginView):
     template_name = 'registration/login.html'
     success_url = 'ui:home'
@@ -16,4 +20,4 @@ class LogoutConfirmView(TemplateView):
 
 
 class CustomLogoutView(LogoutView):
-    success_url_allowed_hosts = 'ui:home'
+    pass

@@ -1,5 +1,6 @@
 {% load tags %}
 
+
 <div class="container-fluid" style="padding-top: 20px; width: 90%;">
     <table class="table table-light table-bordered">
         <thead class="thead-light">
@@ -15,7 +16,7 @@
                 {% for h in headers %}
                     <td class="text-center" style="width: auto">
                         {% ifequal h 'id' %}
-                            <a href="{% url 'ui:person details' id=object|get_obj_attr:h %}">
+                            <a href="{{ listUrl|default:'#' }}{{ object.id }}">
                                 {{ object|get_obj_attr:h }}
                             </a>
                         {% else %}

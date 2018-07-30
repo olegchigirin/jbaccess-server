@@ -1,0 +1,6 @@
+{% extends 'basic/templates/base.html' %}
+
+{% block objectList %}
+    {% url 'ui:key list' as listUrl %}
+    {% include 'basic/includes/content-list.html' with listUrl=listUrl %}
+{% endblock %}

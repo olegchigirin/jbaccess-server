@@ -1,0 +1,15 @@
+{% extends 'basic/templates/base.html' %}
+
+{% block title %}
+    Delete confirmation
+{% endblock %}
+
+{% block textInfo %}
+    <div class="p-4 alert-warning justify-content-center">
+        This action can not be undone. Are you sure you want to delete {{ object }}?
+    </div>
+{% endblock %}
+
+{% block form %}
+    {% include 'basic/includes/form.html' with method='post' buttonType='submit' buttonName='Delete' %}
+{% endblock %}
