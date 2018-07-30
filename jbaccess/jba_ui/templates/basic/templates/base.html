@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    {% include 'basic/includes/bootstrap-import.html' %}
+</head>
+<body>
+{% block content %}
+    {% block navbar %}
+        {% include 'basic/includes/header-navbar.html' %}
+    {% endblock %}
+    {% block textInfo %}
+    {% endblock %}
+    {% block objectList %}
+    {% endblock %}
+    {% block form %}
+    {% endblock %}
+    {% block buttons %}
+    {% endblock %}
+{% endblock %}
+</body>
+</html>

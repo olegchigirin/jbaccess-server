@@ -1,0 +1,20 @@
+{% extends 'basic/templates/base.html' %}
+
+{% block title %}
+    Person list
+{% endblock %}
+
+{% block objectList %}
+    {% include 'basic/includes/content-list.html' %}
+{% endblock %}
+
+{% block buttons %}
+    <div class="col-offset-8 col-4 text-right ">
+        <div class="btn-toolbar ">
+            {% url 'ui:home' as home_url %}
+            {% url 'ui:create person' as create_person_url %}
+            {% include 'basic/includes/link-button.html' with url=home_url buttonName='Return' %}
+            {% include 'basic/includes/link-button.html' with url=create_person_url buttonName='Add new person' %}
+        </div>
+    </div>
+{% endblock %}

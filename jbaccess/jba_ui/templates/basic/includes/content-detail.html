@@ -1,0 +1,11 @@
+{% load tags %}
+
+<div class="container">
+    <div class="row">
+        {% for field in fields %}
+            <div class="col">
+                <div class="p-5">{{ field }}: {{ object|get_obj_attr:field }}</div>
+            </div>
+        {% endfor %}
+    </div>
+</div>

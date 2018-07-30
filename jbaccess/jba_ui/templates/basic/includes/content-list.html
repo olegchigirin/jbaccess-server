@@ -1,0 +1,30 @@
+{% load tags %}
+
+<div class="container-fluid" style="padding-top: 20px; width: 90%;">
+    <table class="table table-light table-bordered">
+        <thead class="thead-light">
+        <tr>
+            {% for h in headers %}
+                <th class="text-center" style="width: auto">{{ h }}</th>
+            {% endfor %}
+        </tr>
+        </thead>
+        <tbody>
+        {% for object in object_list %}
+            <tr>
+                {% for h in headers %}
+                    <td class="text-center" style="width: auto">
+                        {% ifequal h 'id' %}
+                            <a href="{% url 'ui:person details' id=object|get_obj_attr:h %}">
+                                {{ object|get_obj_attr:h }}
+                            </a>
+                        {% else %}
+                            {{ object|get_obj_attr:h }}
+                        {% endifequal %}
+                    </td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>

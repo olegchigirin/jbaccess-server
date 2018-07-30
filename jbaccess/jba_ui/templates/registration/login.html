@@ -1,0 +1,9 @@
+{% extends 'basic/templates/base.html' %}
+
+{% block title %}
+    Login page
+{% endblock %}
+
+{% block form %}
+    {% include 'basic/includes/form.html' with method="post" buttonType="submit" buttonName="Login" %}
+{% endblock %}

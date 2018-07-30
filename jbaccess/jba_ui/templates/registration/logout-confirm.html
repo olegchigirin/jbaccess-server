@@ -1,0 +1,27 @@
+{% extends 'basic/templates/base.html' %}
+
+
+{% block title %}
+    Logout confirm
+{% endblock %}
+
+{% block textInfo %}
+    <div class="container col-md-3 col-offset-4">
+        <div class="p-5 justify-content-center">
+            Please, confirm logout
+        </div>
+    </div>
+{% endblock %}
+
+{% block buttons %}
+    <div class="container col-md-2 col-offset-4">
+        <div class="btn-toolbar">
+            {% url 'ui:home' as home_url %}
+            {% url 'ui:logout' as logout_url %}
+            {% include 'basic/includes/link-button.html' with url=home_url buttonName='Return' %}
+            {% include 'basic/includes/link-button.html' with url=logout_url buttonName='Confirm' %}
+        </div>
+    </div>
+{% endblock %}
+
+
