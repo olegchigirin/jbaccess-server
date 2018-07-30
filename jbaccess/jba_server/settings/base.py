@@ -21,10 +21,17 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
+STATICFILES_DIRS = (
+    'jba_ui/static',
+)
+
 try:
     HOSTNAME = socket.gethostname()
 except:
     HOSTNAME = 'localhost'
+
+LOGIN_REDIRECT_URL = '/jbaccess'
+LOGOUT_REDIRECT_URL = '/jbaccess'
 
 from .app_structure import *
 from version_meta import *
