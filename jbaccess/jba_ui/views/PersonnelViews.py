@@ -5,6 +5,7 @@ from jba_core.models import Person
 from jba_core.service import PersonService
 from jba_ui.common.CommonViews import DetailView, ListView
 from jba_ui.common.model_types import PERSON
+from jba_ui.common.view_fields import ID
 from jba_ui.forms import PersonForm
 
 
@@ -34,11 +35,11 @@ class PersonDetailView(DetailView):
     fields = ['id', 'name']
 
     def get_object(self, queryset=None):
-        return PersonService.get(self.kwargs['id'])
+        return PersonService.get(self.kwargs[ID])
 
     def get_context_data(self, **kwargs):
         context = super(PersonDetailView, self).get_context_data(**kwargs)
-        context['id'] = self.kwargs['id']
+        context[ID] = self.kwargs[ID]
         return context
 
 
@@ -47,10 +48,10 @@ class PersonUpdateView(UpdateView):
     form_class = PersonForm
 
     def get_object(self, queryset=None):
-        return PersonService.get(self.kwargs['id'])
+        return PersonService.get(self.kwargs[ID])
 
     def get_success_url(self):
-        return reverse('ui:person details', kwargs={'id': self.kwargs['id']})
+        return reverse('ui:person details', kwargs={ID: self.kwargs[ID]})
 
 
 class PersonDeleteView(DeleteView):
@@ -59,11 +60,11 @@ class PersonDeleteView(DeleteView):
 
     def get_context_data(self, **kwargs):
         context = super(PersonDeleteView, self).get_context_data(**kwargs)
-        context['id'] = self.kwargs['id']
+        context['id'] = self.kwargs[ID]
         return context
 
     def get_object(self, queryset=None):
-        return PersonService.get(self.kwargs['id'])
+        return PersonService.get(self.kwargs[ID])
 
     def get_success_url(self):
         return reverse('ui:person list')

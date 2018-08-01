@@ -6,7 +6,7 @@ from jba_core.models import Role
 
 def get_all() -> List[Role]:
     try:
-        return list(Role.objects.all())
+        return Role.objects.all()
     except:
         raise exceptions.SomethingWrong
 

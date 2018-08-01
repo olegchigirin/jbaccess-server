@@ -2,10 +2,11 @@ from django.urls import reverse
 from django.views.generic import DeleteView
 
 from jba_core.service import KeyService, PersonService
-from jba_ui.common.CommonViews import DetailView, ListView, UpdateView, CreateView
-from jba_core.models import Key
-from jba_ui.common.model_types import KEY
-from jba_ui.forms import KeyForm
+from jba_ui.common.CommonViews import DetailView, ListView, UpdateView, CreateView, FormView
+from jba_core.models import Key, Person
+from jba_ui.common.model_types import KEY, PERSON
+from jba_ui.common.view_fields import ID, PERSON_ID
+from jba_ui.forms import KeyForm, PersonSingleChoiceForm
 
 
 class KeyCreateView(CreateView):
@@ -72,7 +73,7 @@ class KeyAttachedToPersonView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(KeyAttachedToPersonView, self).get_context_data(**kwargs)
-        context['person_id'] = self.kwargs['id']
+        context[ID] = self.kwargs[ID]
         return context
 
 
@@ -90,3 +91,20 @@ class KeyDeleteView(DeleteView):
 
     def get_success_url(self):
         return reverse('ui:key list')
+
+
+class AttachKeyToPersonView(FormView):
+    template_name = 'keys/attach-key-to-person.html'
+    title = 'Attach Key'
+    form_class = PersonSingleChoiceForm
+
+    def form_valid(self, form: PersonSingleChoiceForm):
+        person: Person = form.cleaned_data[PERSON]
+        key = KeyService.get(id=self.kwargs['id'])
+        key.person = person
+        key.save()
+        self.kwargs[PERSON_ID] = person.id
+        return super(AttachKeyToPersonView, self).form_valid(form)
+
+    def get_success_url(self):
+        return reverse('ui:person details', kwargs={ID: self.kwargs[PERSON_ID]})

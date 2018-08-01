@@ -1,4 +1,4 @@
-{% extends 'basic/templates/list.html' %}
+{% extends 'basic/templates/list/list-multiple-buttons.html' %}
 
 {% block objectList %}
     {% include 'basic/includes/list/list.html' with fields=fields object_list=object_list model_name=model_name %}
@@ -6,5 +6,7 @@
 
 {% block buttons %}
     {% url 'ui:person details' id=id as return_url %}
-    {% include 'basic/includes/list/return.html' with return_url=return_url %}
+    {% url 'ui:role detach from person' id=id as detach_role_url %}
+    {% include 'basic/includes/static/button/link.html' with url=return_url buttonName='Return' %}
+    {% include 'basic/includes/static/button/link.html' with url=detach_role_url buttonName='Detach' %}
 {% endblock %}

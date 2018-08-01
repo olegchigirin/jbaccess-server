@@ -1,10 +1,10 @@
-{% extends 'basic/templates/list.html' %}
+{% extends 'basic/templates/list/list.html' %}
 
 {% block objectList %}
     {% include 'basic/includes/list/list.html' with details_url=details_url fields=fields object_list=object_list model_name=model_name %}
 {% endblock %}
 
-{% block buttons %}
-    {% url 'person create' as create_url %}
+{% block buttonToolbar %}
+    {% url 'ui:person create' as create_url %}
     {% include 'basic/includes/list/buttons.html' with create_url=create_url %}
 {% endblock %}

@@ -6,8 +6,8 @@
 
 {% block buttons %}
     {% url 'ui:person list' as return_url %}
-    {% url 'person update' id=id as update_url %}
-    {% url 'person delete' id=id as delete_url %}
+    {% url 'ui:person update' id=id as update_url %}
+    {% url 'ui:person delete' id=id as delete_url %}
     {% url 'ui:key attached to person' id=id as attached_keys_url %}
     {% url 'ui:person attached roles' id=id as attached_roles_url %}
     {% include 'basic/includes/static/button/link.html' with url=return_url buttonName='Return' %}

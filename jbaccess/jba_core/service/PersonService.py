@@ -57,7 +57,7 @@ def get_keys(id: int) -> List[Key]:
 def get_roles(id: int) -> List[Role]:
     person = get(id)
     try:
-        return list(person.roles.all())
+        return person.roles.all()
     except:
         raise exceptions.SomethingWrong
 

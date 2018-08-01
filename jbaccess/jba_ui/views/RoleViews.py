@@ -5,7 +5,7 @@ from jba_core.models import Role, Person
 from jba_core.service import RoleService, PersonService
 from jba_ui.common.model_types import ROLE, PERSON
 from jba_ui.common.view_fields import ID, NAME, PERSON_ID
-from jba_ui.forms import RoleForm, AttachRoleToPersonForm
+from jba_ui.forms import RoleForm, PersonSingleChoiceForm, RoleMultiChoiceForm
 from jba_ui.common.CommonViews import CreateView, DetailView, UpdateView, ListView, FormView
 
 
@@ -82,9 +82,9 @@ class RoleDeleteView(DeleteView):
 class AttachRoleToPersonView(FormView):
     template_name = 'roles/attach-role-to-person.html'
     title = 'Attach Role'
-    form_class = AttachRoleToPersonForm
+    form_class = PersonSingleChoiceForm
 
-    def form_valid(self, form: AttachRoleToPersonForm):
+    def form_valid(self, form: PersonSingleChoiceForm):
         person: Person = form.cleaned_data[PERSON]
         role = RoleService.get(id=self.kwargs[ID])
         person.roles.add(role)
@@ -111,3 +111,26 @@ class AttachedRolesToPersonView(ListView):
         context[ID] = self.kwargs[ID]
         return context
 
+
+class DetachRoleFromPersonView(FormView):
+    template_name = 'roles/role-detach-from-person.html'
+    title = 'Detach roles'
+    form_class = RoleMultiChoiceForm
+
+    def get_context_data(self, **kwargs):
+        context = super(DetachRoleFromPersonView, self).get_context_data(**kwargs)
+        context[ID] = self.kwargs[ID]
+        return context
+
+    def get_form_kwargs(self):
+        kwargs = super(DetachRoleFromPersonView, self).get_form_kwargs()
+        kwargs['person_id'] = self.kwargs[ID]
+        return kwargs
+
+    def form_valid(self, form):
+        for role in form.cleaned_data['roles']:
+            PersonService.detach_role(person_id=self.kwargs[ID], role_id=role.id)
+        return super(DetachRoleFromPersonView, self).form_valid(form)
+
+    def get_success_url(self):
+        return reverse('ui:person attached roles', kwargs={ID: self.kwargs[ID]})

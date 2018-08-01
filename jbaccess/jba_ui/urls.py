@@ -31,6 +31,7 @@ urlpatterns = [
     url(r'^key/(?P<id>\d+)/update/$', views.KeyUpdateView.as_view(), name='key update'),
     url(r'^key/(?P<id>\d+)/delete/$', views.KeyDeleteView.as_view(), name='key delete'),
     url(r'^key/(?P<id>\d+)/attached/$', views.KeyAttachedToPersonView.as_view(), name='key attached to person'),
+    url(r'^key/(?P<id>\d+)/attach', views.AttachKeyToPersonView.as_view(), name='key attach'),
 
     # Roles urls
     url(r'^role/$', views.RoleListView.as_view(), name='role list'),
@@ -39,6 +40,7 @@ urlpatterns = [
     url(r'^role/(?P<id>\d+)/update/$', views.RoleUpdateView.as_view(), name='role update'),
     url(r'^role/(?P<id>\d+)/delete/$', views.RoleDeleteView.as_view(), name='role delete'),
     url(r'^role/(?P<id>\d+)/attach/$', views.AttachRoleToPersonView.as_view(), name='role attach to person'),
+    url(r'^role/(?P<id>\d+)/detach/$', views.DetachRoleFromPersonView.as_view(), name='role detach from person'),
 
     # Controllers urls
     url(r'^controller/$', views.ControllerListView.as_view(), name='controller list'),
