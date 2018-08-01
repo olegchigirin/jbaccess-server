@@ -1,9 +1,6 @@
-{% extends 'basic/templates/base.html' %}
-
-{% block title %}
-    Create person
-{% endblock %}
+{% extends 'basic/templates/create.html' %}
 
 {% block form %}
-    {% include 'basic/includes/form.html' with method="post" buttonType="submit" buttonName="Create" %}
+    {% url 'ui:person list' as return_url %}
+    {% include 'basic/includes/create/form.html' with return_url=return_url  %}
 {% endblock %}

@@ -1,14 +1,17 @@
-{% extends 'basic/templates/base-details.html' %}
+{% extends 'basic/templates/details/multiple-buttons.html' %}
+
+{% block textInfo %}
+    {% include 'basic/includes/details/details.html' with fields=fields object=object %}
+{% endblock %}
+
+{% block buttonToolbar %}
+
+    {% include 'basic/includes/details/buttons/buttons.html' with return_url=return_url update_url=update_url delete_url=delete_url %}
+{% endblock %}
 
 {% block buttons %}
-    <div class="col-offset-8 col-4 text-right ">
-        <div class="btn-toolbar ">
-            {% url 'ui:key list' as returnUrl %}
-            {% url 'ui:key update' id=id as updateUrl %}
-            {% url 'ui:key delete' id=id as deleteUrl %}
-            {% include 'basic/includes/link-button.html' with url=returnUrl buttonName=retrunButton|default:'Return' %}
-            {% include 'basic/includes/link-button.html' with url=updateUrl buttonName=updateButton|default:'Update' %}
-            {% include 'basic/includes/link-button.html' with url=deleteUrl buttonName=deleteButton|default:'Delete' %}
-        </div>
-    </div>
+    {% url 'ui:key list' as return_url %}
+    {% url 'ui:key update' id=id as update_url %}
+    {% url 'ui:key delete' id=id as delete_url %}
+    {% url 'role attach to person' role_id=id %}
 {% endblock %}

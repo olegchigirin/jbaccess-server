@@ -19,6 +19,9 @@ class Door(models.Model):
     name = models.CharField(max_length=255, null=False)
     access_id = models.CharField(max_length=255, unique=True)
 
+    def __str__(self):
+        return self.name
+
 
 class Controller(models.Model):
     id = models.BigAutoField(primary_key=True, null=False)
@@ -26,16 +29,25 @@ class Controller(models.Model):
     controller_id = models.CharField(max_length=255, null=False, unique=True)
     doors = models.ManyToManyField(Door)
 
+    def __str__(self):
+        return self.name
+
 
 class Place(models.Model):
     id = models.BigAutoField(primary_key=True, null=False)
     name = models.CharField(max_length=255, null=False)
     doors = models.ManyToManyField(Door)
 
+    def __str__(self):
+        return self.name
+
 
 class Role(models.Model):
     id = models.BigAutoField(primary_key=True, null=False)
     name = models.CharField(max_length=255, null=False)
+
+    def __str__(self):
+        return self.name
 
 
 class Person(models.Model):
@@ -43,12 +55,18 @@ class Person(models.Model):
     name = models.CharField(max_length=255, null=False)
     roles = models.ManyToManyField(Role)
 
+    def __str__(self):
+        return self.name
+
 
 class Key(models.Model):
     id = models.BigAutoField(primary_key=True, null=False)
     name = models.CharField(max_length=255, null=False)
     access_key = models.CharField(max_length=255, null=False)
     person = models.ForeignKey(Person, null=False, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
 
 
 class BaseACLEntry(models.Model):

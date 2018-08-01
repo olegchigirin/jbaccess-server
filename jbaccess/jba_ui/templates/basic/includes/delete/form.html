@@ -1,0 +1,26 @@
+{% with return_url=return_url %}
+    <div class="container col-md-3 col-md-offset-3" style="padding-top: 30px">
+        <div class="row justify-content-center align-items-center">
+            <form class="col-12 form" method="{{ method|default:"post" }}">
+                {% csrf_token %}
+                {{ form.non_field_errors }}
+                {% for hidden_field in form.hidden_fields %}
+                    <div class="form-group has-error text-danger small">
+                        {{ hidden_field.errors }}
+                        {{ hidden_field }}
+                    </div>
+                {% endfor %}
+                {% for field in form %}
+                    <div class="form-group">
+                        {{ field.label_tag }}
+                        {{ field }}
+                    </div>
+                {% endfor %}
+                <div class="btn-toolbar">
+                    <a class="btn btn-outline-secondary" href="{{ return_url|default:'#' }}">Return</a>
+                    <button class="btn btn-outline-primary" type="submit">Delete</button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endwith %}

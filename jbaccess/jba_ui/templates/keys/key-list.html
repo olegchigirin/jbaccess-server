@@ -1,11 +1,10 @@
-{% extends 'basic/templates/base.html' %}
+{% extends 'basic/templates/list.html' %}
 
 {% block objectList %}
-    {% url 'ui:key list' as listUrl %}
-    {% include 'basic/includes/content-list.html' with listUrl=listUrl %}
+    {% include 'basic/includes/list/list.html' with fields=fields object_list=object_list model_name=model_name %}
 {% endblock %}
 
 {% block buttons %}
-    {% url 'ui:key create' as keyCreate %}
-    {% include 'basic/includes/list-button-block.html' with createUrl=keyCreate buttonName='Create key' %}
+    {% url 'ui:key create' as create_url %}
+    {% include 'basic/includes/list/buttons.html' with create_url=create_url %}
 {% endblock %}

@@ -12,9 +12,18 @@
         <li class="nav-item">
             <a class="nav-link" href="{% url 'ui:role list' %}">Roles</a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'ui:controller list' %}">Controllers</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'ui:door list' %}">Doors</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'ui:place list' %}">Places</a>
+        </li>
         {% if user.is_authenticated %}
             <li class="nav-item">
-                <a class="nav-link disabled" href="{% url 'ui:logout confirm' %}">Logout</a>
+                <a class="nav-link disabled align-self-end" href="{% url 'ui:logout confirm' %}">Logout</a>
             </li>
         {% else %}
             <li class="nav-item">

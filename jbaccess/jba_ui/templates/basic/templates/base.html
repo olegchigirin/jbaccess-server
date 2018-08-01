@@ -3,21 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}{{ title }}{% endblock %}</title>
-    {% include 'basic/includes/bootstrap-import.html' %}
+    {% include 'basic/includes/static/bootstrap.html' %}
 </head>
 <body>
+{% block navbar %}
+    {% include 'basic/includes/static/header-navbar.html' %}
+{% endblock %}
 {% block content %}
-    {% block navbar %}
-        {% include 'basic/includes/header-navbar.html' %}
-    {% endblock %}
-    {% block textInfo %}
-    {% endblock %}
-    {% block objectList %}
-    {% endblock %}
-    {% block form %}
-    {% endblock %}
-    {% block buttons %}
-    {% endblock %}
 {% endblock %}
 </body>
 </html>

@@ -1,1 +1,6 @@
-{% extends 'basic/templates/base-update.html' %}
+{% extends 'basic/templates/update.html' %}
+
+{% block form %}
+    {% url 'ui:role details' id=id as return_url %}
+    {% include 'basic/includes/update/form.html' with return_url=return_url %}
+{% endblock %}

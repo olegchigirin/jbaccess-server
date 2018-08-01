@@ -1,9 +1,10 @@
 from django.urls import reverse
-from django.views.generic import CreateView, ListView, UpdateView, DeleteView
+from django.views.generic import DeleteView
 
 from jba_core.service import KeyService, PersonService
-from jba_ui.views.CustomViews import CustomDetailView, CustomListView, CustomUpdateView
+from jba_ui.common.CommonViews import DetailView, ListView, UpdateView, CreateView
 from jba_core.models import Key
+from jba_ui.common.model_types import KEY
 from jba_ui.forms import KeyForm
 
 
@@ -12,21 +13,14 @@ class KeyCreateView(CreateView):
     title = 'Create key'
     template_name = 'keys/key-create.html'
 
-    def get_title(self):
-        return self.title
-
-    def get_context_data(self, **kwargs):
-        context = super(KeyCreateView, self).get_context_data(**kwargs)
-        context['title'] = self.get_title()
-        return context
-
     def get_success_url(self):
         return reverse('ui:key list')
 
 
-class KeyListView(CustomListView):
+class KeyListView(ListView):
     template_name = 'keys/key-list.html'
     model = Key
+    model_name = KEY
     fields = ['id', 'name', 'access_key', 'person']
     title = 'Key List'
 
@@ -34,10 +28,10 @@ class KeyListView(CustomListView):
         return KeyService.get_all()
 
 
-class KeyDetailView(CustomDetailView):
+class KeyDetailView(DetailView):
     template_name = 'keys/key-details.html'
     model = Key
-    describe_fields = ['id', 'name', 'access_key', 'person']
+    fields = ['id', 'name', 'access_key', 'person']
     title = 'Key details'
 
     def get_object(self, queryset=None):
@@ -49,7 +43,7 @@ class KeyDetailView(CustomDetailView):
         return context
 
 
-class KeyUpdateView(CustomUpdateView):
+class KeyUpdateView(UpdateView):
     template_name = 'keys/key-update.html'
     form_class = KeyForm
     title = 'Key Update'
@@ -66,11 +60,12 @@ class KeyUpdateView(CustomUpdateView):
         return reverse('ui:key details', kwargs={'id': self.kwargs['id']})
 
 
-class KeyAttachedToPersonView(CustomListView):
+class KeyAttachedToPersonView(ListView):
     template_name = 'keys/key-attached-to-person.html'
     model = Key
+    model_name = KEY
     title = 'Key for person'
-    fields = ['id', 'name', 'access_key', 'person']
+    fields = ['id', 'name', 'access_key']
 
     def get_queryset(self):
         return PersonService.get_keys(self.kwargs['id'])

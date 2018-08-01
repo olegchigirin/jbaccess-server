@@ -1,1 +1,10 @@
-{% extends 'basic/templates/base-delete.html' %}
+{% extends 'basic/templates/delete.html' %}
+
+{% block textInfo %}
+    {% include 'basic/includes/delete/text.html' with object=object %}
+{% endblock %}
+
+{% block deleteForm %}
+    {% url 'ui:role details' id=id as return_url %}
+    {% include 'basic/includes/delete/form.html' with return_url=return_url %}
+{% endblock %}

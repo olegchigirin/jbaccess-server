@@ -1,6 +1,10 @@
-{% extends 'basic/templates/base.html' %}
+{% extends 'basic/templates/list.html' %}
 
 {% block objectList %}
-    {% url 'ui:key list' as listUrl %}
-    {% include 'basic/includes/content-list.html' with listUrl=listUrl %}
+    {% include 'basic/includes/list/list.html' with fields=fields object_list=object_list model_name=model_name %}
+{% endblock %}
+
+{% block buttons %}
+    {% url 'ui:person details' id=id as return_url %}
+    {% include 'basic/includes/list/return.html' with return_url=return_url %}
 {% endblock %}

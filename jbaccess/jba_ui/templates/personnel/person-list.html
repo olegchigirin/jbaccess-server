@@ -1,21 +1,10 @@
-{% extends 'basic/templates/base.html' %}
-
-{% block title %}
-    Person list
-{% endblock %}
+{% extends 'basic/templates/list.html' %}
 
 {% block objectList %}
-    {% url 'ui:person list' as listUrl %}
-    {% include 'basic/includes/content-list.html' with listUrl=listUrl %}
+    {% include 'basic/includes/list/list.html' with details_url=details_url fields=fields object_list=object_list model_name=model_name %}
 {% endblock %}
 
 {% block buttons %}
-    <div class="col-offset-8 col-4 text-right ">
-        <div class="btn-toolbar ">
-            {% url 'ui:home' as home_url %}
-            {% url 'ui:create person' as create_person_url %}
-            {% include 'basic/includes/link-button.html' with url=home_url buttonName='Return' %}
-            {% include 'basic/includes/link-button.html' with url=create_person_url buttonName='Add new person' %}
-        </div>
-    </div>
+    {% url 'person create' as create_url %}
+    {% include 'basic/includes/list/buttons.html' with create_url=create_url %}
 {% endblock %}

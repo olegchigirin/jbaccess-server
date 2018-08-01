@@ -1,14 +1,16 @@
-{% extends 'basic/templates/base-details.html' %}
+{% extends 'basic/templates/details/details.html' %}
 
-{% block buttons %}
-    <div class="col-offset-8 col-4 text-right ">
-        <div class="btn-toolbar ">
-            {% url 'ui:role list' as returnUrl %}
-            {% url 'ui:role update' id=id as updateUrl %}
-            {% url 'ui:role delete' id=id as deleteUrl %}
-            {% include 'basic/includes/link-button.html' with url=returnUrl buttonName=retrunButton|default:'Return' %}
-            {% include 'basic/includes/link-button.html' with url=updateUrl buttonName=updateButton|default:'Update' %}
-            {% include 'basic/includes/link-button.html' with url=deleteUrl buttonName=deleteButton|default:'Delete' %}
-        </div>
-    </div>
+{% block textInfo %}
+    {% include 'basic/includes/details/details.html' with fields=fields object=object %}
+{% endblock %}
+
+{% block buttonToolbar %}
+    {% url 'ui:role list' as return_url %}
+    {% url 'ui:role update' id=id as update_url %}
+    {% url 'ui:role delete' id=id as delete_url %}
+    {% url 'ui:role attach to person' id=id as role_attach_to_person_url %}
+    {% include 'basic/includes/static/button/link.html' with url=return_url buttonName='Return' %}
+    {% include 'basic/includes/static/button/link.html' with url=update_url buttonName='Update' %}
+    {% include 'basic/includes/static/button/link.html' with url=delete_url buttonName='Delete' %}
+    {% include 'basic/includes/static/button/link.html' with url=role_attach_to_person_url buttonName='Attach role' %}
 {% endblock %}

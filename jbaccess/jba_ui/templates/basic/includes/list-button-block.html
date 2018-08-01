@@ -1,7 +1,0 @@
-<div class="col-offset-8 col-4 text-right ">
-    <div class="btn-toolbar ">
-        {% url 'ui:home' as home_url %}
-        {% include 'basic/includes/link-button.html' with url=home_url buttonName='Return' %}
-        {% include 'basic/includes/link-button.html' with url=createUrl|default:'#' buttonName=buttonName|default:'Create' %}
-    </div>
-</div>

@@ -18,8 +18,8 @@
         <div class="btn-toolbar">
             {% url 'ui:home' as home_url %}
             {% url 'ui:logout' as logout_url %}
-            {% include 'basic/includes/link-button.html' with url=home_url buttonName='Return' %}
-            {% include 'basic/includes/link-button.html' with url=logout_url buttonName='Confirm' %}
+            {% include 'basic/includes/static/button/link.html' with url=home_url buttonName='Return' %}
+            {% include 'basic/includes/static/button/link.html' with url=logout_url buttonName='Confirm' %}
         </div>
     </div>
 {% endblock %}

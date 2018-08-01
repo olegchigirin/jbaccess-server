@@ -1,11 +1,10 @@
-{% extends 'basic/templates/base.html' %}
+{% extends 'basic/templates/list.html' %}
 
 {% block objectList %}
-    {% url 'ui:role list' as listUrl %}
-    {% include 'basic/includes/content-list.html' with listUrl=listUrl %}
+    {% include 'basic/includes/list/list.html' with fields=fields object_list=object_list model_name=model_name %}
 {% endblock %}
 
 {% block buttons %}
-    {% url 'ui:role create' as roleCreate %}
-    {% include 'basic/includes/list-button-block.html' with createUrl=roleCreate buttonName='Create role' %}
+    {% url 'ui:role create' as create_url %}
+    {% include 'basic/includes/list/buttons.html' with create_url=create_url %}
 {% endblock %}
