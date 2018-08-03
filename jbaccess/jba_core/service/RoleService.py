@@ -1,7 +1,16 @@
 from typing import List
 
+from django.db.models.query import EmptyQuerySet
+
 from jba_core import exceptions
 from jba_core.models import Role
+
+
+def get_none() -> EmptyQuerySet:
+    try:
+        return Role.objects.none()
+    except:
+        raise exceptions.SomethingWrong
 
 
 def get_all() -> List[Role]:

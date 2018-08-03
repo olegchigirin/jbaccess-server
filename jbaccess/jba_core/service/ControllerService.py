@@ -7,7 +7,7 @@ from jba_core.service import DoorService
 
 def get_all() -> List[Controller]:
     try:
-        return list(Controller.objects.all())
+        return Controller.objects.all()
     except:
         raise exceptions.SomethingWrong
 
@@ -33,7 +33,7 @@ def get_by_controller_id(controller_id: str) -> Controller:
 def get_attached_doors(id: int) -> List[Door]:
     controller = get(id)
     try:
-        return list(controller.doors.all())
+        return controller.doors.all()
     except:
         raise exceptions.SomethingWrong
 

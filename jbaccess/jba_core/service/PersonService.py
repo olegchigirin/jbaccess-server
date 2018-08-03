@@ -1,13 +1,22 @@
 from typing import List
 
+from django.db.models.query import EmptyQuerySet
+
 from jba_core.models import Person, Key, Role
 from jba_core import exceptions
 from jba_core.service import RoleService
 
 
+def get_none() -> EmptyQuerySet:
+    try:
+        return Person.objects.none()
+    except:
+        raise exceptions.SomethingWrong
+
+
 def get_all() -> List[Person]:
     try:
-        return list(Person.objects.all())
+        return Person.objects.all()
     except:
         raise exceptions.SomethingWrong
 

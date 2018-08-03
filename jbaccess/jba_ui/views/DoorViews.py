@@ -3,7 +3,6 @@ from django.urls import reverse
 from jba_core.models import Door
 from jba_core.service import DoorService
 from jba_ui.common.CommonViews import ListView, DetailView, CreateView, UpdateView, DeleteView
-from jba_ui.common.model_types import DOOR
 from jba_ui.common.view_fields import ID
 from jba_ui.forms import DoorForm
 
@@ -12,7 +11,7 @@ class DoorListView(ListView):
     template_name = 'doors/doors-list.html'
     title = 'Doors list'
     model = Door
-    model_name = DOOR
+    details_url_name = 'ui:door details'
     fields = ['id', 'name', 'access_id']
 
     def get_queryset(self):
@@ -57,4 +56,4 @@ class DoorDeleteView(DeleteView):
         return DoorService.get(id=self.kwargs[ID])
 
     def get_success_url(self):
-        return reverse('ui:controller list')
+        return reverse('ui:door list')

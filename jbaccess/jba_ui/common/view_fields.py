@@ -5,5 +5,6 @@ TITLE = 'title'
 ID = 'id'
 NAME = 'name'
 FIELDS = 'fields'
+DETAILS_URL = 'details_url'
 
 PERSON_ID = 'person_id'

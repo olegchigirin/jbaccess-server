@@ -9,12 +9,8 @@ urlpatterns = [
     # Security urls
     url(r'^$', jba_ui.views.ServiceViews.HomeView.as_view(), name='home'),
     url(r'^security/login/$', views.LoginView.as_view(), name='login'),
-    url(r'^security/logout/confirm/$', jba_ui.views.ServiceViews.LogoutConfirmView.as_view(), name='logout confirm'),
+    url(r'^security/logout/confirm/$', jba_ui.views.LogoutConfirmView.as_view(), name='logout confirm'),
     url(r'^security/logout/$', views.LogoutView.as_view(), name='logout'),
-
-    # Service urls
-
-    url(r'^(?P<id>\d+)/(?P<model_name>\w+)/$', views.DetailRedirectView.as_view(), name='redirect details'),
 
     # Person urls
     url(r'^person/$', views.PersonListView.as_view(), name='person list'),
@@ -45,9 +41,12 @@ urlpatterns = [
     # Controllers urls
     url(r'^controller/$', views.ControllerListView.as_view(), name='controller list'),
     url(r'^controller/(?P<id>\d+)/$', views.ControllerDetailsView.as_view(), name='controller details'),
-    url(r'^controller/create', views.ControllerCreateView.as_view(), name='controller create'),
-    url(r'^controller/(?P<id>\d+)/update$', views.ControllerUpdateView.as_view(), name='controller update'),
-    url(r'^controller/(?P<id>\d+)/delete$', views.ControllerDeleteView.as_view(), name='controller delete'),
+    url(r'^controller/create/', views.ControllerCreateView.as_view(), name='controller create'),
+    url(r'^controller/(?P<id>\d+)/update/$', views.ControllerUpdateView.as_view(), name='controller update'),
+    url(r'^controller/(?P<id>\d+)/delete/$', views.ControllerDeleteView.as_view(), name='controller delete'),
+    url(r'^controller/(?P<id>\d+)/attach/$', views.ControllerAttachDoorView.as_view(), name='controller attach door'),
+    url(r'^controller/(?P<id>\d+)/attached/$', views.AttachedDoorsToControllerView.as_view(),
+        name='controller attached doors'),
 
     # Doors urls
     url(r'^door/$', views.DoorListView.as_view(), name='door list'),

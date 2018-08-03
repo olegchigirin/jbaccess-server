@@ -1,7 +1,7 @@
 {% extends 'basic/templates/list/list.html' %}
 
 {% block objectList %}
-    {% include 'basic/includes/list/list.html' with fields=fields object_list=object_list model_name=model_name %}
+    {% include 'basic/includes/list/list.html' with fields=fields object_list=object_list details_url=details_url %}
 {% endblock %}
 
 {% block buttonToolbar %}

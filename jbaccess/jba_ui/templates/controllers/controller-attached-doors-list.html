@@ -5,8 +5,8 @@
 {% endblock %}
 
 {% block buttons %}
-    {% url 'ui:person details' id=id as return_url %}
-    {% url 'ui:role detach from person' id=id as detach_role_url %}
+    {% url 'ui:controller details' id=id as return_url %}
+    {% url 'ui:controller attach door' id=id as attach_new_door %}
     {% include 'basic/includes/static/button/link.html' with url=return_url buttonName='Return' %}
-    {% include 'basic/includes/static/button/link.html' with url=detach_role_url buttonName='Detach' %}
+    {% include 'basic/includes/static/button/link.html' with url=attach_new_door buttonName='Attach new' %}
 {% endblock %}

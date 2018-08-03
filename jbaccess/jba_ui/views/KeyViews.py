@@ -21,7 +21,7 @@ class KeyCreateView(CreateView):
 class KeyListView(ListView):
     template_name = 'keys/key-list.html'
     model = Key
-    model_name = KEY
+    details_url_name = 'ui:key details'
     fields = ['id', 'name', 'access_key', 'person']
     title = 'Key List'
 
@@ -64,7 +64,7 @@ class KeyUpdateView(UpdateView):
 class KeyAttachedToPersonView(ListView):
     template_name = 'keys/key-attached-to-person.html'
     model = Key
-    model_name = KEY
+    details_url_name = 'ui:key details'
     title = 'Key for person'
     fields = ['id', 'name', 'access_key']
 

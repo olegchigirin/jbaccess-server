@@ -9,7 +9,8 @@ INSTALLED_APPS = [
     'corsheaders',
     # Own components
     'jba_core',
-    'jba_api'
+    'jba_api',
+    'jba_ui',
 ]
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',

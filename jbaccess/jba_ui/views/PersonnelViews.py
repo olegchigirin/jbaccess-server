@@ -4,7 +4,6 @@ from django.views.generic import CreateView, UpdateView, DeleteView
 from jba_core.models import Person
 from jba_core.service import PersonService
 from jba_ui.common.CommonViews import DetailView, ListView
-from jba_ui.common.model_types import PERSON
 from jba_ui.common.view_fields import ID
 from jba_ui.forms import PersonForm
 
@@ -15,10 +14,13 @@ class PersonListView(ListView):
     fields = ['id', 'name']
     details_url_name = 'ui:person details'
     title = 'Person list'
-    model_name = PERSON
 
     def get_queryset(self):
         return PersonService.get_all()
+
+    def get_context_data(self, **kwargs):
+        context = super(PersonListView, self).get_context_data(**kwargs)
+        return context
 
 
 class PersonCreateView(CreateView):

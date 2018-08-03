@@ -1,6 +1,6 @@
 {% load tags %}
 
-{% with fields=fields object_list=object_list model_name=model_name %}
+{% with fields=fields object_list=object_list details_url=details_url %}
     <div class="container-fluid" style="padding-top: 20px; width: 90%;">
         <table class="table table-light table-bordered">
             <thead class="thead-light">
@@ -16,7 +16,7 @@
                     {% for field in fields %}
                         <td class="text-center" style="width: auto">
                             {% ifequal field 'id' %}
-                                <a href="{% url 'ui:redirect details' id=object.id model_name=model_name %}">
+                                <a href="{% get_details_url details_url object.id %}">
                                     {{ object|get_obj_attr:field }}
                                 </a>
                             {% else %}

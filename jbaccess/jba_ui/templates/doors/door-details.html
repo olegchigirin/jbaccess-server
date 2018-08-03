@@ -1,14 +1,18 @@
-{% extends 'basic/templates/details/details.html' %}
+{% extends 'basic/templates/details/multiple-buttons.html' %}
 
 {% with fields=fields object=object %}
     {% block textInfo %}
         {% include 'basic/includes/details/details.html' with object=object fields=fields %}
     {% endblock %}
 
-    {% block buttonToolbar %}
+    {% block buttons %}
         {% url 'ui:door list' as return_url %}
         {% url 'ui:door update' id=id as update_url %}
         {% url 'ui:door delete' id=id as delete_url %}
-        {% include 'basic/includes/details/buttons/buttons.html' with return_url=return_url update_url=update_url delete_url=delete_url %}
+        {% url 'ui:door attached to controller' id=id as attached_door_url %}
+        {% include 'basic/includes/static/button/link.html' with url=return_url buttonName='Return' %}
+        {% include 'basic/includes/static/button/link.html' with url=update_url buttonName='Update' %}
+        {% include 'basic/includes/static/button/link.html' with url=delete_url buttonName='Delete' %}
+        {% include 'basic/includes/static/button/link.html' with url=attached_door_url buttonName='Attached controlers' %}
     {% endblock %}
 {% endwith %}

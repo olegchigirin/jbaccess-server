@@ -1,12 +1,21 @@
 from typing import List
 
+from django.db.models.query import EmptyQuerySet
+
 from jba_core.models import Door
 from jba_core import exceptions
 
 
+def get_none() -> EmptyQuerySet:
+    try:
+        return Door.objects.none()
+    except:
+        raise exceptions.SomethingWrong
+
+
 def get_all() -> List[Door]:
     try:
-        return list(Door.objects.all())
+        return Door.objects.all()
     except:
         raise exceptions.SomethingWrong
 

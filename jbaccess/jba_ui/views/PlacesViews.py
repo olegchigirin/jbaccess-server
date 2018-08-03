@@ -3,7 +3,6 @@ from django.urls import reverse
 from jba_core.models import Place
 from jba_core.service import PlaceService
 from jba_ui.common.CommonViews import ListView, DetailView, CreateView, UpdateView, DeleteView
-from jba_ui.common.model_types import PLACE
 from jba_ui.common.view_fields import ID
 from jba_ui.forms import PlaceForm
 
@@ -12,7 +11,7 @@ class PlaceListView(ListView):
     template_name = 'places/places-list.html'
     title = 'Place list'
     model = Place
-    model_name = PLACE
+    details_url_name = 'ui:place details'
     fields = ['id', 'name']
 
     def get_queryset(self):

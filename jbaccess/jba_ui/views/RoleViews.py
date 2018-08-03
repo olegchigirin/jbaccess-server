@@ -13,7 +13,7 @@ class RoleListView(ListView):
     template_name = 'roles/role-list.html'
     title = 'Role list'
     fields = ['id', 'name']
-    model_name = ROLE
+    details_url_name = 'ui:role details'
     model = Role
 
     def get_queryset(self):
@@ -84,6 +84,11 @@ class AttachRoleToPersonView(FormView):
     title = 'Attach Role'
     form_class = PersonSingleChoiceForm
 
+    def get_form_kwargs(self):
+        kwargs = super(AttachRoleToPersonView, self).get_form_kwargs()
+        kwargs['person_id'] = self.kwargs['id']
+        return kwargs
+
     def form_valid(self, form: PersonSingleChoiceForm):
         person: Person = form.cleaned_data[PERSON]
         role = RoleService.get(id=self.kwargs[ID])
@@ -99,9 +104,9 @@ class AttachRoleToPersonView(FormView):
 class AttachedRolesToPersonView(ListView):
     template_name = 'roles/roles-attached-to-person.html'
     model = Role
-    model_name = ROLE
     title = 'Attached roles'
     fields = ['id', 'name']
+    details_url_name = 'ui:role details'
 
     def get_queryset(self):
         return PersonService.get_roles(id=self.kwargs[ID])
