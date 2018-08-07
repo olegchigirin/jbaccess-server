@@ -1,0 +1,15 @@
+{% extends 'basic/templates/base.html' %}
+
+{% block content %}
+    <div class="container">
+        {% block objectList %}
+        {% endblock %}
+        {% block button_toolbar %}
+            <div class="row">
+                <div class="btn-toolbar col justify-content-end">
+                    {% block buttons %}
+                    {% endblock %}
+                </div>
+            </div>
+        {% endblock %}
+{% endblock %}

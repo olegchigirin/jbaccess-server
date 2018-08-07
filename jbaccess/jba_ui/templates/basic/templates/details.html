@@ -1,0 +1,26 @@
+{% extends 'basic/templates/base.html' %}
+{% load tags %}
+
+{% with fields=fields object=object %}
+    {% block content %}
+        <div class="container">
+            {% block details_info %}
+                <div class="row">
+                    {% for field in fields %}
+                        <div class="col">
+                            <p class="p-1">{{ field }}: {{ object|get_obj_attr:field }}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endblock %}
+            {% block button_toolbar %}
+                <div class="row">
+                    <div class="btn-toolbar col justify-content-end">
+                        {% block buttons %}
+                        {% endblock %}
+                    </div>
+                </div>
+            {% endblock %}
+        </div>
+    {% endblock %}
+{% endwith %}

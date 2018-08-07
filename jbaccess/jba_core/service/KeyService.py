@@ -1,4 +1,7 @@
 from typing import List
+
+from django.db.models.query import EmptyQuerySet
+
 from jba_core.models import Key
 from jba_core import exceptions
 from jba_core.service import PersonService
@@ -50,3 +53,17 @@ def delete(id: int):
         key.delete()
     except:
         raise exceptions.KeyManageFailed
+
+
+def get_none() -> EmptyQuerySet:
+    try:
+        return Key.objects.none()
+    except:
+        raise exceptions.SomethingWrong
+
+
+def get_free_keys(person_id: int) -> List[Key]:
+    try:
+        return Key.objects.exclude(person__id=person_id)
+    except:
+        raise exceptions.SomethingWrong
