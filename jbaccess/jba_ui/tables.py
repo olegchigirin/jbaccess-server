@@ -1,7 +1,7 @@
 import django_tables2 as tables
 from django_tables2.utils import A
 
-from jba_core.models import Person, Role, Key
+from jba_core.models import Person, Role, Key, Controller
 from jba_ui.common.view_fields import ID
 
 
@@ -24,3 +24,10 @@ class KeyTable(tables.Table):
 
     class Meta:
         model = Key
+
+
+class ControllerTable(tables.Table):
+    id = tables.LinkColumn('ui:controller details', kwargs={ID: A(ID)})
+
+    class Meta:
+        model = Controller

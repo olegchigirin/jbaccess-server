@@ -4,10 +4,15 @@ from jba_core.models import Key
 from jba_core.service import KeyService, PersonService
 
 
-class KeyForm(forms.ModelForm):
+class KeyCreateForm(forms.ModelForm):
+    name = forms.CharField(max_length=50)
+    access_key = forms.CharField(max_length=50)
+    person = forms.ModelChoiceField(queryset=PersonService.get_all(), required=True,
+                                    empty_label='Choose person')
+
     class Meta:
         model = Key
-        fields = ['id', 'name', 'access_key', 'person']
+        fields = ['name', 'access_key', 'person']
 
 
 class KeyAttachMultipleChoiceForm(forms.Form):
