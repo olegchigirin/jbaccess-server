@@ -3,7 +3,7 @@ from typing import List
 from django.db.models.query import EmptyQuerySet
 
 from jba_core import exceptions
-from jba_core.models import Role
+from jba_core.models import Role, Person
 
 
 def get_none() -> EmptyQuerySet:
@@ -52,3 +52,19 @@ def delete(id: int):
         role.delete()
     except:
         raise exceptions.RoleManageFailed
+
+
+def get_untouched_persons(id: int) -> List[Person]:
+    role = get(id)
+    try:
+        return Person.objects.exclude(roles=role)
+    except:
+        raise exceptions.SomethingWrong
+
+
+def get_persons(id: int) -> List[Person]:
+    role = get(id)
+    try:
+        return Person.objects.filter(roles=role)
+    except:
+        raise exceptions.SomethingWrong

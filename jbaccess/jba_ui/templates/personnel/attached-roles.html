@@ -9,6 +9,6 @@
     {% url 'ui:person attach roles' id=id as attach_url %}
     {% url 'ui:person detach roles' id=id as dettach_roles %}
     {% include 'basic/includes/static/button/link.html' with url=return_url button_name='Return' %}
-    {% include 'basic/includes/static/button/link.html' with url=attach_url button_name='Attach new' %}
-    {% include 'basic/includes/static/button/link.html' with url=dettach_roles button_name='Dettach roles' %}
+    {% include 'basic/includes/static/button/link.html' with url=attach_url button_name='Attach' %}
+    {% include 'basic/includes/static/button/link.html' with url=dettach_roles button_name='Dettach' %}
 {% endblock %}

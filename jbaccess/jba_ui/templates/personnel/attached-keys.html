@@ -9,6 +9,6 @@
     {% url 'ui:person attach key' id=id as attach_url %}
     {% url 'ui:person detach key' id=id as detach_url %}
     {% include 'basic/includes/static/button/link.html' with url=return_url button_name='Return' %}
-    {% include 'basic/includes/static/button/link.html' with url=attach_url button_name='Attach new' %}
-    {% include 'basic/includes/static/button/link.html' with url=detach_url button_name='Detach keys' %}
+    {% include 'basic/includes/static/button/link.html' with url=attach_url button_name='Attach' %}
+    {% include 'basic/includes/static/button/link.html' with url=detach_url button_name='Detach' %}
 {% endblock %}

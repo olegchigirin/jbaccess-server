@@ -1,4 +1,6 @@
 from django.contrib.auth import views
+from django.shortcuts import render, render_to_response
+from django.template import RequestContext
 from django.urls import reverse
 from django.views.generic import TemplateView
 
@@ -25,3 +27,9 @@ class LogoutConfirm(TemplateView, TitleMixin):
 
 class Logout(views.LogoutView):
     pass
+
+
+def page_not_found(request):
+    response = render(request, '404.html', {'status': 400})
+    response.status_code = 404
+    return response

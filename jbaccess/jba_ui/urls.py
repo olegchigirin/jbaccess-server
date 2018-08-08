@@ -1,8 +1,4 @@
 from django.conf.urls import url, include
-
-import jba_ui.views.service.ServiceViews
-from . import views
-
 app_name = 'ui'
 
 urlpatterns = [

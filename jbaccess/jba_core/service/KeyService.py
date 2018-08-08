@@ -62,8 +62,8 @@ def get_none() -> EmptyQuerySet:
         raise exceptions.SomethingWrong
 
 
-def get_free_keys(person_id: int) -> List[Key]:
+def get_free_keys() -> List[Key]:
     try:
-        return Key.objects.exclude(person__id=person_id)
+        return Key.objects.filter(person=None)
     except:
         raise exceptions.SomethingWrong

@@ -4,7 +4,7 @@ from django.db.models.query import EmptyQuerySet
 
 from jba_core.models import Person, Key, Role
 from jba_core import exceptions
-from jba_core.service import RoleService, ControllerService
+from jba_core.service import RoleService
 
 
 def get_none() -> EmptyQuerySet:
@@ -93,17 +93,9 @@ def detach_role(person_id: int, role_id: int):
         raise exceptions.PersonManageFailed
 
 
-def get_untouched_roles(id: int):
+def get_untouched_roles(id: int) -> List[Role]:
     person = get(id)
     try:
         return Role.objects.exclude(person=person)
-    except:
-        raise exceptions.SomethingWrong
-
-
-def get_untouched_to_role(role_id: int):
-    role = RoleService.get(role_id)
-    try:
-        return Person.objects.exclude(roles__in=role)
     except:
         raise exceptions.SomethingWrong

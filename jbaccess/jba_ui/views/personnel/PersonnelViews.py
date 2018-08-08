@@ -1,13 +1,14 @@
+from django.http import Http404
 from django.urls import reverse
-from django.views.generic import CreateView, UpdateView, DeleteView, ListView, DetailView, FormView
+from django.views.generic import CreateView, UpdateView, DeleteView, DetailView, FormView
 from django_tables2 import SingleTableView
 
 from jba_core.models import Person
-from jba_core.service import PersonService, KeyService
+from jba_core.service import PersonService
 from jba_ui.common.mixins import DetailsUrlMixin, TitleMixin, ModelFieldsMixin, IdToContextMixin
 from jba_ui.common.view_fields import ID
-from jba_ui.forms import PersonForm, AttachRolesMultiChoiceForm, DetachRolesMultiChoiceForm
-from jba_ui.forms.key import KeyAttachMultipleChoiceForm
+from jba_ui.forms import PersonForm, AttachRolesMultiChoiceForm, DetachRolesMultiChoiceForm, \
+    KeyAttachMultipleChoiceForm, KeyDetachMultipleChoiceForm
 from jba_ui.tables import PersonTable, RoleTable, KeyTable
 
 
@@ -38,7 +39,10 @@ class PersonDetail(DetailView, TitleMixin, ModelFieldsMixin, IdToContextMixin):
     title = 'Person details'
 
     def get_object(self, queryset=None):
-        return PersonService.get(self.kwargs[ID])
+        try:
+            return PersonService.get(self.kwargs[ID])
+        except:
+            raise Http404('No person with this id')
 
 
 class PersonUpdate(UpdateView, TitleMixin, IdToContextMixin):
@@ -47,7 +51,10 @@ class PersonUpdate(UpdateView, TitleMixin, IdToContextMixin):
     title = 'Person update'
 
     def get_object(self, queryset=None):
-        return PersonService.get(self.kwargs[ID])
+        try:
+            return PersonService.get(self.kwargs[ID])
+        except:
+            raise Http404('No person with this id')
 
     def get_success_url(self):
         return reverse('ui:person details', kwargs={ID: self.kwargs[ID]})
@@ -59,7 +66,10 @@ class PersonDelete(DeleteView, TitleMixin, IdToContextMixin):
     title = 'Delete person'
 
     def get_object(self, queryset=None):
-        return PersonService.get(self.kwargs[ID])
+        try:
+            return PersonService.get(self.kwargs[ID])
+        except:
+            raise Http404('No person with this id')
 
     def get_success_url(self):
         return reverse('ui:person list')
@@ -71,7 +81,10 @@ class RolesAttachedToPerson(SingleTableView, TitleMixin, IdToContextMixin):
     table_class = RoleTable
 
     def get_queryset(self):
-        return PersonService.get_roles(id=self.kwargs[ID])
+        try:
+            return PersonService.get_roles(id=self.kwargs[ID])
+        except:
+            raise Http404("Person not exist")
 
 
 class AttachRolesToPerson(FormView, TitleMixin, IdToContextMixin):
@@ -122,18 +135,16 @@ class AttachedKeysToPerson(SingleTableView, TitleMixin, IdToContextMixin):
     table_class = KeyTable
 
     def get_queryset(self):
-        return PersonService.get_keys(id=self.kwargs[ID])
+        try:
+            return PersonService.get_keys(id=self.kwargs[ID])
+        except:
+            raise Http404("Person not exist")
 
 
 class AttachKeysToPerson(FormView, TitleMixin, IdToContextMixin):
     template_name = 'personnel/attach-keys.html'
     title = 'Attach keys'
     form_class = KeyAttachMultipleChoiceForm
-
-    def get_form_kwargs(self):
-        kwargs = super(AttachKeysToPerson, self).get_form_kwargs()
-        kwargs['person_id'] = self.kwargs[ID]
-        return kwargs
 
     def form_valid(self, form):
         person = PersonService.get(id=self.kwargs[ID])
@@ -142,6 +153,27 @@ class AttachKeysToPerson(FormView, TitleMixin, IdToContextMixin):
             key.person = person
             key.save()
         return super(AttachKeysToPerson, self).form_valid(form)
+
+    def get_success_url(self):
+        return reverse('ui:person attached keys', kwargs={ID: self.kwargs[ID]})
+
+
+class DetachKeysFromPerson(FormView, TitleMixin, IdToContextMixin):
+    template_name = 'personnel/detach-keys.html'
+    title = 'Detach keys'
+    form_class = KeyDetachMultipleChoiceForm
+
+    def get_form_kwargs(self):
+        kwargs = super(DetachKeysFromPerson, self).get_form_kwargs()
+        kwargs['person_id'] = self.kwargs[ID]
+        return kwargs
+
+    def form_valid(self, form):
+        keys = form.cleaned_data['keys']
+        for key in keys:
+            key.person = None
+            key.save()
+        return super(DetachKeysFromPerson, self).form_valid(form)
 
     def get_success_url(self):
         return reverse('ui:person attached keys', kwargs={ID: self.kwargs[ID]})
