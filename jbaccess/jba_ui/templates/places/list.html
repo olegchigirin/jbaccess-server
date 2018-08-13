@@ -1,0 +1,12 @@
+{% extends 'basic/templates/list.html' %}
+
+{% block objectList %}
+    {% include 'basic/includes/list/list.html' with table=table %}
+{% endblock %}
+
+{% block buttons %}
+    {% url 'ui:home' as return_url %}
+    {% url 'ui:place create' as create_url %}
+    {% include 'basic/includes/static/button/link.html' with url=return_url button_name='Return' %}
+    {% include 'basic/includes/static/button/link.html' with url=create_url button_name='Create new' %}
+{% endblock %}

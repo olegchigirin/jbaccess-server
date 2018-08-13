@@ -1,0 +1,10 @@
+{% extends 'basic/templates/form.html' %}
+
+{% block text %}
+    <div class="h3 text-info">Choose doors for attaching</div>
+{% endblock %}
+
+{% block form_buttons %}
+    {% url 'ui:place attached doors' id=id as return_url %}
+    {% include 'basic/includes/form/attach.html' with return_url=return_url %}
+{% endblock %}

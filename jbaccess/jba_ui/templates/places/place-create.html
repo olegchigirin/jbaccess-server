@@ -1,6 +1,0 @@
-{% extends 'basic/templates/create.html' %}
-
-{% block form %}
-    {% url 'ui:place list' as return_url %}
-    {% include 'basic/includes/create/form.html' with return_url=return_url %}
-{% endblock %}

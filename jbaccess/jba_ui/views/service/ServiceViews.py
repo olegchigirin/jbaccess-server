@@ -27,9 +27,3 @@ class LogoutConfirm(TemplateView, TitleMixin):
 
 class Logout(views.LogoutView):
     pass
-
-
-def page_not_found(request):
-    response = render(request, '404.html', {'status': 400})
-    response.status_code = 404
-    return response

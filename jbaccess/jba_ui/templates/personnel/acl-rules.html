@@ -1,0 +1,14 @@
+{% extends 'basic/templates/list.html' %}
+
+{% block objectList %}
+    {% include 'basic/includes/list/list.html' with table=table %}
+{% endblock %}
+
+{% block buttons %}
+    {% url 'ui:person details' id=id as return_url %}
+    {% url 'ui:person acl allow' id=id as allow_place_url %}
+    {% url 'ui:person acl deny' id=id as deny_place_url %}
+    {% include 'basic/includes/static/button/link.html' with url=return_url button_name='Return' %}
+    {% include 'basic/includes/static/button/link.html' with url=allow_place_url button_name='Allow places' %}
+    {% include 'basic/includes/static/button/link.html' with url=deny_place_url button_name='Deny places' %}
+{% endblock %}

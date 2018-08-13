@@ -1,6 +1,6 @@
-from .controller import ControllerForm
-from .door import DoorForm, DoorChoiceForm
-from .key import KeyCreateForm, KeyAttachMultipleChoiceForm, KeyDetachMultipleChoiceForm
-from .personnel import PersonForm, AttachPersonsMultipleChoiceForm, DetachPersonMultipleChoiceForm
-from .place import PlaceForm
-from .role import RoleForm, AttachRolesMultiChoiceForm, DetachRolesMultiChoiceForm
+from .controller import ControllerCreateForm, ControllerAttachForm, ControllerDetachForm
+from .door import DoorCreateForm, DoorChoiceForm, DoorAttachForm, DoorDetachForm
+from .key import KeyCreateForm, KeyCreateForPersonForm
+from .personnel import PersonCreateForm, PersonAttachForm, PersonDetachForm
+from .place import PlaceCreateForm, PlacesForm, PlaceAttachForm, PlaceDetachForm
+from .role import RoleCreateForm, RoleAttachForm, RoleDetachForm

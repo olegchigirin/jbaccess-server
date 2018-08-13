@@ -1,8 +1,17 @@
 from typing import List
 
+from django.db.models.query import EmptyQuerySet
+
 from jba_core import exceptions
 from jba_core.models import Place, Door
 from jba_core.service import DoorService
+
+
+def get_none() -> EmptyQuerySet:
+    try:
+        return Place.objects.none()
+    except:
+        raise exceptions.SomethingWrong
 
 
 def get_all() -> List[Place]:
@@ -49,7 +58,7 @@ def delete(id: int):
 def get_doors(id: int) -> List[Door]:
     place = get(id)
     try:
-        return list(place.doors.all())
+        return place.doors.all()
     except:
         raise exceptions.SomethingWrong
 
@@ -74,3 +83,11 @@ def detach_door(place_id: int, door_id: int):
         place.doors.remove(door)
     except:
         raise exceptions.PlaceManageFailed
+
+
+def get_untouched_doors(id: int):
+    place = get(id)
+    try:
+        return Door.objects.exclude(place=place)
+    except:
+        raise exceptions.SomethingWrong

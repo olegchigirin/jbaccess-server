@@ -38,7 +38,7 @@ LOGGING = {
         },
         'django.request': {
             'handlers': ['console', ],
-            'level': 'ERROR',
+            'level': 'DEBUG',
             'propagate': False,
         },
         'django': {

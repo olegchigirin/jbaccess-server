@@ -47,7 +47,7 @@ class GetDoorsController(JbAccessController):
 
     def get(self, request: HttpRequest, id: str):
         id = self.parse_int_pk(id)
-        doors = ControllerService.get_attached_doors(id)
+        doors = ControllerService.get_doors(id)
         door_dtos = list([DoorOutDto.from_door(d) for d in doors])
         return ApiResponse.success(door_dtos)
 

@@ -6,9 +6,7 @@
 
 {% block buttons %}
     {% url 'ui:person details' id=id as return_url %}
-    {% url 'ui:person attach key' id=id as attach_url %}
-    {% url 'ui:person detach key' id=id as detach_url %}
+    {% url 'ui:person attach key' id=id as attach_key_url %}
     {% include 'basic/includes/static/button/link.html' with url=return_url button_name='Return' %}
-    {% include 'basic/includes/static/button/link.html' with url=attach_url button_name='Attach' %}
-    {% include 'basic/includes/static/button/link.html' with url=detach_url button_name='Detach' %}
+    {% include 'basic/includes/static/button/link.html' with url=attach_key_url button_name='Attach key' %}
 {% endblock %}

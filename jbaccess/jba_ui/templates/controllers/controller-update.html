@@ -1,6 +1,0 @@
-{% extends 'basic/templates/update.html' %}
-
-{% block form %}
-    {% url 'ui:controller details' id=id as return_url %}
-    {% include 'basic/includes/update/form.html' with return_url=return_url %}
-{% endblock %}

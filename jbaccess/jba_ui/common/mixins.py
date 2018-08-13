@@ -1,6 +1,7 @@
 from django.http import Http404
 from django.views.generic.base import ContextMixin
-from django.views.generic.edit import FormMixin
+
+from jba_ui.common.const import ID
 
 
 class TitleMixin(ContextMixin):
@@ -46,5 +47,33 @@ class IdToContextMixin(ContextMixin):
 
     def get_context_data(self, **kwargs):
         context = super(IdToContextMixin, self).get_context_data(**kwargs)
-        context['id'] = self.kwargs['id']
+        context[ID] = self.kwargs[ID]
         return context
+
+
+class ServiceMixin(object):
+    service = None
+
+
+class SingleObjectMixin(ServiceMixin):
+    obj = None
+
+    def get_obj_by_id(self, id: int, error_message: str = 'Object does not exist'):
+        if self.obj is None:
+            try:
+                self.obj = self.service.get(id=id)
+            except:
+                raise Http404(error_message)
+        return self.obj
+
+
+class ListObjectMixin(ServiceMixin):
+    obj_list = None
+
+    def get_all(self, error_message='Object list was not found'):
+        if self.obj_list is None:
+            try:
+                self.obj_list = self.service.get_all()
+            except:
+                raise Http404(error_message)
+        return self.obj_list

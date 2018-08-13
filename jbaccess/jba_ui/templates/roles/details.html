@@ -9,8 +9,10 @@
     {% url 'ui:role update' id=id as update_url %}
     {% url 'ui:role delete' id=id as delete_url %}
     {% url 'ui:role attached persons' id=id as attached_persons_url %}
+    {% url 'ui:role acl rules' id=id as acl_rules_url %}
     {% include 'basic/includes/static/button/link.html' with url=return_url button_name='Return' %}
     {% include 'basic/includes/static/button/link.html' with url=update_url button_name='Update' %}
     {% include 'basic/includes/static/button/link.html' with url=delete_url button_name='Delete' %}
     {% include 'basic/includes/static/button/link.html' with url=attached_persons_url button_name='Attached persons' %}
+    {% include 'basic/includes/static/button/link.html' with url=acl_rules_url button_name='ACL rules' %}
 {% endblock %}

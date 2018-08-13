@@ -132,7 +132,7 @@ def role_deny_place(role_id: int, place_id: int) -> RoleACLEntry:
 def get_person_acls(person_id: int) -> List[PersonACLEntry]:
     person = PersonService.get(person_id)
     try:
-        return list(person.personaclentry_set.all())
+        return person.personaclentry_set.all()
     except:
         raise exceptions.SomethingWrong
 

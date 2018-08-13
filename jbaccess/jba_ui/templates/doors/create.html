@@ -1,0 +1,10 @@
+{% extends 'basic/templates/form.html' %}
+
+{% block text %}
+    <h class="p-3 text-info">Create role. Enter all required fields</h>
+{% endblock %}
+
+{% block form_buttons %}
+    {% url 'ui:door list' as return_url %}
+    {% include 'basic/includes/form/create.html' with return_url=return_url %}
+{% endblock %}

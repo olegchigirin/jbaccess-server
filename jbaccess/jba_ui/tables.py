@@ -1,8 +1,8 @@
 import django_tables2 as tables
 from django_tables2.utils import A
 
-from jba_core.models import Person, Role, Key, Controller
-from jba_ui.common.view_fields import ID
+from jba_core.models import Person, Role, Key, Controller, Door, Place, PersonACLEntry, RoleACLEntry
+from jba_ui.common.const import ID
 
 
 class PersonTable(tables.Table):
@@ -31,3 +31,45 @@ class ControllerTable(tables.Table):
 
     class Meta:
         model = Controller
+
+
+class DoorTable(tables.Table):
+    id = tables.LinkColumn('ui:door details', kwargs={ID: A(ID)})
+
+    class Meta:
+        model = Door
+
+
+class PlaceTable(tables.Table):
+    id = tables.LinkColumn('ui:place details', kwargs={ID: A(ID)})
+
+    class Meta:
+        model = Place
+
+
+class BooleanColumn(tables.BooleanColumn):
+
+    def _get_bool_value(self, record, value, bound_column):
+        if value == 1:
+            value = True
+        else:
+            value = False
+        return value
+
+
+class PersonACLEntryTable(tables.Table):
+    place = tables.LinkColumn('ui:place details', kwargs={ID: A('place.id')})
+    type = BooleanColumn(yesno='Allow,Deny')
+
+    class Meta:
+        model = PersonACLEntry
+        fields = ['place', 'type']
+
+
+class RoleACLEntryTable(tables.Table):
+    place = tables.LinkColumn('ui:place details', kwargs={ID: A('place.id')})
+    type = BooleanColumn(yesno='Allow,Deny')
+
+    class Meta:
+        model = RoleACLEntry
+        fields = ['place', 'type']

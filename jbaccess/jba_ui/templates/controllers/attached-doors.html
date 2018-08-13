@@ -1,0 +1,14 @@
+{% extends 'basic/templates/list.html' %}
+
+{% block objectList %}
+    {% include 'basic/includes/list/list.html' with table=table %}
+{% endblock %}
+
+{% block buttons %}
+    {% url 'ui:controller details' id=id as return_url %}
+    {% url 'ui:controller attach doors' id=id as attach_url %}
+    {% url 'ui:controller detach doors' id=id as dettach_roles %}
+    {% include 'basic/includes/static/button/link.html' with url=return_url button_name='Return' %}
+    {% include 'basic/includes/static/button/link.html' with url=attach_url button_name='Attach' %}
+    {% include 'basic/includes/static/button/link.html' with url=dettach_roles button_name='Dettach' %}
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends 'basic/templates/form.html' %}
+
+{% block text %}
+    <div class="h3 text-danger">Choose controllers to detach</div>
+{% endblock %}
+
+{% block form_buttons %}
+    {% url 'ui:door attached places' id=id as return_url %}
+    {% include 'basic/includes/form/detach.html' with return_url=return_url %}
+{% endblock %}
