@@ -34,3 +34,5 @@ class RoleDetachForm(forms.Form):
             roles = PersonService.get_roles(id=person_id)
             self.fields['roles'].queryset = roles
         self.fields['roles'].empty_label = None
+
+

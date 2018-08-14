@@ -1,0 +1,22 @@
+{% extends 'basic/templates/details.html' %}
+
+{% block details_info %}
+    {% if object %}
+        {% include 'basic/includes/details/details.html' with object=object fields=fields %}
+    {% else %}
+        <div class="row">
+            <div class="col">
+                <div class="text-center">Pattern not created yet. Create?</div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block buttons %}
+    {% url 'ui:acl pattern list' id=object.acl_id as return_url %}
+    {% url 'ui:acl pattern update' id=id as update_url %}
+    {% url 'ui:acl pattern delete' id=id as delete_url %}
+    {% include 'basic/includes/static/button/link.html' with url=return_url button_name='Return' %}
+    {% include 'basic/includes/static/button/link.html' with url=update_url button_name='Update pattern' %}
+    {% include 'basic/includes/static/button/link.html' with url=delete_url button_name='Delete pattern' %}
+{% endblock %}

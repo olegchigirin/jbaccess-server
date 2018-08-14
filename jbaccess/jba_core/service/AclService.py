@@ -28,7 +28,7 @@ def get_pattern(id: int) -> SimpleRecurringPattern:
 def get_patterns(acl_id: int) -> List[SimpleRecurringPattern]:
     acl = get_acl(acl_id)
     try:
-        return list(acl.simplerecurringpattern_set.all())
+        return acl.simplerecurringpattern_set.all()
     except:
         raise exceptions.SomethingWrong
 

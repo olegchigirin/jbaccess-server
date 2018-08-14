@@ -1,4 +1,5 @@
 from django.conf.urls import url, include
+
 app_name = 'ui'
 
 urlpatterns = [
@@ -10,4 +11,5 @@ urlpatterns = [
     url(r'^controller/+', include('jba_ui.views.controller.urls')),
     url(r'^door/+', include('jba_ui.views.door.urls')),
     url(r'^places/+', include('jba_ui.views.place.urls')),
+    url(r'^acl/+', include('jba_ui.views.acl.urls')),
 ]

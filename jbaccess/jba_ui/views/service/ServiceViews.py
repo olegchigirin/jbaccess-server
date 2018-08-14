@@ -1,10 +1,9 @@
 from django.contrib.auth import views
-from django.shortcuts import render, render_to_response
-from django.template import RequestContext
 from django.urls import reverse
 from django.views.generic import TemplateView
 
 from jba_ui.common.mixins import TitleMixin
+from jba_ui.forms import ACLForm
 
 
 class Home(TemplateView, TitleMixin):
@@ -27,3 +26,8 @@ class LogoutConfirm(TemplateView, TitleMixin):
 
 class Logout(views.LogoutView):
     pass
+
+
+class TestFormView(views.FormView):
+    form_class = ACLForm
+    template_name = 'test.html'

@@ -4,7 +4,7 @@ from django.urls import reverse
 from jba_core.exceptions import AclAlreadyAdded
 from jba_core.models import Person
 from jba_core.service import PersonService, KeyService, AclService
-from jba_ui.common.const import ID, PERSON_ID, ROLES, PLACES, NAME, ACCESS_ID
+from jba_ui.common.const import ID, PERSON_ID, ROLES, PLACES, NAME, ACCESS_ID, ACCESS_KEY
 from jba_ui.common.views import ModelListView, ModelCreateView, ModelDetailsView, ModelUpdateView, ModelDeleteView, \
     AttachedModelToModel, AttachModelToModel, DetachModelFromModel, AddAllowRuleView, AllowedRulesView, AddDenyRuleView
 from jba_ui.forms import PersonCreateForm, RoleAttachForm, RoleDetachForm, KeyCreateForPersonForm, PlacesForm
@@ -153,7 +153,7 @@ class AttachKeyToPerson(ModelCreateView):
     def form_valid(self, form: KeyCreateForPersonForm):
         KeyService.create(
             name=form.cleaned_data[NAME],
-            access_key=form.cleaned_data[ACCESS_ID],
+            access_key=form.cleaned_data[ACCESS_KEY],
             person_id=self.kwargs[ID]
         )
         return HttpResponseRedirect(self.get_success_url())

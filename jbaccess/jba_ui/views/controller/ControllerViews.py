@@ -1,10 +1,10 @@
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from django.views.generic import DetailView, CreateView, UpdateView, DeleteView, FormView
+from django.views.generic import DetailView, CreateView, UpdateView, DeleteView, FormView, TemplateView
 from django_tables2 import SingleTableView
 
 from jba_core.models import Controller
-from jba_core.service import ControllerService
+from jba_core.service import ControllerService, AclService
 from jba_ui.common.mixins import TitleMixin, ModelFieldsMixin, IdToContextMixin
 from jba_ui.common.const import ID
 from jba_ui.forms import ControllerCreateForm, DoorAttachForm, DoorDetachForm
@@ -136,3 +136,15 @@ class ControllerDetachDoors(FormView, TitleMixin, IdToContextMixin):
 
     def get_success_url(self):
         return reverse('ui:controller attached doors', kwargs={ID: self.kwargs[ID]})
+
+
+class ControllerResolveAcls(TemplateView, TitleMixin, IdToContextMixin):  # TODO: REFACTOR TABLE AND DATA
+    template_name = 'controllers/resolve-acls.html'
+    title = 'Resolve controller'
+
+    def get_context_data(self, **kwargs):
+        context = super(ControllerResolveAcls, self).get_context_data()
+        controller = ControllerService.get(id=self.kwargs[ID])
+        context['resolve'] = AclService.resolve_acls_by_controller(controller_id=controller.controller_id)
+        print(context['resolve'])
+        return context

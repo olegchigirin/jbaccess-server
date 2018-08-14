@@ -1,0 +1,18 @@
+{% with id=widget.attrs.id %}
+    <script>
+        $(function () {
+            $("#{{ id }}").multiPicker({
+                selector: "li",
+                cssOptions: {}
+
+            });
+        });
+    </script>
+    <ul id="{{ id }}" class="text-center">
+        {% for _, options, _ in widget.optgroups %}
+            <li>{{ options.0.label }}</li>
+        {% endfor %}
+    </ul>
+{% endwith %}
+
+

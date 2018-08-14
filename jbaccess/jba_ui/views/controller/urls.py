@@ -1,7 +1,8 @@
 from django.conf.urls import url
 
 from jba_ui.views.controller.ControllerViews import ControllerList, ControllerDetails, ControllerCreate, \
-    ControllerUpdate, ControllerDelete, ControllerAttachedDoors, ControllerAttachDoors, ControllerDetachDoors
+    ControllerUpdate, ControllerDelete, ControllerAttachedDoors, ControllerAttachDoors, ControllerDetachDoors, \
+    ControllerResolveAcls
 
 urlpatterns = [
     url(r'^$', ControllerList.as_view(), name='controller list'),
@@ -12,5 +13,6 @@ urlpatterns = [
     url(r'^(?P<id>\w+)/doors/$', ControllerAttachedDoors.as_view(), name='controller attached doors'),
     url(r'^(?P<id>\w+)/doors/attach/$', ControllerAttachDoors.as_view(), name='controller attach doors'),
     url(r'^(?P<id>\w+)/doors/detach/$', ControllerDetachDoors.as_view(), name='controller detach doors'),
+    url(r'^(?P<id>\w+)/resolve', ControllerResolveAcls.as_view(), name='controller resolve acls')
 
 ]

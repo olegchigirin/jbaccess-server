@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title>{% block title %}{{ title }}{% endblock %}</title>
     {% include 'basic/includes/static/static.html' %}
+    {% block extra_head %}
+    {% endblock %}
 </head>
 <body>
 {% block navbar %}

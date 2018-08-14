@@ -9,6 +9,9 @@
         <div class="form-group col text-left top-buffer">
             {{ field.errors }}
             <span class="filter-label">{{ field.label_tag }}</span><br>
+            {% if field.help_text %}
+                <div class="h6 small text-secondary">{{ field.help_text }}</div>
+            {% endif %}
             {{ field }}
         </div>
     </div>

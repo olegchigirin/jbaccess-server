@@ -38,7 +38,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
             ],
             'libraries': {
-                  'tags': 'jba_ui.templatetags.tags',
+                'tags': 'jba_ui.templatetags.tags',
             },
         },
     },
