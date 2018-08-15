@@ -36,9 +36,15 @@ class ACLForm(forms.Form):
     from_time = forms.TimeField(widget=forms.TimeInput(format='%H:%M'), help_text='ex. 12:30')
     until_time = forms.TimeField(widget=forms.TimeInput(format='%H:%M'), help_text='ex. 12:30')
     days_of_week = forms.MultipleChoiceField(choices=DAYS_OF_WEEK,
-                                             widget=forms.CheckboxSelectMultiple)  # TODO: ADD CUSTOM WIDGET
-    days_of_month = forms.MultipleChoiceField(choices=DAYS_OF_MONTH, widget=forms.CheckboxSelectMultiple)
-    months = forms.MultipleChoiceField(choices=MONTHS, widget=forms.CheckboxSelectMultiple)
+                                             widget=forms.CheckboxSelectMultiple(
+                                                 attrs={'class': 'checkbox'}
+                                             ))  # TODO: ADD CUSTOM WIDGET
+    days_of_month = forms.MultipleChoiceField(choices=DAYS_OF_MONTH, widget=forms.CheckboxSelectMultiple(
+        attrs={'class': 'checkbox'}
+    ))
+    months = forms.MultipleChoiceField(choices=MONTHS, widget=forms.CheckboxSelectMultiple(
+        attrs={'class': 'checkbox'}
+    ))
 
     def __init__(self, *args, **kwargs):
         id = kwargs.pop('id', None)

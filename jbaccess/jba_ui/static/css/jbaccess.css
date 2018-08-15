@@ -6,3 +6,13 @@
 .bg-grey {
     background-color: #c2c2c2;
 }
+
+.checkbox ul, .checkbox li {
+    text-align: start;
+    list-style: none;
+}
+
+.checkbox-inline ul .checkbox-inline li{
+    text-align: start;
+    list-style: none;
+}

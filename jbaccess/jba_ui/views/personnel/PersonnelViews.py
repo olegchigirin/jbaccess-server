@@ -4,7 +4,8 @@ from django.urls import reverse
 from jba_core.exceptions import AclAlreadyAdded
 from jba_core.models import Person
 from jba_core.service import PersonService, KeyService, AclService
-from jba_ui.common.const import ID, PERSON_ID, ROLES, PLACES, NAME, ACCESS_ID, ACCESS_KEY
+from jba_ui.common.const import ID, PERSON_ID, ROLES, PLACES, NAME, ACCESS_KEY
+from jba_ui.common.mixins import IdToContextMixin
 from jba_ui.common.views import ModelListView, ModelCreateView, ModelDetailsView, ModelUpdateView, ModelDeleteView, \
     AttachedModelToModel, AttachModelToModel, DetachModelFromModel, AddAllowRuleView, AllowedRulesView, AddDenyRuleView
 from jba_ui.forms import PersonCreateForm, RoleAttachForm, RoleDetachForm, KeyCreateForPersonForm, PlacesForm
@@ -145,7 +146,7 @@ class AttachedKeysToPerson(AttachedModelToModel):
             raise Http404("Person not exist")
 
 
-class AttachKeyToPerson(ModelCreateView):
+class AttachKeyToPerson(ModelCreateView, IdToContextMixin):  # TODO: Create custom view for this case
     template_name = 'personnel/attach-key.html'
     title = 'Create key for person'
     form_class = KeyCreateForPersonForm

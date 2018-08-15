@@ -11,7 +11,9 @@ class PlaceCreateForm(forms.ModelForm):
 
 
 class PlaceAttachForm(forms.Form):
-    places = forms.ModelMultipleChoiceField(queryset=PlaceService.get_none(), widget=forms.CheckboxSelectMultiple)
+    places = forms.ModelMultipleChoiceField(queryset=PlaceService.get_none(), widget=forms.CheckboxSelectMultiple(
+        attrs={'class': 'checkbox'}
+    ))
 
     def __init__(self, *args, **kwargs):
         door_id = kwargs.pop('door_id', None)
@@ -24,7 +26,9 @@ class PlaceAttachForm(forms.Form):
 
 
 class PlaceDetachForm(forms.Form):
-    places = forms.ModelMultipleChoiceField(queryset=PlaceService.get_none(), widget=forms.CheckboxSelectMultiple)
+    places = forms.ModelMultipleChoiceField(queryset=PlaceService.get_none(), widget=forms.CheckboxSelectMultiple(
+        attrs={'class': 'checkbox'}
+    ))
 
     def __init__(self, *args, **kwargs):
         door_id = kwargs.pop('door_id', None)
@@ -37,4 +41,6 @@ class PlaceDetachForm(forms.Form):
 
 
 class PlacesForm(forms.Form):
-    places = forms.ModelMultipleChoiceField(queryset=PlaceService.get_all(), widget=forms.CheckboxSelectMultiple)
+    places = forms.ModelMultipleChoiceField(queryset=PlaceService.get_all(), widget=forms.CheckboxSelectMultiple(
+        attrs={'class': 'checkbox'}
+    ))

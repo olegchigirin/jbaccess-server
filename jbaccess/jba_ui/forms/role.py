@@ -11,7 +11,9 @@ class RoleCreateForm(forms.ModelForm):
 
 
 class RoleAttachForm(forms.Form):
-    roles = forms.ModelMultipleChoiceField(queryset=RoleService.get_none(), widget=forms.CheckboxSelectMultiple)
+    roles = forms.ModelMultipleChoiceField(queryset=RoleService.get_none(), widget=forms.CheckboxSelectMultiple(attrs={
+        'class': 'checkbox'
+    }))
 
     def __init__(self, *args, **kwargs):
         person_id = kwargs.pop('person_id', None)
@@ -24,7 +26,9 @@ class RoleAttachForm(forms.Form):
 
 
 class RoleDetachForm(forms.Form):
-    roles = forms.ModelMultipleChoiceField(queryset=RoleService.get_none(), widget=forms.CheckboxSelectMultiple)
+    roles = forms.ModelMultipleChoiceField(queryset=RoleService.get_none(), widget=forms.CheckboxSelectMultiple(
+        attrs={'class': 'checkbox'}
+    ))
 
     def __init__(self, *args, **kwargs):
         person_id = kwargs.pop('person_id', None)
@@ -34,5 +38,3 @@ class RoleDetachForm(forms.Form):
             roles = PersonService.get_roles(id=person_id)
             self.fields['roles'].queryset = roles
         self.fields['roles'].empty_label = None
-
-

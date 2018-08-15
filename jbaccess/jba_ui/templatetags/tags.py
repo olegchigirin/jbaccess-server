@@ -9,6 +9,11 @@ def get_obj_attr(obj, attr):
     return getattr(obj, attr)
 
 
+@register.filter()
+def to_row_data(data: str):
+    return data.capitalize().replace('_', ' ')
+
+
 @register.simple_tag(name='get_url')
 def get_url(url_name: str, id: int = None):
     if id:

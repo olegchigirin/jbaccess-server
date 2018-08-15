@@ -6,19 +6,19 @@
 
 {% block content %}
     <div class="container">
-        <div class="row text-center top-buffer">
-            <div class="col-4 offset-4 col-offset-4">
-                {% block text %}{% endblock %}
+        <div class="row top-buffer" style="margin-top: 1em">
+            <div class="col-4 offset-4 col-offset-4 text-center">
+                <div class="h5">{% block text %}{% endblock %}</div>
             </div>
         </div>
         {% block form %}
             <div class="row">
-                <form class="form col-5 offset-3 col-offset-4 text-center top-buffer" method="post">
+                <form class="form col-4 offset-4 col-offset-4 text-center top-buffer" method="post">
                     {% block form_fields %}
                         {% include 'basic/includes/form/fields.html' %}
                     {% endblock %}
-                    <div class="row">
-                        <div class="col btn-toolbar justify-content-end">
+                    <div class="row" style="margin-top: 0.5em">
+                        <div class="col btn-toolbar justify-content-center">
                             {% block form_buttons %}
                             {% endblock %}
                         </div>

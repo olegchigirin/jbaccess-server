@@ -64,7 +64,7 @@ class KeyUpdate(ModelUpdateView):
 
 
 class KeyDelete(ModelDeleteView):
-    template_name = 'keys/key-delete.html'
+    template_name = 'keys/delete.html'
     model = Key
     title = 'Delete Key'
 

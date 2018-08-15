@@ -26,8 +26,3 @@ class LogoutConfirm(TemplateView, TitleMixin):
 
 class Logout(views.LogoutView):
     pass
-
-
-class TestFormView(views.FormView):
-    form_class = ACLForm
-    template_name = 'test.html'

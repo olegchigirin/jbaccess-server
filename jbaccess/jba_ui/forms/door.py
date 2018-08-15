@@ -12,7 +12,9 @@ class DoorCreateForm(forms.ModelForm):
 
 
 class DoorAttachForm(forms.Form):
-    doors = forms.ModelMultipleChoiceField(queryset=DoorService.get_none(), widget=forms.CheckboxSelectMultiple)
+    doors = forms.ModelMultipleChoiceField(queryset=DoorService.get_none(), widget=forms.CheckboxSelectMultiple(
+        attrs={'class': 'checkbox'}
+    ))
 
     def __init__(self, *args, **kwargs):
         controller_id = kwargs.pop('controller_id', None)
@@ -29,7 +31,9 @@ class DoorAttachForm(forms.Form):
 
 
 class DoorDetachForm(forms.Form):
-    doors = forms.ModelMultipleChoiceField(queryset=DoorService.get_none(), widget=forms.CheckboxSelectMultiple)
+    doors = forms.ModelMultipleChoiceField(queryset=DoorService.get_none(), widget=forms.CheckboxSelectMultiple(
+        attrs={'class': 'checkbox'}
+    ))
 
     def __init__(self, *args, **kwargs):
         controller_id = kwargs.pop('controller_id', None)

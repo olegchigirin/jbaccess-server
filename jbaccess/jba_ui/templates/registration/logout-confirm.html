@@ -6,20 +6,19 @@
 {% endblock %}
 
 {% block textInfo %}
-    <div class="container col-md-3 col-offset-4">
-        <div class="p-5 justify-content-center">
+    <div class="row top-buffer">
+        <div class="col text-center h6">
             Please, confirm logout
         </div>
     </div>
 {% endblock %}
-
 {% block buttons %}
-    <div class="container col-md-2 col-offset-4">
-        <div class="btn-toolbar">
-            {% url 'ui:home' as home_url %}
-            {% url 'ui:logout' as logout_url %}
-            {% include 'basic/includes/static/button/link.html' with url=home_url buttonName='Return' %}
-            {% include 'basic/includes/static/button/link.html' with url=logout_url buttonName='Confirm' %}
+    <div class="row top-buffer">
+        <div class="col btn-toolbar justify-content-center">
+                {% url 'ui:home' as home_url %}
+                {% url 'ui:logout' as logout_url %}
+                {% include 'basic/includes/static/button/link.html' with url=home_url button_name='Return' %}
+                {% include 'basic/includes/static/button/link.html' with url=logout_url button_name='Confirm' %}
         </div>
     </div>
 {% endblock %}

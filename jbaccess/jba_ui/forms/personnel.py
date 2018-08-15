@@ -36,7 +36,9 @@ class PersonUpdateForm(forms.ModelForm):
 
 
 class PersonAttachForm(forms.Form):
-    persons = forms.ModelMultipleChoiceField(queryset=PersonService.get_none(), widget=forms.CheckboxSelectMultiple)
+    persons = forms.ModelMultipleChoiceField(queryset=PersonService.get_none(), widget=forms.CheckboxSelectMultiple(
+        attrs={'class': 'checkbox checkbox-inline'}
+    ))
 
     def __init__(self, *args, **kwargs):
         role_id = kwargs.pop('role_id', None)
@@ -49,7 +51,9 @@ class PersonAttachForm(forms.Form):
 
 
 class PersonDetachForm(forms.Form):
-    persons = forms.ModelMultipleChoiceField(queryset=PersonService.get_none(), widget=forms.CheckboxSelectMultiple)
+    persons = forms.ModelMultipleChoiceField(queryset=PersonService.get_none(), widget=forms.CheckboxSelectMultiple(
+        attrs={'class': 'checkbox checkbox-inline'}
+    ))
 
     def __init__(self, *args, **kwargs):
         role_id = kwargs.pop('role_id', None)

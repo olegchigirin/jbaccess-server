@@ -1,9 +1,6 @@
-{% extends 'basic/templates/base.html' %}
+{% extends 'basic/templates/form.html' %}
 
-{% block title %}
-    Login page
-{% endblock %}
-
-{% block form %}
-    {% include 'basic/includes/static/form.html' with method="post" buttonType="submit" buttonName="Login" %}
+{% block form_buttons %}
+    {% url 'ui:home' as return_url %}
+    {% include 'basic/includes/form/login.html' with return_url=return_url %}
 {% endblock %}

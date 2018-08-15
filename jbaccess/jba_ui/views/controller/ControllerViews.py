@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.views.generic import DetailView, CreateView, UpdateView, DeleteView, FormView, TemplateView
@@ -146,5 +147,4 @@ class ControllerResolveAcls(TemplateView, TitleMixin, IdToContextMixin):  # TODO
         context = super(ControllerResolveAcls, self).get_context_data()
         controller = ControllerService.get(id=self.kwargs[ID])
         context['resolve'] = AclService.resolve_acls_by_controller(controller_id=controller.controller_id)
-        print(context['resolve'])
         return context

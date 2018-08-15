@@ -9,8 +9,10 @@
     {% url 'ui:controller update' id=id as update_url %}
     {% url 'ui:controller delete' id=id as delete_url %}
     {% url 'ui:controller attached doors' id=id as attached_doors_url %}
+    {% url 'ui:controller resolve acls' id=id as controller_resolve_url %}
     {% include 'basic/includes/static/button/link.html' with url=return_url button_name='Return' %}
     {% include 'basic/includes/static/button/link.html' with url=update_url button_name='Update' %}
     {% include 'basic/includes/static/button/link.html' with url=delete_url button_name='Delete' %}
     {% include 'basic/includes/static/button/link.html' with url=attached_doors_url button_name='Doors' %}
+    {% include 'basic/includes/static/button/link.html' with url=controller_resolve_url button_name='Resolve acls' %}
 {% endblock %}

@@ -1,12 +1,12 @@
 from django.urls import reverse
-from django.views.generic import DeleteView, ListView, CreateView, DetailView, UpdateView, FormView
+from django.views.generic import DeleteView, CreateView, DetailView, UpdateView, FormView
 from django_tables2 import SingleTableView
 
 from jba_core.exceptions import AclAlreadyAdded
 from jba_core.models import Role, Person
-from jba_ui.common.mixins import DetailsUrlMixin, TitleMixin, ModelFieldsMixin, IdToContextMixin
 from jba_core.service import RoleService, PersonService, AclService
 from jba_ui.common.const import ID, NAME, PLACES
+from jba_ui.common.mixins import TitleMixin, ModelFieldsMixin, IdToContextMixin
 from jba_ui.common.views import AllowedRulesView, AddAllowRuleView, AddDenyRuleView
 from jba_ui.forms import RoleCreateForm, PersonAttachForm, PersonDetachForm, PlacesForm
 from jba_ui.tables import RoleTable, PersonTable, RoleACLEntryTable
@@ -40,7 +40,7 @@ class RoleDetail(DetailView, ModelFieldsMixin, TitleMixin, IdToContextMixin):
         return RoleService.get(id=self.kwargs[ID])
 
 
-class RoleUpdate(UpdateView, TitleMixin):
+class RoleUpdate(UpdateView, TitleMixin, IdToContextMixin):
     template_name = 'roles/update.html'
     title = 'Update role'
     form_class = RoleCreateForm
