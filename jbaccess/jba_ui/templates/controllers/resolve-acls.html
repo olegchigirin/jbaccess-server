@@ -1,33 +1,12 @@
 {% extends 'basic/templates/list.html' %}
 
-{% block objectList %}
-    <div class="row top-buffer">
-        <div class="col-12 justify-content-center">
-            <table class="table table-striped table-bordered text-center">
-                <thead class="bg-grey">
-                <tr>
-                    <th>Type</th>
-                    <th>Key</th>
-                    <th>Door</th>
-                    <th>Pattern</th>
-                </tr>
-                </thead>
-                <tbody class="text-body">
-                {% for element in resolve %}
-                    <tr>
-                        {% for el in element %}
-                            <td>{{ el }}</td>
-                        {% endfor %}
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-
-        </div>
-    </div>
+{% block object_list %}
+    {% include 'basic/includes/list/list.html' with table=table %}
 {% endblock %}
 
 {% block buttons %}
-    {% url 'ui:home' as return_url %}
-    {% include 'basic/includes/static/button/link.html' with url=return_url button_name='Return' %}
+    {% if not return_url %}
+        {% url 'ui:controller details' id=id as return_url %}
+    {% endif %}
+    {% include 'basic/includes/button/link.html' with url=return_url button_name='Return' %}
 {% endblock %}

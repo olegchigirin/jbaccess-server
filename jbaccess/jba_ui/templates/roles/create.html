@@ -5,6 +5,8 @@
 {% endblock %}
 
 {% block form_buttons %}
-    {% url 'ui:role list' as return_url %}
+    {% if not return_url %}
+        {% url 'ui:role list' as return_url %}
+    {% endif %}
     {% include 'basic/includes/form/create.html' with return_url=return_url %}
 {% endblock %}

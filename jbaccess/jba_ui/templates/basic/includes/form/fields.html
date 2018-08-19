@@ -1,18 +1,28 @@
 {% csrf_token %}
-{% for field in form.hidden_fields %}
-    <div class="row">
-        <div class="col" style="display:none;">{{ field }}</div>
+{% for error in form.non_field_errors %}
+    <div class="col-12 text-center pb-4">
+        <small class="text-danger "> {{ error }}</small>
     </div>
 {% endfor %}
+{% for field in form.hidden_fields %}
+    {{ field }}
+{% endfor %}
 {% for field in form.visible_fields %}
-    <div class="row">
-        <div class="form-group col justify-content-center top-buffer">
-            {{ field.errors }}
-            <span class="filter-label">{{ field.label_tag }}</span><br>
-            {% if field.help_text %}
-                <div class="h6 small text-secondary">{{ field.help_text }}</div>
-            {% endif %}
+    <div class="row form-group">
+        <div class="col col-md-2">
+            <label class="form-control-label">{{ field.label_tag }}</label>
+        </div>
+        <div class="col col-md-10">
             {{ field }}
+            {% if field.errors %}
+                {% for error in field.errors %}
+                    <small class="form-text text-danger"> {{ error|escape }}</small>
+                {% endfor %}
+
+            {% else %}
+                <small class="form-text text-muted">{{ field.help_text }}</small>
+            {% endif %}
+
         </div>
     </div>
 {% endfor %}

@@ -1,0 +1,53 @@
+<header class="header-mobile header-mobile-2 d-block d-lg-none">
+    <div class="header-mobile__bar">
+        <div class="container-fluid">
+            <div class="header-mobile-inner">
+                {% include 'basic/static/header/logo.html' with class='logo' %}
+                <button class="hamburger hamburger--slider" type="button">
+                            <span class="hamburger-box">
+                                <span class="hamburger-inner"></span>
+                            </span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <nav class="navbar-mobile">
+        <div class="container-fluid">
+            {% if user.is_authenticated %}
+                <ul class="navbar-mobile__list list-unstyled">
+                    <li class="has-sub">
+                        <a class="js-arrow" href="#">
+                            <i class="fas fa-tachometer-alt"></i>Person</a>
+                        <ul class="navbar-mobile-sub__list list-unstyled js-sub-list">
+                            {% include 'basic/static/header/person-dashboard.html' %}
+                        </ul>
+                        <a class="js-arrow" href="#">
+                            <i class="fas fa-tachometer-alt"></i>Role</a>
+                        <ul class="navbar-mobile-sub__list list-unstyled js-sub-list">
+                            {% include 'basic/static/header/role-dashboard.html' %}
+                        </ul>
+                        <a class="js-arrow" href="#">
+                            <i class="fas fa-tachometer-alt"></i>Place</a>
+                        <ul class="navbar-mobile-sub__list list-unstyled js-sub-list">
+                            {% include 'basic/static/header/place-dashboard.html' %}
+                        </ul>
+                    </li>
+                </ul>
+            {% endif %}
+        </div>
+    </nav>
+</header>
+<div class="sub-header-mobile-2 d-block d-lg-none">
+    <div class="header__tool">
+        {% if user.is_authenticated %}
+            <a class="header-button-item" style="font-size: 20px; margin-right: 0;"
+               href="{% url 'ui:logout confirm' %}">
+                Logout
+            </a>
+        {% else %}
+            <a class="header-button-item" style="font-size: 20px; margin-right: 0;" href="{% url 'ui:login' %}">
+                Login
+            </a>
+        {% endif %}
+    </div>
+</div>

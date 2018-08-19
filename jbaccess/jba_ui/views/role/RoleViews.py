@@ -1,165 +1,127 @@
+from django.http import Http404
 from django.urls import reverse
-from django.views.generic import DeleteView, CreateView, DetailView, UpdateView, FormView
-from django_tables2 import SingleTableView
 
-from jba_core.exceptions import AclAlreadyAdded
 from jba_core.models import Role, Person
-from jba_core.service import RoleService, PersonService, AclService
-from jba_ui.common.const import ID, NAME, PLACES
-from jba_ui.common.mixins import TitleMixin, ModelFieldsMixin, IdToContextMixin
-from jba_ui.common.views import AllowedRulesView, AddAllowRuleView, AddDenyRuleView
-from jba_ui.forms import RoleCreateForm, PersonAttachForm, PersonDetachForm, PlacesForm
+from jba_core.service import RoleService, AclService
+from jba_ui.common.const import ID, ROLE_ID
+from jba_ui.common.views import ModelListView, ModelCreateView, ModelDetailsView, ModelUpdateView, ModelDeleteView, \
+    AttachedModelToModel, AttachOrDetachModels, RulesView, AddRuleView
+from jba_ui.forms import RoleCreateForm, PersonAttachForm, PersonDetachForm, PlaceAllowRuleForRoleForm, \
+    PlaceDenyRuleForRoleForm
 from jba_ui.tables import RoleTable, PersonTable, RoleACLEntryTable
 
 
-class RoleList(SingleTableView, TitleMixin, ModelFieldsMixin):
+class RoleList(ModelListView):
     template_name = 'roles/list.html'
+    service = RoleService
     title = 'Role list'
     model = Role
     table_class = RoleTable
 
-    def get_queryset(self):
-        return RoleService.get_all()
 
-
-class RoleCreate(CreateView, TitleMixin):
+class RoleCreate(ModelCreateView):
     template_name = 'roles/create.html'
     form_class = RoleCreateForm
+    form_model = 'role'
     title = 'Create Role'
 
     def get_success_url(self):
-        return reverse('ui:role list')
+        return reverse('ui:role details', kwargs={ID: self.object.id})
 
 
-class RoleDetail(DetailView, ModelFieldsMixin, TitleMixin, IdToContextMixin):
+class RoleDetail(ModelDetailsView):
     template_name = 'roles/details.html'
     fields = ['id', 'name']
+    model = Role
+    service = RoleService
     title = 'Role details'
 
-    def get_object(self, queryset=None):
-        return RoleService.get(id=self.kwargs[ID])
 
-
-class RoleUpdate(UpdateView, TitleMixin, IdToContextMixin):
+class RoleUpdate(ModelUpdateView):
     template_name = 'roles/update.html'
     title = 'Update role'
     form_class = RoleCreateForm
-
-    def get_object(self, queryset=None):
-        return RoleService.get(self.kwargs[ID])
-
-    def form_valid(self, form: RoleCreateForm):
-        RoleService.update(id=self.kwargs[ID], name=form.cleaned_data[NAME])
-        return super(RoleUpdate, self).form_valid(form)
+    form_model = 'role'
+    service = RoleService
 
     def get_success_url(self):
-        return reverse('ui:role details', kwargs={ID: self.kwargs[ID]})
+        return reverse('ui:role details', kwargs={ID: self.get_obj_id()})
 
 
-class RoleDelete(DeleteView, TitleMixin, IdToContextMixin):
+class RoleDelete(ModelDeleteView):
     template_name = 'roles/delete.html'
+    form_model = 'role'
     model = Role
     title = 'Delete role'
-
-    def get_object(self, queryset=None):
-        return RoleService.get(id=self.kwargs[ID])
+    service = RoleService
 
     def get_success_url(self):
         return reverse('ui:role list')
 
 
-class AttachedPersonsToRole(SingleTableView, TitleMixin, IdToContextMixin):
+class AttachedPersonsToRole(AttachedModelToModel):
     template_name = 'roles/attached-persons.html'
     model = Person
     table_class = PersonTable
 
     def get_queryset(self):
-        return RoleService.get_persons(id=self.kwargs[ID])
+        try:
+            return RoleService.get_persons(id=self.get_obj_id())
+        except:
+            raise Http404
 
 
-class AttachPersonsToRole(FormView, TitleMixin, IdToContextMixin):
+class AttachPersonsToRole(AttachOrDetachModels):
     template_name = 'roles/attach-persons.html'
-    title = 'Attach Role'
+    form_model = 'person'
+    title = 'Attach persons'
     form_class = PersonAttachForm
-
-    def get_form_kwargs(self):
-        kwargs = super(AttachPersonsToRole, self).get_form_kwargs()
-        kwargs['role_id'] = self.kwargs[ID]
-        return kwargs
-
-    def form_valid(self, form):
-        persons = form.cleaned_data['persons']
-        for person in persons:
-            PersonService.attach_role(person_id=person.id, role_id=self.kwargs[ID])
-        return super(AttachPersonsToRole, self).form_valid(form)
+    obj_id_form_name = ROLE_ID
 
     def get_success_url(self):
-        return reverse('ui:role attached persons', kwargs={ID: self.kwargs[ID]})
+        return reverse('ui:role attached persons', kwargs={ID: self.get_obj_id()})
 
 
-class DetachPersonsFromRole(FormView, TitleMixin, IdToContextMixin):
+class DetachPersonsFromRole(AttachOrDetachModels):
     template_name = 'roles/detach-persons.html'
+    form_model = 'person'
     title = 'Detach persons'
     form_class = PersonDetachForm
-
-    def get_form_kwargs(self):
-        kwargs = super(DetachPersonsFromRole, self).get_form_kwargs()
-        kwargs['role_id'] = self.kwargs[ID]
-        return kwargs
-
-    def form_valid(self, form):
-        role_id = self.kwargs[ID]
-        persons = form.cleaned_data['persons']
-        for person in persons:
-            PersonService.detach_role(person_id=person.id, role_id=role_id)
-        return super(DetachPersonsFromRole, self).form_valid(form)
+    obj_id_form_name = ROLE_ID
 
     def get_success_url(self):
-        return reverse('ui:role attached persons', kwargs={ID: self.kwargs[ID]})
+        return reverse('ui:role attached persons', kwargs={ID: self.get_obj_id()})
 
 
-class RoleAllowedPlaces(AllowedRulesView):
+class RoleAclsRules(RulesView):
     template_name = 'roles/acl-rules.html'
     title = 'Allowed places'
     table_class = RoleACLEntryTable
 
     def get_queryset(self):
-        return AclService.get_role_acls(role_id=self.kwargs[ID])
+        try:
+            return AclService.get_role_acls(role_id=self.get_obj_id())
+        except:
+            raise Http404
 
 
-class RoleAllowPlaces(AddAllowRuleView):
+class RoleAllowPlaces(AddRuleView):
     template_name = 'roles/acl-allow.html'
     title = 'Allow places for role'
-    form_class = PlacesForm
-
-    def form_valid(self, form):
-        places = form.cleaned_data[PLACES]
-        role_id = self.kwargs[ID]
-        for place in places:
-            try:
-                AclService.role_allow_place(role_id=role_id, place_id=place.id)
-            except AclAlreadyAdded:
-                continue
-        return super(RoleAllowPlaces, self).form_valid(form)
+    form_class = PlaceAllowRuleForRoleForm
+    form_model = 'place'
+    obj_id_context_name = ROLE_ID
 
     def get_success_url(self):
-        return reverse('ui:role acl rules', kwargs={ID: self.kwargs[ID]})
+        return reverse('ui:role acl rules', kwargs={ID: self.get_obj_id()})
 
 
-class RoleDenyPlaces(AddDenyRuleView):
+class RoleDenyPlaces(AddRuleView):
     template_name = 'roles/acl-deny.html'
     title = 'Deny places for role'
-    form_class = PlacesForm
-
-    def form_valid(self, form):
-        places = form.cleaned_data[PLACES]
-        role_id = self.kwargs[ID]
-        for place in places:
-            try:
-                AclService.role_deny_place(role_id=role_id, place_id=place.id)
-            except AclAlreadyAdded:
-                continue
-        return super(RoleDenyPlaces, self).form_valid(form)
+    form_class = PlaceDenyRuleForRoleForm
+    form_model = 'place'
+    obj_id_context_name = ROLE_ID
 
     def get_success_url(self):
-        return reverse('ui:role acl rules', kwargs={ID: self.kwargs[ID]})
+        return reverse('ui:role acl rules', kwargs={ID: self.get_obj_id()})

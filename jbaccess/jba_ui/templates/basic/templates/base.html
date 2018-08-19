@@ -1,17 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    {% include 'basic/static/meta.html' %}
     <title>{% block title %}{{ title }}{% endblock %}</title>
-    {% include 'basic/includes/static/static.html' %}
+    {% include 'basic/static/css.html' %}
     {% block extra_head %}
     {% endblock %}
+
 </head>
-<body>
-{% block navbar %}
-    {% include 'basic/includes/static/header-navbar.html' %}
-{% endblock %}
-{% block content %}
-{% endblock %}
+<body class="animsition">
+
+<div class="page-wrapper">
+    {% block header %}
+        {% include 'basic/static/header.html' %}
+    {% endblock %}
+    {% block header_mobile %}
+        {% include 'basic/static/header-mobile.html' %}
+    {% endblock %}
+
+    <div class="main-content" style="padding-top: 2%">
+        {% block content %}
+        {% endblock %}
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="copyright">
+                <p>Copyright © 2018 Colorlib. All rights reserved. Template by <a
+                        href="https://colorlib.com">Colorlib</a>.</p>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>
+{% include 'basic/static/js.html' %}
+{% block extra_js %}
+{% endblock %}

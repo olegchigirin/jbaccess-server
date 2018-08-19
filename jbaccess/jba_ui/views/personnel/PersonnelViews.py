@@ -1,14 +1,14 @@
-from django.http import Http404, HttpResponseRedirect
+from django.http import Http404
 from django.urls import reverse
 
-from jba_core.exceptions import AclAlreadyAdded
 from jba_core.models import Person
-from jba_core.service import PersonService, KeyService, AclService
-from jba_ui.common.const import ID, PERSON_ID, ROLES, PLACES, NAME, ACCESS_KEY
+from jba_core.service import PersonService, AclService
+from jba_ui.common.const import ID, PERSON_ID
 from jba_ui.common.mixins import IdToContextMixin
 from jba_ui.common.views import ModelListView, ModelCreateView, ModelDetailsView, ModelUpdateView, ModelDeleteView, \
-    AttachedModelToModel, AttachModelToModel, DetachModelFromModel, AddAllowRuleView, AllowedRulesView, AddDenyRuleView
-from jba_ui.forms import PersonCreateForm, RoleAttachForm, RoleDetachForm, KeyCreateForPersonForm, PlacesForm
+    AttachedModelToModel, AttachOrDetachModels, RulesView, AddRuleView
+from jba_ui.forms import PersonCreateForm, RoleAttachForm, RoleDetachForm, PlaceAllowRuleForPersonForm, \
+    PlaceDenyRuleForPersonForm, KeyCreateForPersonForm
 from jba_ui.forms.personnel import PersonUpdateForm
 from jba_ui.tables import PersonTable, RoleTable, KeyTable, PersonACLEntryTable
 
@@ -20,61 +20,42 @@ class PersonList(ModelListView):
     table_class = PersonTable
     service = PersonService
 
-    def get_queryset(self):
-        return self.get_all()
-
 
 class PersonCreate(ModelCreateView):
     template_name = 'personnel/create.html'
     form_class = PersonCreateForm
+    form_model = 'person'
     title = 'Create person'
-    person_id = None
 
     def get_success_url(self):
-        return reverse('ui:person list')
+        return reverse('ui:person details', kwargs={ID: self.object.id})
 
 
 class PersonDetails(ModelDetailsView):
-    template_name = 'personnel/detail.html'
+    template_name = 'personnel/details.html'
     model = Person
     fields = ['id', 'name']
     title = 'Person details'
     service = PersonService
 
-    def get_object(self, queryset=None):
-        return self.get_obj_by_id(id=self.kwargs[ID])
-
 
 class PersonUpdate(ModelUpdateView):
     template_name = 'personnel/update.html'
     form_class = PersonUpdateForm
+    form_model = 'person'
     title = 'Person update'
     service = PersonService
 
-    def get_form_kwargs(self):
-        kwargs = super(PersonUpdate, self).get_form_kwargs()
-        kwargs['initial'] = {ID: self.kwargs[ID]}
-        return kwargs
-
-    def get_object(self, queryset=None):
-        return self.get_obj_by_id(id=self.kwargs[ID])
-
     def get_success_url(self):
-        return reverse('ui:person details', kwargs={ID: self.kwargs[ID]})
+        return reverse('ui:person details', kwargs={ID: self.get_obj_id()})
 
 
 class PersonDelete(ModelDeleteView):
     template_name = 'personnel/delete.html'
     model = Person
+    form_model = 'person'
     title = 'Delete person'
     service = PersonService
-
-    def get_object(self, queryset=None):
-        return self.get_obj_by_id(id=self.kwargs[ID])
-
-    def delete(self, request, *args, **kwargs):
-        self.service.delete(id=self.get_object().id)
-        return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):
         return reverse('ui:person list')
@@ -87,51 +68,31 @@ class RolesAttachedToPerson(AttachedModelToModel):
 
     def get_queryset(self):
         try:
-            return PersonService.get_roles(id=self.kwargs[ID])
+            return PersonService.get_roles(id=self.get_obj_id())
         except:
             raise Http404("Roles does not exist")
 
 
-class AttachRolesToPerson(AttachModelToModel):
+class AttachRolesToPerson(AttachOrDetachModels):
     template_name = 'personnel/attach-roles.html'
     title = 'Attach roles'
+    form_model = 'roles'
     form_class = RoleAttachForm
-
-    def get_form_kwargs(self):
-        kwargs = super(AttachRolesToPerson, self).get_form_kwargs()
-        kwargs[PERSON_ID] = self.kwargs[ID]
-        return kwargs
-
-    def form_valid(self, form: RoleAttachForm):
-        roles = form.cleaned_data[ROLES]
-        person_id = self.kwargs[ID]
-        for role in roles:
-            PersonService.attach_role(person_id=person_id, role_id=role.id)
-        return super(AttachRolesToPerson, self).form_valid(form)
+    obj_id_form_name = PERSON_ID
 
     def get_success_url(self):
-        return reverse('ui:person attached roles', kwargs={ID: self.kwargs[ID]})
+        return reverse('ui:person attached roles', kwargs={ID: self.get_obj_id()})
 
 
-class DetachRolesFromPerson(DetachModelFromModel):
+class DetachRolesFromPerson(AttachOrDetachModels):
     template_name = 'personnel/detach-role.html'
     title = 'Detach roles'
+    form_model = 'roles'
     form_class = RoleDetachForm
-
-    def get_form_kwargs(self):
-        kwargs = super(DetachRolesFromPerson, self).get_form_kwargs()
-        kwargs[PERSON_ID] = self.kwargs[ID]
-        return kwargs
-
-    def form_valid(self, form):
-        person_id = self.kwargs[ID]
-        roles = form.cleaned_data[ROLES]
-        for role in roles:
-            PersonService.detach_role(person_id=person_id, role_id=role.id)
-        return super(DetachRolesFromPerson, self).form_valid(form)
+    obj_id_form_name = PERSON_ID
 
     def get_success_url(self):
-        return reverse('ui:person attached roles', kwargs={ID: self.kwargs[ID]})
+        return reverse('ui:person attached roles', kwargs={ID: self.get_obj_id()})
 
 
 class AttachedKeysToPerson(AttachedModelToModel):
@@ -141,68 +102,54 @@ class AttachedKeysToPerson(AttachedModelToModel):
 
     def get_queryset(self):
         try:
-            return PersonService.get_keys(id=self.kwargs[ID])
+            return PersonService.get_keys(id=self.get_obj_id())
         except:
             raise Http404("Person not exist")
 
 
-class AttachKeyToPerson(ModelCreateView, IdToContextMixin):  # TODO: Create custom view for this case
+class CreateKeyForPerson(ModelCreateView, IdToContextMixin):
     template_name = 'personnel/attach-key.html'
     title = 'Create key for person'
+    form_model = 'key'
     form_class = KeyCreateForPersonForm
 
-    def form_valid(self, form: KeyCreateForPersonForm):
-        KeyService.create(
-            name=form.cleaned_data[NAME],
-            access_key=form.cleaned_data[ACCESS_KEY],
-            person_id=self.kwargs[ID]
-        )
-        return HttpResponseRedirect(self.get_success_url())
+    def get_form_kwargs(self):
+        kwargs = super(CreateKeyForPerson, self).get_form_kwargs()
+        kwargs['initial'] = {
+            'person_id': self.get_obj_id()
+        }
+        return kwargs
 
     def get_success_url(self):
-        return reverse('ui:person attached keys', kwargs={ID: self.kwargs[ID]})
+        return reverse('ui:person attached keys', kwargs={ID: self.get_obj_id()})
 
 
-class PersonAllowedPlaces(AllowedRulesView):
+class PersonAclsRules(RulesView):
     template_name = 'personnel/acl-rules.html'
     title = 'Allowed places'
     table_class = PersonACLEntryTable
 
     def get_queryset(self):
-        return AclService.get_person_acls(person_id=self.kwargs[ID])
+        return AclService.get_person_acls(person_id=self.get_obj_id())
 
 
-class PersonAllowPlaces(AddAllowRuleView):
+class PersonAllowPlaces(AddRuleView):
     template_name = 'personnel/acl-allow.html'
     title = 'Allow places for person'
-    form_class = PlacesForm
-
-    def form_valid(self, form):
-        places = form.cleaned_data[PLACES]
-        for place in places:
-            try:
-                AclService.person_allow_place(person_id=self.kwargs[ID], place_id=place.id)
-            except AclAlreadyAdded:
-                continue
-        return super(PersonAllowPlaces, self).form_valid(form)
+    form_class = PlaceAllowRuleForPersonForm
+    form_model = 'place'
+    obj_id_context_name = PERSON_ID
 
     def get_success_url(self):
         return reverse('ui:person acl rules', kwargs={ID: self.kwargs[ID]})
 
 
-class PersonDenyPlaces(AddDenyRuleView):
+class PersonDenyPlaces(AddRuleView):
     template_name = 'personnel/acl-deny.html'
     title = 'Deny places'
-    form_class = PlacesForm
-
-    def form_valid(self, form):
-        places = form.cleaned_data[PLACES]
-        for place in places:
-            try:
-                AclService.person_deny_place(person_id=self.kwargs[ID], place_id=place.id)
-            except AclAlreadyAdded:
-                continue
-        return super(PersonDenyPlaces, self).form_valid(form)
+    form_class = PlaceDenyRuleForPersonForm
+    form_model = 'place'
+    obj_id_context_name = PERSON_ID
 
     def get_success_url(self):
         return reverse('ui:person acl rules', kwargs={ID: self.kwargs[ID]})

@@ -1,10 +1,13 @@
 import django_tables2 as tables
+from django.urls import reverse
+from django.utils.safestring import mark_safe
 from django_tables2.utils import A
 
 from jba_core.models import Person, Role, Key, Controller, Door, Place, PersonACLEntry, RoleACLEntry, \
     SimpleRecurringPattern
 from jba_ui.common.column import TypeColumn
 from jba_ui.common.const import ID
+from jba_ui.common.utils import drop_squared_brackets, replace_days_of_week_for_names, replace_months_for_names
 
 
 class PersonTable(tables.Table):
@@ -77,50 +80,34 @@ class ACLPattern(tables.Table):
         fields = ['id', 'from_time', 'until_time', 'days_of_week', 'days_of_month', 'months']
 
     def render_days_of_week(self, value: str):
-        value = self._drop_squared_brackets(value)
-        return self._replace_days_of_week_for_names(value)
+        value = drop_squared_brackets(value)
+        return replace_days_of_week_for_names(value)
 
     def render_days_of_month(self, value: str):
-        return self._drop_squared_brackets(value)
+        return drop_squared_brackets(value)
 
     def render_months(self, value: str):
-        value = self._drop_squared_brackets(value)
-        return self._replace_months_for_names(value)
+        value = drop_squared_brackets(value)
+        return replace_months_for_names(value)
 
-    @staticmethod
-    def _drop_squared_brackets(value: str):
-        return value.replace('[', '').replace(']', '')
 
-    @staticmethod
-    def _replace_days_of_week_for_names(value):
-        days_of_week = (
-            ('1', 'Sun'),
-            ('2', 'Mon'),
-            ('3', 'Tue'),
-            ('4', 'Wed'),
-            ('5', 'Thu'),
-            ('6', 'Fri'),
-            ('7', 'Sat'),
-        )
-        for number, day in days_of_week:
-            value = value.replace(number, day)
-        return value
+class ControllerResolveTable(tables.Table):
+    type = TypeColumn(yesno='Allow,Deny')
+    key = tables.LinkColumn('ui:key details', kwargs={ID: A('key.id')})
+    door = tables.LinkColumn('ui:door details', kwargs={ID: A('door.id')})
+    pattern = tables.Column()
 
-    def _replace_months_for_names(self, value):
-        months = (
-            ('1', 'Jan'),
-            ('2', 'Feb'),
-            ('3', 'Mar'),
-            ('4', 'Apr'),
-            ('5', 'May'),
-            ('6', 'Jun'),
-            ('7', 'Jul'),
-            ('8', 'Aug'),
-            ('9', 'Sep'),
-            ('10', 'Oct'),
-            ('11', 'Nov'),
-            ('12', 'Dec')
-        )
-        for number, month in months:
-            value = value.replace(number, month)
-        return value
+    def render_pattern(self, value: SimpleRecurringPattern):
+        return mark_safe("""
+        <a href="%s">Pattern</a>: from %s until %s</br> 
+        days of week: %s </br> 
+        days: %s </br> 
+        months: %s
+        """ % (
+            reverse('ui:acl pattern details', kwargs={ID: value.id}),
+            value.from_time,
+            value.until_time,
+            replace_days_of_week_for_names(drop_squared_brackets(value.days_of_week)),
+            drop_squared_brackets(value.days_of_month),
+            replace_months_for_names(drop_squared_brackets(value.months))
+        ))

@@ -1,0 +1,5 @@
+{% load static %}
+
+<a {% if class %}class="{{ class }}" {% endif %} href="{% url 'ui:home' %}">
+    <img src="{% static 'images/icon/logo-white.png' %}" alt="JBAccess"/>
+</a>

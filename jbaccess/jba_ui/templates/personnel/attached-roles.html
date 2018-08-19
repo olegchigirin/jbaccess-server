@@ -1,14 +1,16 @@
 {% extends 'basic/templates/list.html' %}
 
-{% block objectList %}
+{% block object_list %}
     {% include 'basic/includes/list/list.html' with table=table %}
 {% endblock %}
 
 {% block buttons %}
-    {% url 'ui:person details' id=id as return_url %}
+    {% if not return_url %}
+        {% url 'ui:person details' id=id as return_url %}
+    {% endif %}
     {% url 'ui:person attach roles' id=id as attach_url %}
     {% url 'ui:person detach roles' id=id as dettach_roles %}
-    {% include 'basic/includes/static/button/link.html' with url=return_url button_name='Return' %}
-    {% include 'basic/includes/static/button/link.html' with url=attach_url button_name='Attach' %}
-    {% include 'basic/includes/static/button/link.html' with url=dettach_roles button_name='Dettach' %}
+    {% include 'basic/includes/button/link.html' with url=return_url button_name='Return' %}
+    {% include 'basic/includes/button/link.html' with url=attach_url button_name='Attach' %}
+    {% include 'basic/includes/button/link.html' with url=dettach_roles button_name='Dettach' %}
 {% endblock %}

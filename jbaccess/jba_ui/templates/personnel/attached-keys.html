@@ -1,12 +1,14 @@
 {% extends 'basic/templates/list.html' %}
 
-{% block objectList %}
+{% block object_list %}
     {% include 'basic/includes/list/list.html' with table=table %}
 {% endblock %}
 
 {% block buttons %}
-    {% url 'ui:person details' id=id as return_url %}
+    {% if not return_url %}
+        {% url 'ui:person details' id=id as return_url %}
+    {% endif %}
     {% url 'ui:person attach key' id=id as attach_key_url %}
-    {% include 'basic/includes/static/button/link.html' with url=return_url button_name='Return' %}
-    {% include 'basic/includes/static/button/link.html' with url=attach_key_url button_name='Attach key' %}
+    {% include 'basic/includes/button/link.html' with url=return_url button_name='Return' %}
+    {% include 'basic/includes/button/link.html' with url=attach_key_url button_name='Attach key' %}
 {% endblock %}

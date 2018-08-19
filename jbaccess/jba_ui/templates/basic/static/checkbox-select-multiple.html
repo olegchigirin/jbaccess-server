@@ -1,0 +1,26 @@
+{% with id=widget.attrs.id group_class=widget.attrs.group_class class=widget.attrs.class %}
+    {% with  label_class=widget.attrs.label_class input_class=widget.attrs.input_class type=widget.attrs.type %}
+        {% with min_width=widget.attrs.min_width %}
+            <div class="{% if group_class %}{{ group_class }}{% endif %} flex-wrap">
+                {% for group, options, index in widget.optgroups %}
+                    {% with option=options.0 %}
+                        {% if class %}
+                            <div class="{{ class }}">
+                        {% endif %}
+                    <label for={% if id %}"{{ id }}_{{ index }}"{% endif %}
+                           class="{% if label_class %}{{ label_class }}{% endif %} p-1"
+                           style="min-width: {% if min_width %}{{ min_width }}{% else %}100%{% endif %}">
+                        <input {% if id %}id="{{ id }}_{{ index }}"{% endif %} name="{{ option.name }}"
+                               value="{{ option.value }}" {% if option.selected %}checked="checked"{% endif %}
+                               class={% if input_class %}"{{ input_class }}"{% endif %}
+                               type={% if type %}"{{ type }}"{% endif %}> {{ option.label }}
+                    </label>
+                    {% if class %}
+                        </div>
+                    {% endif %}
+                    {% endwith %}
+                {% endfor %}
+            </div>
+        {% endwith %}
+    {% endwith %}
+{% endwith %}

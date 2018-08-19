@@ -3,7 +3,7 @@ from django.urls import reverse
 from django.views.generic import TemplateView
 
 from jba_ui.common.mixins import TitleMixin
-from jba_ui.forms import ACLForm
+from jba_ui.forms.service import LoginForm
 
 
 class Home(TemplateView, TitleMixin):
@@ -14,6 +14,7 @@ class Home(TemplateView, TitleMixin):
 class Login(views.LoginView, TitleMixin):
     template_name = 'registration/login.html'
     title = 'Login'
+    form_class = LoginForm
 
     def get_success_url(self):
         return reverse('ui:home')

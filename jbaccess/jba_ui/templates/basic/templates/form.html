@@ -1,31 +1,34 @@
 {% extends 'basic/templates/base.html' %}
 
 {% block extra_head %}
-    {{ form.media }}
+    {{ form.media.css }}
+{% endblock %}
+
+{% block extra_js %}
+    {{ form.media.js }}
 {% endblock %}
 
 {% block content %}
-    <div class="container">
-        <div class="row top-buffer" style="margin-top: 1em">
-            <div class="col-4 offset-4 col-offset-4 text-center">
-                <div class="h5">{% block text %}{% endblock %}</div>
-            </div>
-        </div>
-        {% block form %}
-            <div class="row">
-                <form class="form col-4 offset-4 col-offset-4 text-center top-buffer" method="post">
-                    {% block form_fields %}
-                        {% include 'basic/includes/form/fields.html' %}
-                    {% endblock %}
-                    <div class="row" style="margin-top: 0.5em">
-                        <div class="col btn-toolbar justify-content-center">
+    {% with form_type=form_type|default:"Form type" form_model=form_model|default:"None" %}
+        <div class="offset-lg-2 col-lg-8 col-lg-offset-2">
+            <div class="card">
+                <div class="card-header">
+                    <strong>{{ form_type }}</strong> {{ form_model }}
+                </div>
+                <div class="card-body card-block">
+                    <form method="post" enctype="multipart/form-data" class="form-horizontal" novalidate>
+                        {% block fields %}
+                            {% include 'basic/includes/form/fields.html' %}
+                        {% endblock %}
+                        <div class="card-footer text-right">
                             {% block form_buttons %}
                             {% endblock %}
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
-        {% endblock %}
-    </div>
+        </div>
+    {% endwith %}
 {% endblock %}
+
 

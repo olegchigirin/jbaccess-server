@@ -1,0 +1,7 @@
+{% load static %}
+
+{% with class=widget.attrs.class %}
+    <input type="{{ widget.type }}" name="{{ widget.name }}"{% if widget.value != None %}
+           value="{{ widget.value }}" {% endif %}class="time_element {% if class %}{{ class }}
+       {% endif %}"/>
+{% endwith %}

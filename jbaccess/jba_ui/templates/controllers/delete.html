@@ -5,6 +5,8 @@
 {% endblock %}
 
 {% block form_buttons %}
-    {% url 'ui:controller details' id=id as return_url %}
+    {% if not return_url %}
+        {% url 'ui:controller details' id=id as return_url %}
+    {% endif %}
     {% include 'basic/includes/form/delete.html' with return_url=return_url %}
 {% endblock %}

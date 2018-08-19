@@ -3,19 +3,16 @@
 
 {% with fields=fields object=object %}
     {% block content %}
-        <div class="container">
-            {% block details_info %}
-                <div class="row">
-                    {% for field in fields %}
-                        <div class="col">
-                            <p class="p-1">{{ field }}: {{ object|get_obj_attr:field }}</p>
-                        </div>
-                    {% endfor %}
+        <div class="offset-lg-3 col-lg-6 col-lg-offset-3">
+            <div class="top-campaign" style="padding-bottom: 5px; padding-top: 0.5em; margin-bottom: 1em;">
+                <h3 class="title-3 m-b-30">{{ object }}</h3>
+                <div class="table-responsive">
+                    {% include 'basic/includes/details/details.html' with fields=fields object=object %}
                 </div>
-            {% endblock %}
+            </div>
             {% block button_toolbar %}
                 <div class="row">
-                    <div class="btn-toolbar col justify-content-end">
+                    <div class="col text-right">
                         {% block buttons %}
                         {% endblock %}
                     </div>

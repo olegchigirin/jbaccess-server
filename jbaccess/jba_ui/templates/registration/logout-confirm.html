@@ -17,8 +17,8 @@
         <div class="col btn-toolbar justify-content-center">
                 {% url 'ui:home' as home_url %}
                 {% url 'ui:logout' as logout_url %}
-                {% include 'basic/includes/static/button/link.html' with url=home_url button_name='Return' %}
-                {% include 'basic/includes/static/button/link.html' with url=logout_url button_name='Confirm' %}
+                {% include 'basic/includes/button/link.html' with url=home_url button_name='Return' %}
+                {% include 'basic/includes/button/link.html' with url=logout_url button_name='Confirm' %}
         </div>
     </div>
 {% endblock %}

@@ -1,15 +1,26 @@
 {% extends 'basic/templates/base.html' %}
 
 {% block content %}
-    <div class="container">
-        {% block objectList %}
-        {% endblock %}
-        {% block button_toolbar %}
+    <div class="section__content section__content--p30">
+        <div class="container-fluid">
             <div class="row">
-                <div class="btn-toolbar col justify-content-end">
-                    {% block buttons %}
+                <div class="offset-1 col-lg-10 col-offset-1">
+                    {% block object_list %}
                     {% endblock %}
                 </div>
             </div>
-        {% endblock %}
+        </div>
+    </div>
+    {% block button_toolbar %}
+        <div class="section__content section__content--p30">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="offset-1 col-lg-10 col-offset-1 text-right">
+                        {% block buttons %}
+                        {% endblock %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endblock %}
 {% endblock %}

@@ -1,25 +1,14 @@
 {% load tags %}
 
 {% with fields=fields object=object %}
-    <div class="row top-buffer">
-        <div class="col-12 justify-content-center">
-            <table class="table table-striped table-bordered text-center">
-                <thead class="bg-grey">
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Data</th>
-                </tr>
-                </thead>
-                <tbody class="text-body">
-                {% for field in fields %}
-                    <tr>
-                        <th scope="row">{{ field|to_row_data }}</th>
-                        <td>{{ object|get_obj_attr:field }}</td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-
-        </div>
-    </div>
+    <table class="table table-top-campaign">
+        <tbody>
+        {% for field in fields %}
+            <tr>
+                <td>{{ field|to_row_data }}</td>
+                <td>{{ object|get_obj_attr:field }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 {% endwith %}

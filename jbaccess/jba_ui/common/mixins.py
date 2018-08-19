@@ -1,7 +1,8 @@
 from django.http import Http404
 from django.views.generic.base import ContextMixin
+from django.views.generic.edit import FormMixin
 
-from jba_ui.common.const import ID
+from jba_ui.common.const import ID, INITIAL
 
 
 class TitleMixin(ContextMixin):
@@ -14,6 +15,25 @@ class TitleMixin(ContextMixin):
     def get_context_data(self, **kwargs):
         context = super(TitleMixin, self).get_context_data(**kwargs)
         context[self.title_context_name] = self.get_title()
+        return context
+
+
+class FormContextMixin(ContextMixin):
+    form_type: str = None
+    form_type_context_name = 'form_type'
+    form_model: str = None
+    form_model_context_name = 'form_model'
+
+    def get_form_type(self):
+        return self.form_type
+
+    def get_form_model(self):
+        return self.form_model
+
+    def get_context_data(self, **kwargs):
+        context = super(FormContextMixin, self).get_context_data(**kwargs)
+        context[self.form_model_context_name] = self.get_form_model()
+        context[self.form_type_context_name] = self.get_form_type()
         return context
 
 
@@ -30,25 +50,47 @@ class ModelFieldsMixin(ContextMixin):
         return context
 
 
-class DetailsUrlMixin(ContextMixin):
-    details_url_name = None
-    details_url_context_name = 'details_url'
-
-    def get_details_url_name(self):
-        return self.details_url_name
-
-    def get_context_data(self, **kwargs):
-        context = super(DetailsUrlMixin, self).get_context_data(**kwargs)
-        context[self.details_url_context_name] = self.get_details_url_name()
-        return context
-
-
 class IdToContextMixin(ContextMixin):
+    obj_id = None
+    obj_id_context_name = ID
+
+    def get_obj_id(self):
+        if self.obj_id is None:
+            self.obj_id = self.kwargs[ID]
+        return self.obj_id
 
     def get_context_data(self, **kwargs):
         context = super(IdToContextMixin, self).get_context_data(**kwargs)
-        context[ID] = self.kwargs[ID]
+        context[self.obj_id_context_name] = self.get_obj_id()
         return context
+
+
+class AllowDenyFormMixin(FormMixin, IdToContextMixin):
+    obj_id_context_name = ID
+
+    def get_form_kwargs(self):
+        kwargs = super(AllowDenyFormMixin, self).get_form_kwargs()
+        kwargs[INITIAL] = {
+            self.obj_id_context_name: self.get_obj_id()
+        }
+        return kwargs
+
+    def form_valid(self, form):
+        form.save()
+        return super(AllowDenyFormMixin, self).form_valid(form)
+
+
+class AttachDetachFormMixin(FormMixin, IdToContextMixin):
+    obj_id_form_name = ID
+
+    def get_form_kwargs(self):
+        kwargs = super(AttachDetachFormMixin, self).get_form_kwargs()
+        kwargs[self.obj_id_form_name] = self.get_obj_id()
+        return kwargs
+
+    def form_valid(self, form):
+        form.save()
+        return super(AttachDetachFormMixin, self).form_valid(form)
 
 
 class ServiceMixin(object):
@@ -77,3 +119,20 @@ class ListObjectMixin(ServiceMixin):
             except:
                 raise Http404(error_message)
         return self.obj_list
+
+
+class ReturnUrlMixin(ContextMixin):
+    return_url = None
+    return_url_context_name = 'return_url'
+
+    def get_return_url(self):
+        if not self.return_url:
+            self.return_url = self.request.META.pop('HTTP_REFERER', None)
+        return self.return_url
+
+    def get_context_data(self, **kwargs):
+        context = super(ReturnUrlMixin, self).get_context_data(**kwargs)
+        return_url = self.get_return_url()
+        if return_url:
+            context[self.return_url_context_name] = return_url
+        return context
