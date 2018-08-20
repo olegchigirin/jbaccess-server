@@ -21,7 +21,7 @@ class AclPatterns(SingleTableView, IdToContextMixin, TitleMixin, ReturnUrlMixin)
         return AclService.get_patterns(acl_id=self.kwargs[ID])
 
 
-class AclPatternDetails(DetailView, IdToContextMixin, TitleMixin, ModelFieldsMixin, ReturnUrlMixin):
+class AclPatternDetails(DetailView, IdToContextMixin, TitleMixin, ModelFieldsMixin):
     template_name = 'acls/details.html'
     title = 'Pattern details'
     model = SimpleRecurringPattern
@@ -52,7 +52,7 @@ class AclPatternDetails(DetailView, IdToContextMixin, TitleMixin, ModelFieldsMix
         return replace_months_for_names(value)
 
 
-class AclPatternCreate(FormView, TitleMixin, IdToContextMixin, FormContextMixin, ReturnUrlMixin):
+class AclPatternCreate(FormView, TitleMixin, IdToContextMixin, FormContextMixin):
     template_name = 'acls/create-pattern.html'
     title = 'Pattern create'
     form_model = 'Acl pattern'

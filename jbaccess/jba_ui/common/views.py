@@ -7,40 +7,26 @@ from jba_ui.common.mixins import TitleMixin, ListObjectMixin, FormContextMixin, 
     SingleObjectMixin, AttachDetachFormMixin, AllowDenyFormMixin, ReturnUrlMixin
 
 
-class ModelListView(SingleTableView, ReturnUrlMixin, TitleMixin, ListObjectMixin):
-    return_url = None
-    return_url_context_name = 'return_url'
+class ModelListView(SingleTableView, TitleMixin, ListObjectMixin):
     title = 'Model list page'
 
     def get_queryset(self):
         return self.get_all()
 
-    def get_return_url(self):
-        if not self.return_url:
-            self.return_url = self.request.META.pop('HTTP_REFERER', None)
-        return self.return_url
 
-    def get_context_data(self, **kwargs):
-        context = super(ModelListView, self).get_context_data(**kwargs)
-        return_url = self.get_return_url()
-        if return_url:
-            context[self.return_url_context_name] = return_url
-        return context
-
-
-class ModelCreateView(CreateView, ReturnUrlMixin, TitleMixin, FormContextMixin):
+class ModelCreateView(CreateView, TitleMixin, FormContextMixin):
     form_type = 'Create'
     title = 'Create page'
 
 
-class ModelDetailsView(DetailView, ReturnUrlMixin, TitleMixin, ModelFieldsMixin, IdToContextMixin, SingleObjectMixin):
+class ModelDetailsView(DetailView, TitleMixin, ModelFieldsMixin, IdToContextMixin, SingleObjectMixin):
     title = 'Details page'
 
     def get_object(self, queryset=None):
         return self.get_obj_by_id(id=self.get_obj_id())
 
 
-class ModelUpdateView(UpdateView, ReturnUrlMixin, TitleMixin, IdToContextMixin, SingleObjectMixin, FormContextMixin):
+class ModelUpdateView(UpdateView, TitleMixin, IdToContextMixin, SingleObjectMixin, FormContextMixin):
     form_type = 'Update'
     title = 'Update model page'
 
@@ -53,7 +39,7 @@ class ModelUpdateView(UpdateView, ReturnUrlMixin, TitleMixin, IdToContextMixin, 
         return self.get_obj_by_id(id=self.get_obj_id())
 
 
-class ModelDeleteView(DeleteView, ReturnUrlMixin, TitleMixin, IdToContextMixin, SingleObjectMixin, FormContextMixin):
+class ModelDeleteView(DeleteView, TitleMixin, IdToContextMixin, SingleObjectMixin, FormContextMixin):
     form_type = 'Delete'
     title = 'Delete model page'
 
@@ -65,19 +51,19 @@ class ModelDeleteView(DeleteView, ReturnUrlMixin, TitleMixin, IdToContextMixin, 
         return HttpResponseRedirect(self.get_success_url())
 
 
-class AttachedModelToModel(SingleTableView, ReturnUrlMixin, TitleMixin, IdToContextMixin):
+class AttachedModelToModel(SingleTableView, TitleMixin, IdToContextMixin):
     title = 'Attached models page'
 
 
-class AttachOrDetachModels(FormView, ReturnUrlMixin, TitleMixin, AttachDetachFormMixin, FormContextMixin):
+class AttachOrDetachModels(FormView, TitleMixin, AttachDetachFormMixin, FormContextMixin):
     form_type = 'Attach'
     title = 'Attach page'
 
 
-class RulesView(SingleTableView, ReturnUrlMixin, TitleMixin, IdToContextMixin):
+class RulesView(SingleTableView, TitleMixin, IdToContextMixin):
     title = 'Allowed rules page'
 
 
-class AddRuleView(FormView, ReturnUrlMixin, TitleMixin, AllowDenyFormMixin, FormContextMixin):
+class AddRuleView(FormView, TitleMixin, AllowDenyFormMixin, FormContextMixin):
     form_type = 'Allow'
     title = 'Allow page'

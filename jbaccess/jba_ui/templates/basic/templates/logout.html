@@ -1,12 +1,17 @@
-{% extends 'basic/templates/base.html' %}
+{% extends 'basic/templates/form.html' %}
 
-
-{% block content %}
-    <div class="container col-md-3 col-offset-4">
-    {% block textInfo %}
-    {% endblock %}
-
-    {% block buttons %}
-    {% endblock %}
+{% block fields %}
+    <div class="row form-group">
+        <div class="col-12 col-md-12 text-center">
+            <p class="form-control-static text-danger">Do you really want to logout?</p>
+        </div>
     </div>
 {% endblock %}
+
+{% block form_buttons %}
+    {% url 'ui:home' as return_url %}
+    {% url 'ui:logout' as logout_url %}
+    {% include 'basic/includes/button/link.html' with url=return_url button_name='Return' %}
+    {% include 'basic/includes/button/logout.html' with url=logout_url button_name='Logout' %}
+{% endblock %}
+

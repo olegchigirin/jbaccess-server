@@ -7,9 +7,6 @@
 {% block buttons %}
     {% url 'ui:acl pattern create' id=id as create_url %}
     {% url 'ui:acl delete' id=id as delete_url %}
-    {% if return_url %}
-        {% include 'basic/includes/button/link.html' with url=return_url button_name='Return' %}
-    {% endif %}
     {% include 'basic/includes/button/link.html' with url=create_url button_name='Create pattern' %}
     {% include 'basic/includes/button/link.html' with url=delete_url button_name='Delete acl' %}
 {% endblock %}

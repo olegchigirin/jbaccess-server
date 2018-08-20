@@ -1,14 +1,6 @@
 {% extends 'basic/templates/form.html' %}
 
-{% block text %}
-    <div class="p-3 text-info">
-        Updating data of {{ object }}
-    </div>
-{% endblock %}
-
 {% block form_buttons %}
-    {% if not return_url %}
-        {% url 'ui:acl pattern details' id=id as return_url %}
-    {% endif %}
+    {% url 'ui:acl pattern details' id=id as return_url %}
     {% include 'basic/includes/form/update.html' with return_url=return_url %}
 {% endblock %}

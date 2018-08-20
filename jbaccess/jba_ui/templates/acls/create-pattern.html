@@ -1,8 +1,6 @@
 {% extends 'basic/templates/form.html' %}
 
 {% block form_buttons %}
-    {% if return_url %}
-        {% url 'ui:acl pattern list' id=id as return_url %}
-    {% endif %}
+    {% url 'ui:acl pattern list' id=id as return_url %}
     {% include 'basic/includes/form/create.html' with return_url=return_url %}
 {% endblock %}

@@ -1,12 +1,6 @@
 {% extends 'basic/templates/form.html' %}
 
-{% block text %}
-    Choose doors for attaching
-{% endblock %}
-
 {% block form_buttons %}
-    {% if not return_url %}
-        {% url 'ui:place attached doors' id=id as return_url %}
-    {% endif %}
+    {% url 'ui:place attached doors' id=id as return_url %}
     {% include 'basic/includes/form/attach.html' with return_url=return_url %}
 {% endblock %}

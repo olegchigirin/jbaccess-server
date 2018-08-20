@@ -5,8 +5,6 @@
 {% endblock %}
 
 {% block form_buttons %}
-    {% if not return_url %}
-        {% url 'ui:door attached controllers' id=id as return_url %}
-    {% endif %}
+    {% url 'ui:door attached controllers' id=id as return_url %}
     {% include 'basic/includes/form/detach.html' with return_url=return_url %}
 {% endblock %}

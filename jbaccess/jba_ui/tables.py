@@ -11,6 +11,7 @@ from jba_ui.common.utils import drop_squared_brackets, replace_days_of_week_for_
 
 
 class PersonTable(tables.Table):
+    table_name = 'Persons'
     id = tables.LinkColumn('ui:person details', kwargs={ID: A(ID)})
 
     class Meta:
@@ -18,6 +19,7 @@ class PersonTable(tables.Table):
 
 
 class RoleTable(tables.Table):
+    table_name = 'Roles'
     id = tables.LinkColumn('ui:role details', kwargs={ID: A(ID)})
 
     class Meta:
@@ -25,6 +27,7 @@ class RoleTable(tables.Table):
 
 
 class KeyTable(tables.Table):
+    table_name = 'Keys'
     id = tables.LinkColumn('ui:key details', kwargs={ID: A(ID)})
 
     class Meta:
@@ -32,6 +35,7 @@ class KeyTable(tables.Table):
 
 
 class ControllerTable(tables.Table):
+    table_name = 'Controllers'
     id = tables.LinkColumn('ui:controller details', kwargs={ID: A(ID)})
 
     class Meta:
@@ -39,6 +43,7 @@ class ControllerTable(tables.Table):
 
 
 class DoorTable(tables.Table):
+    table_name = 'Doors'
     id = tables.LinkColumn('ui:door details', kwargs={ID: A(ID)})
 
     class Meta:
@@ -46,6 +51,7 @@ class DoorTable(tables.Table):
 
 
 class PlaceTable(tables.Table):
+    table_name = 'Places'
     id = tables.LinkColumn('ui:place details', kwargs={ID: A(ID)})
 
     class Meta:

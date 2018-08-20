@@ -5,9 +5,7 @@
 {% endblock %}
 
 {% block buttons %}
-    {% if not return_url %}
-        {% url 'ui:door details' id=id as return_url %}
-    {% endif %}
+    {% url 'ui:door details' id=id as return_url %}
     {% url 'ui:door attach places' id=id as attach_url %}
     {% url 'ui:door detach places' id=id as dettach_roles %}
     {% include 'basic/includes/button/link.html' with url=return_url button_name='Return' %}

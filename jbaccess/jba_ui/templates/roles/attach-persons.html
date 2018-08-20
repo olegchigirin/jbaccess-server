@@ -1,12 +1,6 @@
 {% extends 'basic/templates/form.html' %}
 
-{% block text %}
-    Choose person for attaching to this role
-{% endblock %}
-
 {% block form_buttons %}
-    {% if not return_url %}
-        {% url 'ui:role attached persons' id=id as return_url %}
-    {% endif %}
+    {% url 'ui:role attached persons' id=id as return_url %}
     {% include 'basic/includes/form/attach.html' with return_url=return_url %}
 {% endblock %}

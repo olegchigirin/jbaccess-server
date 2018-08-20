@@ -1,4 +1,5 @@
 {% extends 'basic/templates/base.html' %}
+
 {% load static %}
 
 {% block content %}
@@ -21,10 +22,10 @@
                                 {% for field in form.visible_fields %}
                                     <div class="form-group">
                                         <label>{{ field.label_tag }}</label>
-                                        {{ field }}
+                                        <div class="form-control"> {{ field }}</div>
                                     </div>
                                 {% endfor %}
-                                <button class="au-btn au-btn--block au-btn--green m-b-20" type="submit">sign in</button>
+                                <button class="au-btn au-btn--block au-btn--green m-b-20" type="submit">Sign in</button>
                             </form>
                         </div>
                     </div>

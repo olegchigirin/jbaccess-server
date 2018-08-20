@@ -13,9 +13,7 @@
 {% endblock %}
 
 {% block buttons %}
-    {% if not return_url %}
-        {% url 'ui:acl pattern list' id=object.acl_id as return_url %}
-    {% endif %}
+    {% url 'ui:acl pattern list' id=object.acl_id as return_url %}
     {% url 'ui:acl pattern update' id=id as update_url %}
     {% url 'ui:acl pattern delete' id=id as delete_url %}
     {% include 'basic/includes/button/link.html' with url=return_url button_name='Return' %}

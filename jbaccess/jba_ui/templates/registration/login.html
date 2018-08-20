@@ -1,6 +1,1 @@
 {% extends 'basic/templates/login.html' %}
-
-{% block form_buttons %}
-    {% url 'ui:home' as return_url %}
-    {% include 'basic/includes/form/login.html' with return_url=return_url %}
-{% endblock %}
