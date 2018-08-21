@@ -16,7 +16,7 @@ from jba_ui.tables import PersonTable, RoleTable, KeyTable, PersonACLEntryTable
 class PersonList(ModelListView):
     template_name = 'personnel/list.html'
     model = Person
-    title = 'Person list'
+    title = 'Persons list'
     table_class = PersonTable
     service = PersonService
 
@@ -35,7 +35,7 @@ class PersonDetails(ModelDetailsView):
     template_name = 'personnel/details.html'
     model = Person
     fields = ['id', 'name']
-    title = 'Person details'
+    title = 'Person\'s details'
     service = PersonService
 
 
@@ -43,7 +43,7 @@ class PersonUpdate(ModelUpdateView):
     template_name = 'personnel/update.html'
     form_class = PersonUpdateForm
     form_model = 'person'
-    title = 'Person update'
+    title = 'Update person'
     service = PersonService
 
     def get_success_url(self):
@@ -135,7 +135,7 @@ class PersonAclsRules(RulesView):
 
 class PersonAllowPlaces(AddRuleView):
     template_name = 'personnel/acl-allow.html'
-    title = 'Allow places for person'
+    title = 'Allow places'
     form_class = PlaceAllowRuleForPersonForm
     form_model = 'place'
     obj_id_context_name = PERSON_ID

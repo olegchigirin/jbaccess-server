@@ -14,7 +14,7 @@ from jba_ui.tables import RoleTable, PersonTable, RoleACLEntryTable
 class RoleList(ModelListView):
     template_name = 'roles/list.html'
     service = RoleService
-    title = 'Role list'
+    title = 'Roles list'
     model = Role
     table_class = RoleTable
 
@@ -23,7 +23,7 @@ class RoleCreate(ModelCreateView):
     template_name = 'roles/create.html'
     form_class = RoleCreateForm
     form_model = 'role'
-    title = 'Create Role'
+    title = 'Create role'
 
     def get_success_url(self):
         return reverse('ui:role details', kwargs={ID: self.object.id})
@@ -34,7 +34,7 @@ class RoleDetail(ModelDetailsView):
     fields = ['id', 'name']
     model = Role
     service = RoleService
-    title = 'Role details'
+    title = 'Role\'s details'
 
 
 class RoleUpdate(ModelUpdateView):
@@ -107,7 +107,7 @@ class RoleAclsRules(RulesView):
 
 class RoleAllowPlaces(AddRuleView):
     template_name = 'roles/acl-allow.html'
-    title = 'Allow places for role'
+    title = 'Allow places'
     form_class = PlaceAllowRuleForRoleForm
     form_model = 'place'
     obj_id_context_name = ROLE_ID
@@ -118,7 +118,7 @@ class RoleAllowPlaces(AddRuleView):
 
 class RoleDenyPlaces(AddRuleView):
     template_name = 'roles/acl-deny.html'
-    title = 'Deny places for role'
+    title = 'Deny places'
     form_class = PlaceDenyRuleForRoleForm
     form_model = 'place'
     obj_id_context_name = ROLE_ID

@@ -14,7 +14,7 @@ from jba_ui.tables import ControllerTable, DoorTable, ControllerResolveTable
 
 class ControllerList(ModelListView):
     template_name = 'controllers/list.html'
-    title = 'Controller list'
+    title = 'Controllers list'
     model = Controller
     table_class = ControllerTable
     service = ControllerService
@@ -32,7 +32,7 @@ class ControllerCreate(ModelCreateView):
 
 class ControllerDetails(ModelDetailsView):
     template_name = 'controllers/details.html'
-    title = 'Controller details'
+    title = 'Controller\'s details'
     fields = ['id', 'name', 'controller_id']
     model = Controller
     service = ControllerService

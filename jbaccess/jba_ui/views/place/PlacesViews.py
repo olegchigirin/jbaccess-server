@@ -12,7 +12,7 @@ from jba_ui.tables import PlaceTable, DoorTable
 
 class PlaceList(ModelListView):
     template_name = 'places/list.html'
-    title = 'Place list'
+    title = 'Places list'
     model = Place
     table_class = PlaceTable
     service = PlaceService
@@ -30,7 +30,7 @@ class PlaceCreate(ModelCreateView):
 
 class PlaceDetails(ModelDetailsView):
     template_name = 'places/details.html'
-    title = 'Place details'
+    title = 'Place\'es details'
     fields = [ID, NAME]
     service = PlaceService
 

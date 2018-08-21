@@ -1,4 +1,5 @@
 import datetime
+import ast
 
 from django import forms
 from django.core.exceptions import ValidationError
@@ -87,14 +88,9 @@ class ACLUpdateForm(ACLForm):
             self.fields['pattern_id'].initial = pattern_id
             self.fields['from_time'].initial = pattern.from_time
             self.fields['until_time'].initial = pattern.until_time
-            print(self._get_initial_choices(pattern.days_of_week))
-            self.fields['days_of_week'].initial = self._get_initial_choices(pattern.days_of_week)
-            self.fields['days_of_month'].initial = self._get_initial_choices(pattern.days_of_month)
-            self.fields['months'].initial = self._get_initial_choices(pattern.months)
-
-    @staticmethod
-    def _get_initial_choices(string: str):
-        return list(map(int, string[1:-1].replace(' ', '').split(',')))
+            self.fields['days_of_week'].initial = ast.literal_eval(pattern.days_of_week)
+            self.fields['days_of_month'].initial = ast.literal_eval(pattern.days_of_month)
+            self.fields['months'].initial = ast.literal_eval(pattern.months)
 
     def save(self):
         pattern = AclService.update_pattern(

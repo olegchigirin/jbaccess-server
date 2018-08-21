@@ -1,15 +1,15 @@
 from typing import List
 
-from django.db.models.query import EmptyQuerySet
+from django.db.models.query import EmptyQuerySet, QuerySet
 
 from jba_core.models import Key
 from jba_core import exceptions
 from jba_core.service import PersonService
 
 
-def get_all() -> List[Key]:
+def get_all() -> QuerySet:
     try:
-        return list(Key.objects.all())
+        return Key.objects.all()
     except:
         raise exceptions.SomethingWrong
 

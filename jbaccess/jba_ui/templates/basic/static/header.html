@@ -19,6 +19,15 @@
                             </ul>
                         </li>
                         <li class="has-sub">
+                            <a href="{% url 'ui:key list' %}">
+                                <i class="fas fa-tachometer-alt"></i>Key
+                                <span class="bot-line"></span>
+                            </a>
+                            <ul class="header3-sub-list list-unstyled">
+                                {% include 'basic/static/header/key-dashboard.html' %}
+                            </ul>
+                        </li>
+                        <li class="has-sub">
                             <a href="{% url 'ui:role list' %}">
                                 <i class="fas fa-tachometer-alt"></i>Role
                                 <span class="bot-line"></span>
@@ -36,6 +45,24 @@
                                 {% include 'basic/static/header/place-dashboard.html' %}
                             </ul>
                         </li>
+                        <li class="has-sub">
+                            <a href="{% url 'ui:controller list' %}">
+                                <i class="fas fa-tachometer-alt"></i>Controller
+                                <span class="bot-line"></span>
+                            </a>
+                            <ul class="header3-sub-list list-unstyled">
+                                {% include 'basic/static/header/controller-dashboard.html' %}
+                            </ul>
+                        </li>
+                        <li class="has-sub">
+                            <a href="{% url 'ui:door list' %}">
+                                <i class="fas fa-tachometer-alt"></i>Door
+                                <span class="bot-line"></span>
+                            </a>
+                            <ul class="header3-sub-list list-unstyled">
+                                {% include 'basic/static/header/door-dashboard.html' %}
+                            </ul>
+                        </li>
                     </ul>
                 {% endif %}
             </div>
@@ -44,10 +71,6 @@
                     <a class="header-button-item" style="font-size: 20px; margin-right: 0;"
                        href="{% url 'ui:logout confirm' %}">
                         Logout
-                    </a>
-                {% else %}
-                    <a class="header-button-item" style="font-size: 20px; margin-right: 0;" href="{% url 'ui:login' %}">
-                        Login
                     </a>
                 {% endif %}
             </div>

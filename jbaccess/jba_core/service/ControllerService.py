@@ -1,6 +1,6 @@
 from typing import List
 
-from django.db.models.query import EmptyQuerySet
+from django.db.models.query import EmptyQuerySet, QuerySet
 
 from jba_core import exceptions
 from jba_core.models import Controller, Door
@@ -14,7 +14,7 @@ def get_none() -> EmptyQuerySet:
         raise exceptions.SomethingWrong
 
 
-def get_all() -> List[Controller]:
+def get_all() -> QuerySet:
     try:
         return Controller.objects.all()
     except:

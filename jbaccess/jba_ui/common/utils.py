@@ -1,3 +1,6 @@
+import ast
+from datetime import timedelta, datetime
+
 from jba_ui.common.const import DAYS_OF_WEEK, MONTHS
 
 
@@ -11,7 +14,7 @@ def replace_days_of_week_for_names(value):
     return value
 
 
-def replace_months_for_names(value):
-    for number, month in MONTHS:
+def replace_months_for_names(value: str):
+    for number, month in reversed(MONTHS):
         value = value.replace(str(number), month)
     return value

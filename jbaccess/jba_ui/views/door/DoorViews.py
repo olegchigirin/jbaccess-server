@@ -23,7 +23,7 @@ class DoorDetails(ModelDetailsView):
     template_name = 'doors/details.html'
     fields = ['id', 'name', 'access_id']
     model = Door
-    title = 'Door details'
+    title = 'Door\'s details'
     service = DoorService
 
 

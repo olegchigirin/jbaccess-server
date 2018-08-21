@@ -1,14 +1,28 @@
 {% load tags %}
 
 {% with fields=fields object=object %}
-    <table class="table table-top-campaign">
-        <tbody>
-        {% for field in fields %}
-            <tr>
-                <td>{{ field|to_row_data }}</td>
-                <td>{{ object|get_obj_attr:field }}</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    <div class="offset-lg-2 col-lg-8 col-lg-offset-2">
+        <div class="card">
+            <div class="card-header">
+                <strong>{{ object }}</strong>
+            </div>
+            <div class="card-body card-block">
+                <form class="form-horizontal">
+                    {% for field in fields %}
+                        <div class="row form-group">
+                            <div class="col col-md-2">
+                                <label class="form-control-label">{{ field }}:</label>
+                            </div>
+                            <div class="col col-md-10">
+                                <input id="disabled-input" name="disabled-input" value="{{ object|get_obj_attr:field }}"
+                                       placeholder="Disabled" disabled=""
+                                       class="form-control" type="text">
+                            </div>
+                        </div>
+                    {% endfor %}
+                </form>
+            </div>
+        </div>
+    </div>
 {% endwith %}
+

@@ -22,7 +22,7 @@ class KeyList(ModelListView):
     template_name = 'keys/list.html'
     model = Key
     table_class = KeyTable
-    title = 'Key List'
+    title = 'Keys List'
     service = KeyService
 
 
@@ -30,13 +30,13 @@ class KeyDetail(ModelDetailsView):
     template_name = 'keys/details.html'
     model = Key
     fields = ['id', 'name', 'access_key', 'person']
-    title = 'Key details'
+    title = 'Key\'s details'
     service = KeyService
 
 
 class KeyUpdate(ModelUpdateView):
     template_name = 'keys/update.html'
-    title = 'Key Update'
+    title = 'Update key'
     form_class = KeyUpdateForm
     form_model = 'key'
     service = KeyService

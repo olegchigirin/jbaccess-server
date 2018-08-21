@@ -9,25 +9,32 @@ from django_tables2 import Table
 from jba_core.service import PersonService, RoleService, KeyService, PlaceService, DoorService, ControllerService
 from jba_ui.common.mixins import TitleMixin, ReturnUrlMixin, FormContextMixin
 from jba_ui.forms.service import LoginForm
-from jba_ui.tables import PersonTable, KeyTable, RoleTable, PlaceTable, DoorTable, ControllerTable
+from jba_ui.tables import PersonTable, KeyTable, RoleTable, PlaceTable, DoorTable, ControllerTable, PersonHomePageTable
 
 
 class Home(TemplateView, TitleMixin):
     title = 'Home'
     template_name = 'static/home.html'
-    services = [PersonService, KeyService, RoleService, PlaceService, DoorService, ControllerService]
-    table_classes = [PersonTable, KeyTable, RoleTable, PlaceTable, DoorTable, ControllerTable]
 
-    def get_data_tables(self) -> List[Table]:
-        tables = []
-        for service, table in zip(self.services, self.table_classes):
-            queryset: QuerySet = service.get_all()[:5]
-            tables.append(table(queryset))
-        return tables
+    @staticmethod
+    def get_table() -> Table:
+        persons = PersonService.get_all()
+        data = []
+        for person in persons:
+            data.append({
+                'person': person,
+                'keys': PersonService.get_keys(id=person.id),
+                'roles': PersonService.get_roles(id=person.id)
+            })
+        return PersonHomePageTable(data=data)
 
     def get_context_data(self, **kwargs):
         context = super(Home, self).get_context_data(**kwargs)
-        context['tables'] = self.get_data_tables()
+        context['table'] = self.get_table()
+        context['person_count'] = PersonService.get_all().count()
+        context['keys_count'] = KeyService.get_all().count()
+        context['roles_count'] = RoleService.get_all().count()
+        context['places_count'] = PlaceService.get_all().count()
         return context
 
 

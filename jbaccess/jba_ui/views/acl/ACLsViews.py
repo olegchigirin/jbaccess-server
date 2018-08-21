@@ -23,7 +23,7 @@ class AclPatterns(SingleTableView, IdToContextMixin, TitleMixin, ReturnUrlMixin)
 
 class AclPatternDetails(DetailView, IdToContextMixin, TitleMixin, ModelFieldsMixin):
     template_name = 'acls/details.html'
-    title = 'Pattern details'
+    title = 'Pattern\'s details'
     model = SimpleRecurringPattern
     fields = ['id', 'from_time', 'until_time', 'days_of_week', 'days_of_month', 'months']
 
@@ -54,7 +54,7 @@ class AclPatternDetails(DetailView, IdToContextMixin, TitleMixin, ModelFieldsMix
 
 class AclPatternCreate(FormView, TitleMixin, IdToContextMixin, FormContextMixin):
     template_name = 'acls/create-pattern.html'
-    title = 'Pattern create'
+    title = 'Create pattern'
     form_model = 'Acl pattern'
     form_type = 'Create'
     form_class = ACLCreateForm
@@ -120,14 +120,19 @@ class AclPatternDelete(DeleteView, TitleMixin, IdToContextMixin):
         return reverse('ui:acl pattern list', kwargs={ID: self.acl_id})
 
 
-class AclDelete(DeleteView, TitleMixin, IdToContextMixin):
+class AclDelete(DeleteView, TitleMixin, IdToContextMixin, FormContextMixin):
     template_name = 'acls/delete.html'
-    title = 'Delete acls'
+    title = 'Delete acl'
+    form_model = 'ACL'
+    form_type = 'Delete'
     obj = None
 
     def get_object(self, queryset=None):
         if self.obj is None:
-            self.obj = AclService.get_acl(id=self.kwargs[ID])
+            try:
+                self.obj = AclService.get_acl(id=self.kwargs[ID])
+            except:
+                raise Http404
         return self.obj
 
     def delete(self, request, *args, **kwargs):
