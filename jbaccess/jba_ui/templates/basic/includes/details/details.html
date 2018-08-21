@@ -11,7 +11,7 @@
                     {% for field in fields %}
                         <div class="row form-group">
                             <div class="col col-md-2">
-                                <label class="form-control-label">{{ field }}:</label>
+                                <label class="form-control-label">{{ field|to_row_data }}:</label>
                             </div>
                             <div class="col col-md-10">
                                 <input id="disabled-input" name="disabled-input" value="{{ object|get_obj_attr:field }}"

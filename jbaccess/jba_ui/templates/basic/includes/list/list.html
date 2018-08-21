@@ -13,13 +13,15 @@
             </thead>
             <tbody>
             {% for row in table.rows %}
-                <tr>
+                <tr {% if row.attrs.onclick %}onclick="window.location='{{ row.attrs.onclick }}';"{% endif %}>
                     {% for field in row %}
-                        <td class="text-left">{{ field }}</td>
+                        <td class="text-left text-dark">{{ field }}</td>
                     {% endfor %}
                 </tr>
             {% endfor %}
             </tbody>
         </table>
+        <script>
+        </script>
     </div>
 {% endwith %}

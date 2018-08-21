@@ -14,9 +14,3 @@ def to_row_data(data: str):
     return data.capitalize().replace('_', ' ')
 
 
-@register.simple_tag(name='get_url')
-def get_url(url_name: str, id: int = None):
-    if id:
-        return reverse(url_name, kwargs={'id': id})
-    else:
-        reverse(url_name)

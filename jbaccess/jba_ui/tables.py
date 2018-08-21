@@ -35,42 +35,42 @@ class PersonHomePageTable(tables.Table):
 
 
 class PersonTable(tables.Table):
-    id = tables.LinkColumn('ui:person details', kwargs={ID: A(ID)})
+    name = tables.LinkColumn('ui:person details', kwargs={ID: A(ID)})
 
     class Meta:
         model = Person
 
 
 class RoleTable(tables.Table):
-    id = tables.LinkColumn('ui:role details', kwargs={ID: A(ID)})
+    name = tables.LinkColumn('ui:role details', kwargs={ID: A(ID)})
 
     class Meta:
         model = Role
 
 
 class KeyTable(tables.Table):
-    id = tables.LinkColumn('ui:key details', kwargs={ID: A(ID)})
+    name = tables.LinkColumn('ui:key details', kwargs={ID: A(ID)})
 
     class Meta:
         model = Key
 
 
 class ControllerTable(tables.Table):
-    id = tables.LinkColumn('ui:controller details', kwargs={ID: A(ID)})
+    name = tables.LinkColumn('ui:controller details', kwargs={ID: A(ID)})
 
     class Meta:
         model = Controller
 
 
 class DoorTable(tables.Table):
-    id = tables.LinkColumn('ui:door details', kwargs={ID: A(ID)})
+    name = tables.LinkColumn('ui:door details', kwargs={ID: A(ID)})
 
     class Meta:
         model = Door
 
 
 class PlaceTable(tables.Table):
-    id = tables.LinkColumn('ui:place details', kwargs={ID: A(ID)})
+    name = tables.LinkColumn('ui:place details', kwargs={ID: A(ID)})
 
     class Meta:
         model = Place
@@ -97,11 +97,12 @@ class RoleACLEntryTable(tables.Table):
 
 
 class ACLPattern(tables.Table):
-    id = tables.LinkColumn('ui:acl pattern details', kwargs={ID: A('id')})
-
     class Meta:
         model = SimpleRecurringPattern
-        fields = ['id', 'from_time', 'until_time', 'days_of_week', 'days_of_month', 'months']
+        fields = ['from_time', 'until_time', 'days_of_week', 'days_of_month', 'months']
+        row_attrs = {
+            'onclick': lambda record: reverse('ui:acl pattern details', kwargs={ID: record.id})
+        }
 
     def render_days_of_week(self, value: str):
         value = drop_squared_brackets(value)
@@ -120,6 +121,9 @@ class ControllerResolveTable(tables.Table):
     key = tables.LinkColumn('ui:key details', kwargs={ID: A('key.id')})
     door = tables.LinkColumn('ui:door details', kwargs={ID: A('door.id')})
     pattern = tables.Column()
+
+    class Meta:
+        fields = ['key', 'door', 'pattern', 'type']
 
     def render_pattern(self, value: SimpleRecurringPattern):
         return mark_safe("""

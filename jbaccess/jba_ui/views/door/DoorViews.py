@@ -34,7 +34,7 @@ class DoorCreate(ModelCreateView):
     form_class = DoorCreateForm
 
     def get_success_url(self):
-        return reverse('ui:door details', kwargs={ID: self.object.id})
+        return reverse('ui:door list')
 
 
 class DoorUpdate(ModelUpdateView):
